@@ -1,5 +1,5 @@
 {
-  "name": "side-project-2026",
+  "name": "takip",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,10 +12,17 @@
     "lint:fix": "bunx --bun biome check . --write",
     "lint:unsafe": "bunx --bun biome check . --write --unsafe",
     "clear": "rm -rf node_modules && rm -rf dist && rm -rf bun.lock && rm -rf .tanstack && rm -rf .output",
-    "machine-translate": "inlang machine translate --project project.inlang"
+    "machine-translate": "inlang machine translate --project project.inlang",
+    "generate": "bunx drizzle-kit generate",
+    "migrate": "bunx drizzle-kit migrate",
+    "push": "bunx drizzle-kit push",
+    "pull": "bunx drizzle-kit pull",
+    "check": "bunx drizzle-kit check",
+    "up": "bunx drizzle-kit up",
+    "studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
-    "@base-ui/react": "^1.2.0",
+    "@base-ui/react": "latest",
     "@fontsource-variable/figtree": "latest",
     "@phosphor-icons/react": "latest",
     "@tailwindcss/vite": "latest",
