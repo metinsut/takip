@@ -9,7 +9,7 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 
 const config = defineConfig({
   server: {
-    port: 8080,
+    port: 8090,
     open: true,
   },
   plugins: [

@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  IconBadge,
-  IconBell,
-  IconCreditCard,
-  IconLogout,
-  IconSelector,
-  IconSparkles,
-} from "@tabler/icons-react";
-import { ClientOnly } from "@tanstack/react-router";
+import { BellIcon, CaretDownIcon, CreditCardIcon, StarIcon, UserIcon } from "@phosphor-icons/react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -20,39 +13,42 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  SidebarFooter,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useGetUser } from "@/functions/auth/get-user";
 import { m } from "@/paraglide/messages";
+import { Logout } from "./logout";
 
-const user = {
-  name: "shadcn",
-  email: "m@example.com",
-  avatar: "/tanstack-circle-logo.png",
-};
-
-export function NavUser() {
+export function NavFooter() {
   const { isMobile } = useSidebar();
 
+  const { data: user } = useSuspenseQuery(useGetUser());
+
+  const avatar = user?.image ? user.image : "/default-avatar.png";
+  const name = user?.name ? user.name : "Guest";
+  const email = user?.email ? user.email : "guest@example.com";
+
   return (
-    <ClientOnly>
+    <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger
               render={
-                <SidebarMenuButton size="lg">
+                <SidebarMenuButton>
                   <Avatar>
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                    <AvatarImage src={avatar} alt={user?.name} />
+                    <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
+                    <span className="truncate font-medium">{name}</span>
+                    <span className="truncate text-xs">{email}</span>
                   </div>
-                  <IconSelector />
+                  <CaretDownIcon />
                 </SidebarMenuButton>
               }
             />
@@ -60,46 +56,43 @@ export function NavUser() {
               <DropdownMenuGroup>
                 <DropdownMenuLabel className="flex items-center gap-2">
                   <Avatar>
-                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarImage src={avatar} alt={name} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
+                    <span className="truncate font-medium">{name}</span>
+                    <span className="truncate text-xs">{email}</span>
                   </div>
                 </DropdownMenuLabel>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
-                  <IconSparkles />
+                  <StarIcon />
                   {m.upgradeToPro()}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
-                  <IconBadge />
+                  <UserIcon />
                   {m.account()}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <IconCreditCard />
+                  <CreditCardIcon />
                   {m.billing()}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <IconBell />
+                  <BellIcon />
                   {m.notifications()}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <IconLogout />
-                {m.logOut()}
-              </DropdownMenuItem>
+              <Logout />
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarMenuItem>
       </SidebarMenu>
-    </ClientOnly>
+    </SidebarFooter>
   );
 }

@@ -1,4 +1,4 @@
-import { IconSettings } from "@tabler/icons-react";
+import { ExclamationMarkIcon, GearIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { m } from "@/paraglide/messages";
@@ -9,12 +9,19 @@ export function NavSecondary() {
       <SidebarMenuItem>
         <SidebarMenuButton
           render={
-            <Link
-              to="/app/settings"
-              activeProps={{ className: "bg-primary text-primary-foreground" }}
-            >
-              <IconSettings />
+            <Link to="/app/settings" activeProps={{ className: "bg-background" }}>
+              <GearIcon />
               {m.settings()}
+            </Link>
+          }
+        />
+      </SidebarMenuItem>
+      <SidebarMenuItem>
+        <SidebarMenuButton
+          render={
+            <Link to="/app/examples" activeProps={{ className: "bg-background" }}>
+              <ExclamationMarkIcon />
+              {m.examples()}
             </Link>
           }
         />

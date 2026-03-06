@@ -1,13 +1,9 @@
-"use client";
-
-import { IconFolder, IconHome } from "@tabler/icons-react";
-import { ClientOnly, Link } from "@tanstack/react-router";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from "@/components/ui/sidebar";
-import { m } from "@/paraglide/messages";
+import { Sidebar, SidebarContent, SidebarRail } from "@/components/ui/sidebar";
 import { getLocale } from "@/paraglide/runtime";
+import { NavFooter } from "./nav-footer";
+import { NavHeader } from "./nav-header";
 import { NavPrimary } from "./nav-primary";
 import { NavSecondary } from "./nav-secondary";
-import { NavUser } from "./nav-user";
 
 export function AppSidebar() {
   const locale = getLocale();
@@ -16,19 +12,14 @@ export function AppSidebar() {
   const side = dir === "rtl" ? "right" : "left";
 
   return (
-    <ClientOnly>
-      <Sidebar variant="inset" dir={dir} side={side}>
-        <SidebarHeader>
-          <Link to="/app">{m.sideProject2026()}</Link>
-        </SidebarHeader>
-        <SidebarContent>
-          <NavPrimary />
-          <NavSecondary />
-        </SidebarContent>
-        <SidebarFooter>
-          <NavUser />
-        </SidebarFooter>
-      </Sidebar>
-    </ClientOnly>
+    <Sidebar variant="inset" dir={dir} side={side}>
+      <NavHeader />
+      <SidebarContent>
+        <NavPrimary />
+        <NavSecondary />
+      </SidebarContent>
+      <NavFooter />
+      <SidebarRail />
+    </Sidebar>
   );
 }

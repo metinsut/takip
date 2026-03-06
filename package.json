@@ -15,7 +15,7 @@
     "machine-translate": "inlang machine translate --project project.inlang"
   },
   "dependencies": {
-    "@base-ui/react": "^1.2.0",
+    "@base-ui/react": "latest",
     "@fontsource-variable/figtree": "latest",
     "@phosphor-icons/react": "latest",
     "@tailwindcss/vite": "latest",
@@ -30,32 +30,37 @@
     "dayjs": "latest",
     "js-cookie": "latest",
     "motion": "latest",
-    "next-themes": "^0.4.6",
+    "vaul": "latest",
+    "vite-tsconfig-paths": "latest",
+    "better-auth": "latest",
+    "drizzle-orm": "latest",
+    "drizzle-zod": "latest",
     "nitro": "latest",
+    "pg": "latest",
     "react": "latest",
     "react-day-picker": "latest",
     "react-dom": "latest",
     "shadcn": "latest",
-    "sonner": "^2.0.7",
+    "sonner": "latest",
     "tailwind-merge": "latest",
     "tailwindcss": "latest",
     "tw-animate-css": "latest",
-    "vaul": "^1.1.2",
-    "vite-tsconfig-paths": "latest"
+    "zod": "latest"
   },
   "devDependencies": {
     "@biomejs/biome": "latest",
+    "@inlang/cli": "latest",
+    "@inlang/paraglide-js": "latest",
     "@tanstack/devtools-vite": "latest",
+    "@tanstack/react-query-devtools": "latest",
     "@types/bun": "latest",
     "@types/js-cookie": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
+    "babel-plugin-react-compiler": "latest",
     "jsdom": "latest",
     "typescript": "latest",
-    "vite": "latest",
-    "babel-plugin-react-compiler": "latest",
-    "@inlang/paraglide-js": "latest",
-    "@inlang/cli": "latest"
+    "vite": "latest"
   }
 }

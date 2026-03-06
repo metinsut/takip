@@ -15,6 +15,7 @@ import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppSettingsIndexRouteImport } from './routes/app/settings/index'
 import { Route as AppProjectsIndexRouteImport } from './routes/app/projects/index'
 import { Route as AppHomeIndexRouteImport } from './routes/app/home/index'
+import { Route as AppExamplesIndexRouteImport } from './routes/app/examples/index'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
@@ -46,11 +47,17 @@ const AppHomeIndexRoute = AppHomeIndexRouteImport.update({
   path: '/home/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppExamplesIndexRoute = AppExamplesIndexRouteImport.update({
+  id: '/examples/',
+  path: '/examples/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/app/': typeof AppIndexRoute
+  '/app/examples/': typeof AppExamplesIndexRoute
   '/app/home/': typeof AppHomeIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppIndexRoute
+  '/app/examples': typeof AppExamplesIndexRoute
   '/app/home': typeof AppHomeIndexRoute
   '/app/projects': typeof AppProjectsIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/app/': typeof AppIndexRoute
+  '/app/examples/': typeof AppExamplesIndexRoute
   '/app/home/': typeof AppHomeIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
@@ -77,16 +86,24 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/app/'
+    | '/app/examples/'
     | '/app/home/'
     | '/app/projects/'
     | '/app/settings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/app/home' | '/app/projects' | '/app/settings'
+  to:
+    | '/'
+    | '/app'
+    | '/app/examples'
+    | '/app/home'
+    | '/app/projects'
+    | '/app/settings'
   id:
     | '__root__'
     | '/'
     | '/app'
     | '/app/'
+    | '/app/examples/'
     | '/app/home/'
     | '/app/projects/'
     | '/app/settings/'
@@ -141,11 +158,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/examples/': {
+      id: '/app/examples/'
+      path: '/examples'
+      fullPath: '/app/examples/'
+      preLoaderRoute: typeof AppExamplesIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
 interface AppRouteRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
+  AppExamplesIndexRoute: typeof AppExamplesIndexRoute
   AppHomeIndexRoute: typeof AppHomeIndexRoute
   AppProjectsIndexRoute: typeof AppProjectsIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
@@ -153,6 +178,7 @@ interface AppRouteRouteChildren {
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIndexRoute: AppIndexRoute,
+  AppExamplesIndexRoute: AppExamplesIndexRoute,
   AppHomeIndexRoute: AppHomeIndexRoute,
   AppProjectsIndexRoute: AppProjectsIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
