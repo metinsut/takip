@@ -1,4 +1,4 @@
-import { IconMoon, IconSun } from "@tabler/icons-react";
+import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,9 +32,9 @@ export function Theme(_props: SettingsThemeProps) {
           <Label htmlFor="theme-switch" className="text-sm">
             {isDark ? m.darkMode() : m.lightMode()} mode
             {isDark ? (
-              <IconMoon className="text-muted-foreground size-5" />
+              <MoonIcon className="text-muted-foreground size-5" />
             ) : (
-              <IconSun className="text-muted-foreground size-5" />
+              <SunIcon className="text-muted-foreground size-5" />
             )}
           </Label>
           <Switch id="theme-switch" checked={isDark} onCheckedChange={handleThemeChange} />
