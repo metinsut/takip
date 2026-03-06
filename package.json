@@ -15,7 +15,7 @@
     "machine-translate": "inlang machine translate --project project.inlang"
   },
   "dependencies": {
-    "@base-ui/react": "latest",
+    "@base-ui/react": "^1.2.0",
     "@fontsource-variable/figtree": "latest",
     "@phosphor-icons/react": "latest",
     "@tailwindcss/vite": "latest",
@@ -25,16 +25,14 @@
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
     "@tanstack/router-plugin": "latest",
+    "better-auth": "latest",
     "class-variance-authority": "latest",
     "clsx": "latest",
     "dayjs": "latest",
-    "js-cookie": "latest",
-    "motion": "latest",
-    "vaul": "latest",
-    "vite-tsconfig-paths": "latest",
-    "better-auth": "latest",
     "drizzle-orm": "latest",
     "drizzle-zod": "latest",
+    "js-cookie": "latest",
+    "motion": "latest",
     "nitro": "latest",
     "pg": "latest",
     "react": "latest",
@@ -45,6 +43,8 @@
     "tailwind-merge": "latest",
     "tailwindcss": "latest",
     "tw-animate-css": "latest",
+    "vaul": "latest",
+    "vite-tsconfig-paths": "latest",
     "zod": "latest"
   },
   "devDependencies": {

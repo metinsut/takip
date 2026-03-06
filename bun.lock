@@ -5,7 +5,7 @@
     "": {
       "name": "side-project-2026",
       "dependencies": {
-        "@base-ui/react": "latest",
+        "@base-ui/react": "^1.2.0",
         "@fontsource-variable/figtree": "latest",
         "@phosphor-icons/react": "latest",
         "@tailwindcss/vite": "latest",
@@ -42,7 +42,7 @@
         "@inlang/cli": "latest",
         "@inlang/paraglide-js": "latest",
         "@tanstack/devtools-vite": "latest",
-        "@tanstack/react-query-devtools": "^5.91.3",
+        "@tanstack/react-query-devtools": "latest",
         "@types/bun": "latest",
         "@types/js-cookie": "latest",
         "@types/react": "latest",
