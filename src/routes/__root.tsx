@@ -7,7 +7,7 @@ import { getThemeServerFn } from "@/functions/theme/theme-server";
 import type { ThemeTypes } from "@/functions/theme/types";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
-import appCss from "../styles.css?url";
+import appCss from "../tailwind.css?url";
 
 export const Route = createRootRoute({
   head: () => ({

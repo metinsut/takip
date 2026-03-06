@@ -3,7 +3,6 @@
   "files": {
     "includes": [
       "**",
-      "!src/**/*.css",
       "public/**",
       "!drizzle",
       "!src/routeTree.gen.ts",
@@ -30,7 +29,6 @@
     "expand": "auto",
     "includes": [
       "**",
-      "!src/**/*.css",
       "public/**",
       "!drizzle",
       "!src/routeTree.gen.ts",
@@ -59,6 +57,9 @@
   "css": {
     "formatter": {
       "enabled": true
+    },
+    "parser": {
+      "tailwindDirectives": true
     }
   }
 }
