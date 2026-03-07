@@ -1,18 +1,10 @@
-import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { ProjectsList } from "./-list";
 
 export const Route = createFileRoute("/app/projects/")({
-  component: RouteComponent,
+  component: ProjectsIndex,
 });
 
-function RouteComponent() {
-  const { projects } = useLoaderData({ from: "/app/projects" });
-  return (
-    <div>
-      <div className="grid gap-4">
-        {projects.map((project) => (
-          <div key={project.id}>{project.name}</div>
-        ))}
-      </div>
-    </div>
-  );
+export function ProjectsIndex() {
+  return <ProjectsList />;
 }

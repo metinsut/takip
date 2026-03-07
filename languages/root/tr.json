@@ -27,5 +27,7 @@
   "logOut": "Çıkış yap",
   "examples": "Örnekler",
   "logOutSuccess": "Başarıyla çıkış yapıldı.",
-  "pageNotFound": "Sayfa bulunamadı"
+  "pageNotFound": "Sayfa bulunamadı",
+  "noResult": "Sonuç bulunamadı.",
+  "loading": "Yükleniyor..."
 }

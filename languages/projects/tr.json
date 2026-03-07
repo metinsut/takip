@@ -1,3 +1,10 @@
 {
-  "projects": "Projeler"
+  "projects": "Projeler",
+  "projectName": "Proje Adı",
+  "projectDescription": "Proje Açıklaması",
+  "projectCreatedAt": "Oluşturulma Tarihi",
+  "projectUpdatedAt": "Güncellenme Tarihi",
+  "projectCreatedBy": "Oluşturan",
+  "projectStatus": "Proje Durumu",
+  "addProject": "Proje Ekle"
 }
