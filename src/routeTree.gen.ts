@@ -20,6 +20,7 @@ import { Route as AppHomeIndexRouteImport } from './routes/app/home/index'
 import { Route as AppExamplesIndexRouteImport } from './routes/app/examples/index'
 import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
@@ -74,11 +75,17 @@ const authLoginIndexRoute = authLoginIndexRouteImport.update({
   path: '/login/',
   getParentRoute: () => authRouteRoute,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/': typeof landingIndexRoute
   '/app/': typeof AppIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/login/': typeof authLoginIndexRoute
   '/register/': typeof authRegisterIndexRoute
   '/app/examples/': typeof AppExamplesIndexRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof landingIndexRoute
   '/app': typeof AppIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/login': typeof authLoginIndexRoute
   '/register': typeof authRegisterIndexRoute
   '/app/examples': typeof AppExamplesIndexRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteRouteWithChildren
   '/(landing)/': typeof landingIndexRoute
   '/app/': typeof AppIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/register/': typeof authRegisterIndexRoute
   '/app/examples/': typeof AppExamplesIndexRoute
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/'
     | '/app/'
+    | '/api/auth/$'
     | '/login/'
     | '/register/'
     | '/app/examples/'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/app'
+    | '/api/auth/$'
     | '/login'
     | '/register'
     | '/app/examples'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/(landing)/'
     | '/app/'
+    | '/api/auth/$'
     | '/(auth)/login/'
     | '/(auth)/register/'
     | '/app/examples/'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   authRouteRoute: typeof authRouteRouteWithChildren
   landingRouteRoute: typeof landingRouteRouteWithChildren
   AppRouteRoute: typeof AppRouteRouteWithChildren
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginIndexRouteImport
       parentRoute: typeof authRouteRoute
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -285,6 +305,7 @@ const rootRouteChildren: RootRouteChildren = {
   authRouteRoute: authRouteRouteWithChildren,
   landingRouteRoute: landingRouteRouteWithChildren,
   AppRouteRoute: AppRouteRouteWithChildren,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

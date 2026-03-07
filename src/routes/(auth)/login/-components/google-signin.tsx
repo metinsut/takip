@@ -10,6 +10,8 @@ export function GoogleSignin() {
       callbackURL: "/app",
     });
 
+    console.log(error);
+
     if (error) {
       toast.error(error.message ?? "Google bağlantısı başlatılamadı.");
       return;

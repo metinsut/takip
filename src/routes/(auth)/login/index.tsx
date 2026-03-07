@@ -27,12 +27,11 @@ export function Login(_props: LoginProps) {
         <Card className="w-full max-w-md animate-in fade-in slide-in-from-bottom-6 duration-700">
           <CardHeader>
             <div className="mb-2 flex items-center gap-2 justify-center">
-              <img src="/mailer.png" alt="Mail Pulse" className="h-12 w-auto object-contain" />
+              <img src="/takip.png" alt="Takip" className="h-20 w-auto object-contain" />
             </div>
             <CardTitle className="text-xl font-semibold tracking-tight">
               Hesabına giriş yap
             </CardTitle>
-            <CardDescription>Mail analizlerine ve aksiyon listene devam et.</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-4">
