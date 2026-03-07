@@ -2,6 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { AppMetadata } from "@/components/global/app-metadata";
 import { ErrorComponent } from "@/components/global/error";
 import { NotFoundComponent } from "@/components/global/not-found";
 import { DirectionProvider } from "@/components/ui/direction";
@@ -71,6 +72,7 @@ function RootDocument(props: RootDocumentProps) {
     <html lang={locale} dir={direction} className={theme} suppressHydrationWarning>
       <head>
         <HeadContent />
+        <AppMetadata />
       </head>
       <body>
         <DirectionProvider direction={direction}>
