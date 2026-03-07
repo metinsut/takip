@@ -7,6 +7,7 @@ export function Toolbar() {
   return (
     <div className="flex justify-end">
       <Button
+        nativeButton={false}
         render={
           <Link to="/app/projects/$projectId" params={{ projectId: "add" }}>
             <PlusIcon />

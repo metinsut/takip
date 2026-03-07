@@ -1,11 +1,12 @@
-import { useLoaderData } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { DataTable } from "@/components/table";
+import { useGetProjects } from "@/functions/projects";
 import { columns } from "./columns";
 import { Toolbar } from "./toolbar";
 
 export function ProjectsList() {
-  const { projects } = useLoaderData({ from: "/app/projects" });
+  const { data: projects } = useSuspenseQuery(useGetProjects());
 
   const table = useReactTable({
     data: projects,

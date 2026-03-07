@@ -9,27 +9,27 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/c
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import { createProjectSchema, updateProjectSchema } from "@/db/schema";
+import type { CreateProjectType } from "@/db/schema";
+import { createProjectSchema } from "@/db/schema";
 import { createProject, updateProject, useGetProject } from "@/functions/projects";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/app/projects/$projectId/")({
-  component: RouteComponent,
+  component: ProjectForm,
 });
 
-function RouteComponent() {
+function ProjectForm() {
   const { projectId } = Route.useParams();
   const { data: project } = useSuspenseQuery(useGetProject(projectId));
 
   const form = useForm({
-    validators: {
-      onSubmit: project ? updateProjectSchema : createProjectSchema,
-    },
     defaultValues: {
-      id: project?.id ?? undefined,
-      name: project?.name ?? undefined,
+      name: project?.name ?? "",
       description: project?.description ?? undefined,
+    } as CreateProjectType,
+    validators: {
+      onSubmit: createProjectSchema,
     },
     onSubmit: async ({ value }) => {
       if (project) {
@@ -46,7 +46,7 @@ function RouteComponent() {
     <div className="grid gap-4">
       <Card className="max-w-3xl">
         <CardHeader>
-          <CardTitle>{project?.name}</CardTitle>
+          <CardTitle>{project?.name ?? m.addProject()}</CardTitle>
         </CardHeader>
         <CardContent>
           <form
@@ -98,9 +98,9 @@ function RouteComponent() {
                       <Textarea
                         id={field.name}
                         name={field.name}
-                        value={field.state.value}
+                        value={field.state.value ?? ""}
                         onBlur={field.handleBlur}
-                        onChange={(event) => field.handleChange(event.target.value)}
+                        onChange={(event) => field.handleChange(event.target.value || undefined)}
                         placeholder="Bu projede neyi takip etmek istiyorsun?"
                         rows={6}
                         aria-invalid={isInvalid}
@@ -125,12 +125,14 @@ function RouteComponent() {
             </div>
           </form>
         </CardContent>
-        <CardFooter className="justify-between gap-3">
-          <div className="flex flex-col gap-1 text-xs text-muted-foreground">
-            <p>Oluşturulma: {dayjs(project?.createdAt).format(dateFormat.DATETIME_FORMAT)}</p>
-            <p>Son güncelleme: {dayjs(project?.updatedAt).format(dateFormat.DATETIME_FORMAT)}</p>
-          </div>
-        </CardFooter>
+        {project ? (
+          <CardFooter className="justify-between gap-3">
+            <div className="flex flex-col gap-1 text-xs text-muted-foreground">
+              <p>Oluşturulma: {dayjs(project.createdAt).format(dateFormat.DATETIME_FORMAT)}</p>
+              <p>Son güncelleme: {dayjs(project.updatedAt).format(dateFormat.DATETIME_FORMAT)}</p>
+            </div>
+          </CardFooter>
+        ) : null}
       </Card>
     </div>
   );
