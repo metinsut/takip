@@ -4,28 +4,18 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui
 import { m } from "@/paraglide/messages";
 
 export function NavPrimary() {
-  const pages = [
-    {
-      title: m.home(),
-      url: "/app/home",
-      icon: HouseIcon,
-    },
-  ];
-
   return (
     <SidebarMenu>
-      {pages.map((page) => (
-        <SidebarMenuItem key={page.url}>
-          <SidebarMenuButton
-            render={
-              <Link to={page.url} activeProps={{ className: "bg-background" }}>
-                <page.icon />
-                {page.title}
-              </Link>
-            }
-          />
-        </SidebarMenuItem>
-      ))}
+      <SidebarMenuItem>
+        <SidebarMenuButton
+          render={
+            <Link to="/app" activeProps={{ className: "bg-background" }}>
+              <HouseIcon />
+              {m.home()}
+            </Link>
+          }
+        />
+      </SidebarMenuItem>
     </SidebarMenu>
   );
 }
