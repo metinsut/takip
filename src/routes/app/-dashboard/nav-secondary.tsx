@@ -9,7 +9,7 @@ export function NavSecondary() {
       <SidebarMenuItem>
         <SidebarMenuButton
           render={
-            <Link to="/app/settings" activeProps={{ className: "bg-background" }}>
+            <Link to="/app/settings" activeProps={{ className: "bg-background text-primary" }}>
               <GearIcon />
               {m.settings()}
             </Link>
@@ -19,7 +19,7 @@ export function NavSecondary() {
       <SidebarMenuItem>
         <SidebarMenuButton
           render={
-            <Link to="/app/examples" activeProps={{ className: "bg-background" }}>
+            <Link to="/app/examples" activeProps={{ className: "bg-background text-primary" }}>
               <CodesandboxLogoIcon />
               {m.examples()}
             </Link>

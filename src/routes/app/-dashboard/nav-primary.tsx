@@ -9,7 +9,11 @@ export function NavPrimary() {
       <SidebarMenuItem>
         <SidebarMenuButton
           render={
-            <Link to="/app" activeProps={{ className: "bg-background" }}>
+            <Link
+              to="/app"
+              activeOptions={{ exact: true, includeSearch: false }}
+              activeProps={{ className: "bg-background text-primary" }}
+            >
               <HouseIcon />
               {m.home()}
             </Link>
@@ -19,7 +23,7 @@ export function NavPrimary() {
       <SidebarMenuItem>
         <SidebarMenuButton
           render={
-            <Link to="/app/projects" activeProps={{ className: "bg-background" }}>
+            <Link to="/app/projects" activeProps={{ className: "bg-background text-primary" }}>
               <FoldersIcon />
               {m.projects()}
             </Link>
