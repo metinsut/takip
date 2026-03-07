@@ -1,5 +1,5 @@
 {
-  "id": "e996dc62-d27f-4350-86db-59e9fb9076a9",
+  "id": "7640cde4-e96e-41d3-b7e4-efe1ae76c452",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -560,7 +560,7 @@
         },
         "status": {
           "name": "status",
-          "type": "task_status",
+          "type": "status",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -568,7 +568,7 @@
         },
         "priority": {
           "name": "priority",
-          "type": "task_priority",
+          "type": "priority",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -761,8 +761,8 @@
     }
   },
   "enums": {
-    "public.task_priority": {
-      "name": "task_priority",
+    "public.priority": {
+      "name": "priority",
       "schema": "public",
       "values": [
         "low",
@@ -770,8 +770,8 @@
         "high"
       ]
     },
-    "public.task_status": {
-      "name": "task_status",
+    "public.status": {
+      "name": "status",
       "schema": "public",
       "values": [
         "todo",

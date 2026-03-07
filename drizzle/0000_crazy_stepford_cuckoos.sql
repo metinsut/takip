@@ -1,5 +1,5 @@
-CREATE TYPE "public"."task_priority" AS ENUM('low', 'medium', 'high');--> statement-breakpoint
-CREATE TYPE "public"."task_status" AS ENUM('todo', 'in_progress', 'done');--> statement-breakpoint
+CREATE TYPE "public"."priority" AS ENUM('low', 'medium', 'high');--> statement-breakpoint
+CREATE TYPE "public"."status" AS ENUM('todo', 'in_progress', 'done');--> statement-breakpoint
 CREATE TABLE "account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
@@ -67,8 +67,8 @@ CREATE TABLE "task" (
 	"project_id" text NOT NULL,
 	"title" text NOT NULL,
 	"description" text,
-	"status" "task_status" DEFAULT 'todo' NOT NULL,
-	"priority" "task_priority" DEFAULT 'medium' NOT NULL,
+	"status" "status" DEFAULT 'todo' NOT NULL,
+	"priority" "priority" DEFAULT 'medium' NOT NULL,
 	"assignee_id" text,
 	"created_by" text NOT NULL,
 	"due_date" timestamp,

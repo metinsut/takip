@@ -8,8 +8,8 @@ export const taskStatusValues = ["todo", "in_progress", "done"] as const;
 
 export const taskPriorityValues = ["low", "medium", "high"] as const;
 
-export const taskStatusEnum = pgEnum("task_status", taskStatusValues);
-export const taskPriorityEnum = pgEnum("task_priority", taskPriorityValues);
+export const taskStatusEnum = pgEnum("status", taskStatusValues);
+export const taskPriorityEnum = pgEnum("priority", taskPriorityValues);
 
 export const task = pgTable(
   "task",
