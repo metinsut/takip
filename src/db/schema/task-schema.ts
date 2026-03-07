@@ -29,8 +29,8 @@ export const task = pgTable(
     dueDate: timestamp("due_date"),
     completedAt: timestamp("completed_at"),
     sortOrder: integer("sort_order").default(0).notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
-    updatedAt: timestamp("updated_at")
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
       .defaultNow()
       .$onUpdate(() => new Date())
       .notNull(),
