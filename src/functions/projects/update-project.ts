@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
-import { project as projectSchema, updateProjectSchema } from "@/db/schema";
+import { projectSchema, updateProjectSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 
 export const updateProject = createServerFn({ method: "POST" })

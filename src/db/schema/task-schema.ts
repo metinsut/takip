@@ -2,7 +2,7 @@ import { index, integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { user } from "./auth-schema";
-import { project } from "./project-schema";
+import { projectSchema } from "./project-schema";
 
 export const taskStatusValues = ["todo", "in_progress", "done"] as const;
 
@@ -17,7 +17,7 @@ export const task = pgTable(
     id: text("id").primaryKey(),
     projectId: text("project_id")
       .notNull()
-      .references(() => project.id, { onDelete: "cascade" }),
+      .references(() => projectSchema.id, { onDelete: "cascade" }),
     title: text("title").notNull(),
     description: text("description"),
     status: taskStatusEnum("status").default("todo").notNull(),

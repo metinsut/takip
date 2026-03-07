@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { db } from "@/db";
-import { createProjectSchema, project as projectSchema } from "@/db/schema";
+import { createProjectSchema, projectSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 
 export const createProject = createServerFn({ method: "POST" })

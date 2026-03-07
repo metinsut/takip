@@ -21,6 +21,8 @@ import { Route as AppappIndexRouteImport } from './routes/app/(app)/index'
 import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AppProjectsProjectIdRouteRouteImport } from './routes/app/projects/$projectId/route'
+import { Route as AppProjectsProjectIdIndexRouteImport } from './routes/app/projects/$projectId/index'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
@@ -80,11 +82,24 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppProjectsProjectIdRouteRoute =
+  AppProjectsProjectIdRouteRouteImport.update({
+    id: '/$projectId',
+    path: '/$projectId',
+    getParentRoute: () => AppProjectsRouteRoute,
+  } as any)
+const AppProjectsProjectIdIndexRoute =
+  AppProjectsProjectIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppProjectsProjectIdRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/app/projects': typeof AppProjectsRouteRouteWithChildren
   '/': typeof landingIndexRoute
+  '/app/projects/$projectId': typeof AppProjectsProjectIdRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/login/': typeof authLoginIndexRoute
   '/register/': typeof authRegisterIndexRoute
@@ -92,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/app/examples/': typeof AppExamplesIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/app/projects/$projectId/': typeof AppProjectsProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof landingIndexRoute
@@ -102,6 +118,7 @@ export interface FileRoutesByTo {
   '/app/examples': typeof AppExamplesIndexRoute
   '/app/projects': typeof AppProjectsIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
+  '/app/projects/$projectId': typeof AppProjectsProjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,6 +127,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteRouteWithChildren
   '/app/projects': typeof AppProjectsRouteRouteWithChildren
   '/(landing)/': typeof landingIndexRoute
+  '/app/projects/$projectId': typeof AppProjectsProjectIdRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/register/': typeof authRegisterIndexRoute
@@ -117,6 +135,7 @@ export interface FileRoutesById {
   '/app/examples/': typeof AppExamplesIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/app/projects/$projectId/': typeof AppProjectsProjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,6 +143,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/projects'
     | '/'
+    | '/app/projects/$projectId'
     | '/api/auth/$'
     | '/login/'
     | '/register/'
@@ -131,6 +151,7 @@ export interface FileRouteTypes {
     | '/app/examples/'
     | '/app/projects/'
     | '/app/settings/'
+    | '/app/projects/$projectId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -141,6 +162,7 @@ export interface FileRouteTypes {
     | '/app/examples'
     | '/app/projects'
     | '/app/settings'
+    | '/app/projects/$projectId'
   id:
     | '__root__'
     | '/(auth)'
@@ -148,6 +170,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/projects'
     | '/(landing)/'
+    | '/app/projects/$projectId'
     | '/api/auth/$'
     | '/(auth)/login/'
     | '/(auth)/register/'
@@ -155,6 +178,7 @@ export interface FileRouteTypes {
     | '/app/examples/'
     | '/app/projects/'
     | '/app/settings/'
+    | '/app/projects/$projectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -250,6 +274,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/projects/$projectId': {
+      id: '/app/projects/$projectId'
+      path: '/$projectId'
+      fullPath: '/app/projects/$projectId'
+      preLoaderRoute: typeof AppProjectsProjectIdRouteRouteImport
+      parentRoute: typeof AppProjectsRouteRoute
+    }
+    '/app/projects/$projectId/': {
+      id: '/app/projects/$projectId/'
+      path: '/'
+      fullPath: '/app/projects/$projectId/'
+      preLoaderRoute: typeof AppProjectsProjectIdIndexRouteImport
+      parentRoute: typeof AppProjectsProjectIdRouteRoute
+    }
   }
 }
 
@@ -279,11 +317,27 @@ const landingRouteRouteWithChildren = landingRouteRoute._addFileChildren(
   landingRouteRouteChildren,
 )
 
+interface AppProjectsProjectIdRouteRouteChildren {
+  AppProjectsProjectIdIndexRoute: typeof AppProjectsProjectIdIndexRoute
+}
+
+const AppProjectsProjectIdRouteRouteChildren: AppProjectsProjectIdRouteRouteChildren =
+  {
+    AppProjectsProjectIdIndexRoute: AppProjectsProjectIdIndexRoute,
+  }
+
+const AppProjectsProjectIdRouteRouteWithChildren =
+  AppProjectsProjectIdRouteRoute._addFileChildren(
+    AppProjectsProjectIdRouteRouteChildren,
+  )
+
 interface AppProjectsRouteRouteChildren {
+  AppProjectsProjectIdRouteRoute: typeof AppProjectsProjectIdRouteRouteWithChildren
   AppProjectsIndexRoute: typeof AppProjectsIndexRoute
 }
 
 const AppProjectsRouteRouteChildren: AppProjectsRouteRouteChildren = {
+  AppProjectsProjectIdRouteRoute: AppProjectsProjectIdRouteRouteWithChildren,
   AppProjectsIndexRoute: AppProjectsIndexRoute,
 }
 
