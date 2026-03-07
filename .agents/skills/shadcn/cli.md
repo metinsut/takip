@@ -2,8 +2,7 @@
 
 Configuration is read from `components.json`.
 
-> **IMPORTANT:** Always run commands using the project's package runner: `npx shadcn@latest`, `pnpm dlx shadcn@latest`, or `bunx --bun shadcn@latest`. Check `packageManager` from project context to choose the right one. Examples below use `npx shadcn@latest` but substitute the correct runner for the project.
-
+> **IMPORTANT:** Always run commands using the project's package runner: `bunx --bun shadcn@latest`.
 > **IMPORTANT:** Only use the flags documented below. Do not invent or guess flags — if a flag isn't listed here, it doesn't exist. The CLI auto-detects the package manager from the project's lockfile; there is no `--package-manager` flag.
 
 ## Contents
@@ -20,7 +19,7 @@ Configuration is read from `components.json`.
 ### `init` — Initialize or create a project
 
 ```bash
-npx shadcn@latest init [components...] [options]
+bunx shadcn@latest init [components...] [options]
 ```
 
 Initializes shadcn/ui in an existing project or creates a new project (when `--name` is provided). Optionally installs components in the same step.
@@ -35,19 +34,19 @@ Initializes shadcn/ui in an existing project or creates a new project (when `--n
 | `--cwd <cwd>`           | `-c`  | Working directory                                         | current |
 | `--name <name>`         | `-n`  | Name for new project                                      | —       |
 | `--silent`              | `-s`  | Mute output                                               | `false` |
-| `--rtl`                 |       | Enable RTL support                                        | —       |
+| `--rtl`                 |       | Enable RTL support                                        | `true`  |
 | `--reinstall`           |       | Re-install existing UI components                         | `false` |
 | `--monorepo`            |       | Scaffold a monorepo project                               | —       |
 | `--no-monorepo`         |       | Skip the monorepo prompt                                  | —       |
 
-`npx shadcn@latest create` is an alias for `npx shadcn@latest init`.
+`bunx shadcn@latest create` is an alias for `bunx shadcn@latest init`.
 
 ### `add` — Add components
 
-> **IMPORTANT:** To compare local components against upstream or to preview changes, ALWAYS use `npx shadcn@latest add <component> --dry-run`, `--diff`, or `--view`. NEVER fetch raw files from GitHub or other sources manually. The CLI handles registry resolution, file paths, and CSS diffing automatically.
+> **IMPORTANT:** To compare local components against upstream or to preview changes, ALWAYS use `bunx shadcn@latest add <component> --dry-run`, `--diff`, or `--view`. NEVER fetch raw files from GitHub or other sources manually. The CLI handles registry resolution, file paths, and CSS diffing automatically.
 
 ```bash
-npx shadcn@latest add [components...] [options]
+bunx shadcn@latest add [components...] [options]
 ```
 
 Accepts component names, registry-prefixed names (`@magicui/shimmer-button`), URLs, or local paths.
@@ -70,25 +69,25 @@ Use `--dry-run` to preview what `add` would do without writing any files. `--dif
 
 ```bash
 # Preview all changes.
-npx shadcn@latest add button --dry-run
+bunx shadcn@latest add button --dry-run
 
 # Show diffs for all files (top 5).
-npx shadcn@latest add button --diff
+bunx shadcn@latest add button --diff
 
 # Show the diff for a specific file.
-npx shadcn@latest add button --diff button.tsx
+bunx shadcn@latest add button --diff button.tsx
 
 # Show contents for all files (top 5).
-npx shadcn@latest add button --view
+bunx shadcn@latest add button --view
 
 # Show the full content of a specific file.
-npx shadcn@latest add button --view button.tsx
+bunx shadcn@latest add button --view button.tsx
 
 # Works with URLs too.
-npx shadcn@latest add https://api.npoint.io/abc123 --dry-run
+bunx shadcn@latest add https://api.npoint.io/abc123 --dry-run
 
 # CSS diffs.
-npx shadcn@latest add button --diff globals.css
+bunx shadcn@latest add button --diff globals.css
 ```
 
 **When to use dry-run:**
@@ -99,7 +98,7 @@ npx shadcn@latest add button --diff globals.css
 - When checking what CSS changes would be made to `globals.css` — use `--diff globals.css`.
 - When the user asks to review or audit third-party registry code before installing — use `--view` to inspect the source.
 
-> **`npx shadcn@latest add --dry-run` vs `npx shadcn@latest view`:** Prefer `npx shadcn@latest add --dry-run/--diff/--view` over `npx shadcn@latest view` when the user wants to preview changes to their project. `npx shadcn@latest view` only shows raw registry metadata. `npx shadcn@latest add --dry-run` shows exactly what would happen in the user's project: resolved file paths, diffs against existing files, and CSS updates. Use `npx shadcn@latest view` only when the user wants to browse registry info without a project context.
+> **`bunx shadcn@latest add --dry-run` vs `bunx shadcn@latest view`:** Prefer `bunx shadcn@latest add --dry-run/--diff/--view` over `bunx shadcn@latest view` when the user wants to preview changes to their project. `bunx shadcn@latest view` only shows raw registry metadata. `bunx shadcn@latest add --dry-run` shows exactly what would happen in the user's project: resolved file paths, diffs against existing files, and CSS updates. Use `bunx shadcn@latest view` only when the user wants to browse registry info without a project context.
 
 #### Smart Merge from Upstream
 
@@ -108,10 +107,10 @@ See [Updating Components in SKILL.md](./SKILL.md#updating-components) for the fu
 ### `search` — Search registries
 
 ```bash
-npx shadcn@latest search <registries...> [options]
+bunx shadcn@latest search <registries...> [options]
 ```
 
-Fuzzy search across registries. Also aliased as `npx shadcn@latest list`. Without `-q`, lists all items.
+Fuzzy search across registries. Also aliased as `bunx shadcn@latest list`. Without `-q`, lists all items.
 
 | Flag                | Short | Description            | Default |
 | ------------------- | ----- | ---------------------- | ------- |
@@ -123,20 +122,20 @@ Fuzzy search across registries. Also aliased as `npx shadcn@latest list`. Withou
 ### `view` — View item details
 
 ```bash
-npx shadcn@latest view <items...> [options]
+bunx shadcn@latest view <items...> [options]
 ```
 
-Displays item info including file contents. Example: `npx shadcn@latest view @shadcn/button`.
+Displays item info including file contents. Example: `bunx shadcn@latest view @shadcn/button`.
 
 ### `docs` — Get component documentation URLs
 
 ```bash
-npx shadcn@latest docs <components...> [options]
+bunx shadcn@latest docs <components...> [options]
 ```
 
 Outputs resolved URLs for component documentation, examples, and API references. Accepts one or more component names. Fetch the URLs to get the actual content.
 
-Example output for `npx shadcn@latest docs input button`:
+Example output for `bunx shadcn@latest docs input button`:
 
 ```
 base  radix
@@ -154,12 +153,12 @@ Some components include an `api` link to the underlying library (e.g. `cmdk` for
 
 ### `diff` — Check for updates
 
-Do not use this command. Use `npx shadcn@latest add --diff` instead.
+Do not use this command. Use `bunx shadcn@latest add --diff` instead.
 
 ### `info` — Project information
 
 ```bash
-npx shadcn@latest info [options]
+bunx shadcn@latest info [options]
 ```
 
 Displays project info and `components.json` configuration. Run this first to discover the project's framework, aliases, Tailwind version, and resolved paths.
@@ -193,23 +192,23 @@ Displays project info and `components.json` configuration. Run this first to dis
 | `tsx`                | `boolean` | TypeScript flag                                                                            |
 | `tailwind.config`    | `string`  | Tailwind config path                                                                       |
 | `tailwind.css`       | `string`  | Global CSS path — this is where custom CSS variables go                                    |
-| `iconLibrary`        | `string`  | Icon library — determines icon import package (e.g. `lucide-react`, `@tabler/icons-react`) |
+| `iconLibrary`        | `string`  | Icon library — determines icon import package (`@phosphor-icons/react`)                    |
 | `aliases.components` | `string`  | Component import alias (e.g. `@/components`)                                               |
 | `aliases.utils`      | `string`  | Utils import alias (e.g. `@/lib/utils`)                                                    |
 | `aliases.ui`         | `string`  | UI component alias (e.g. `@/components/ui`)                                                |
-| `aliases.lib`        | `string`  | Lib alias (e.g. `@/lib`)                                                                   |
-| `aliases.hooks`      | `string`  | Hooks alias (e.g. `@/hooks`)                                                               |
+| `aliases.lib`        | `string`  | Lib alias (e.g. `@lib`)                                                                    |
+| `aliases.hooks`      | `string`  | Hooks alias (e.g. `@hooks`)                                                                |
 | `resolvedPaths`      | `object`  | Absolute file-system paths for each alias                                                  |
 | `registries`         | `object`  | Configured custom registries                                                               |
 
 **Links fields:**
 
-The `info` output includes a **Links** section with templated URLs for component docs, source, and examples. For resolved URLs, use `npx shadcn@latest docs <component>` instead.
+The `info` output includes a **Links** section with templated URLs for component docs, source, and examples. For resolved URLs, use `bunx shadcn@latest docs <component>` instead.
 
 ### `build` — Build a custom registry
 
 ```bash
-npx shadcn@latest build [registry] [options]
+bunx shadcn@latest build [registry] [options]
 ```
 
 Builds `registry.json` into individual JSON files for distribution. Default input: `./registry.json`, default output: `./public/r`.
@@ -244,12 +243,12 @@ Three ways to specify a preset via `--preset`:
 2. **Code:** `--preset a2r6bw` (base62 string, starts with lowercase `a`)
 3. **URL:** `--preset "https://ui.shadcn.com/init?base=radix&style=nova&..."`
 
-> **IMPORTANT:** Never try to decode, fetch, or resolve preset codes manually. Preset codes are opaque — pass them directly to `npx shadcn@latest init --preset <code>` and let the CLI handle resolution.
+> **IMPORTANT:** Never try to decode, fetch, or resolve preset codes manually. Preset codes are opaque — pass them directly to `bunx shadcn@latest init --preset <code>` and let the CLI handle resolution.
 
 ## Switching Presets
 
 Ask the user first: **reinstall**, **merge**, or **skip** existing components?
 
-- **Re-install** → `npx shadcn@latest init --preset <code> --force --reinstall`. Overwrites all component files with the new preset styles. Use when the user hasn't customized components.
-- **Merge** → `npx shadcn@latest init --preset <code> --force --no-reinstall`, then run `npx shadcn@latest info` to get the list of installed components and use the [smart merge workflow](./SKILL.md#updating-components) to update them one by one, preserving local changes. Use when the user has customized components.
-- **Skip** → `npx shadcn@latest init --preset <code> --force --no-reinstall`. Only updates config and CSS variables, leaves existing components as-is.
+- **Re-install** → `bunx shadcn@latest init --preset <code> --force --reinstall`. Overwrites all component files with the new preset styles. Use when the user hasn't customized components.
+- **Merge** → `bunx shadcn@latest init --preset <code> --force --no-reinstall`, then run `bunx shadcn@latest info` to get the list of installed components and use the [smart merge workflow](./SKILL.md#updating-components) to update them one by one, preserving local changes. Use when the user has customized components.
+- **Skip** → `bunx shadcn@latest init --preset <code> --force --no-reinstall`. Only updates config and CSS variables, leaves existing components as-is.

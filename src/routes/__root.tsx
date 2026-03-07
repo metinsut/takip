@@ -1,7 +1,11 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
+import type { QueryClient } from "@tanstack/react-query";
+import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { ErrorComponent } from "@/components/global/error";
+import { NotFoundComponent } from "@/components/global/not-found";
 import { DirectionProvider } from "@/components/ui/direction";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getThemeServerFn } from "@/functions/theme/theme-server";
 import type { ThemeTypes } from "@/functions/theme/types";
@@ -9,7 +13,11 @@ import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 import appCss from "../tailwind.css?url";
 
-export const Route = createRootRoute({
+type MyRouterContext = {
+  queryClient: QueryClient;
+};
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   head: () => ({
     meta: [
       {
@@ -30,8 +38,9 @@ export const Route = createRootRoute({
       },
     ],
   }),
-  notFoundComponent: () => <div>{m.notFound()}</div>,
+  notFoundComponent: () => <NotFoundComponent />,
   shellComponent: RootComponent,
+  errorComponent: (props) => <ErrorComponent {...props} />,
   loader: async () => {
     const theme = await getThemeServerFn();
     const locale = getLocale();
@@ -78,6 +87,7 @@ function RootDocument(props: RootDocumentProps) {
                 },
               ]}
             />
+            <Toaster richColors />
             <Scripts />
           </TooltipProvider>
         </DirectionProvider>

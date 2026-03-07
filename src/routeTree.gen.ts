@@ -10,27 +10,39 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteRouteImport } from './routes/app/route'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as landingRouteRouteImport } from './routes/(landing)/route'
+import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as landingIndexRouteImport } from './routes/(landing)/index'
 import { Route as AppSettingsIndexRouteImport } from './routes/app/settings/index'
 import { Route as AppProjectsIndexRouteImport } from './routes/app/projects/index'
 import { Route as AppHomeIndexRouteImport } from './routes/app/home/index'
 import { Route as AppExamplesIndexRouteImport } from './routes/app/examples/index'
+import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
+import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const landingRouteRoute = landingRouteRouteImport.update({
+  id: '/(landing)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authRouteRoute = authRouteRouteImport.update({
+  id: '/(auth)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRouteRoute,
+} as any)
+const landingIndexRoute = landingIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => landingRouteRoute,
 } as any)
 const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   id: '/settings/',
@@ -52,19 +64,33 @@ const AppExamplesIndexRoute = AppExamplesIndexRouteImport.update({
   path: '/examples/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const authRegisterIndexRoute = authRegisterIndexRouteImport.update({
+  id: '/register/',
+  path: '/register/',
+  getParentRoute: () => authRouteRoute,
+} as any)
+const authLoginIndexRoute = authLoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => authRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/': typeof landingIndexRoute
   '/app/': typeof AppIndexRoute
+  '/login/': typeof authLoginIndexRoute
+  '/register/': typeof authRegisterIndexRoute
   '/app/examples/': typeof AppExamplesIndexRoute
   '/app/home/': typeof AppHomeIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof landingIndexRoute
   '/app': typeof AppIndexRoute
+  '/login': typeof authLoginIndexRoute
+  '/register': typeof authRegisterIndexRoute
   '/app/examples': typeof AppExamplesIndexRoute
   '/app/home': typeof AppHomeIndexRoute
   '/app/projects': typeof AppProjectsIndexRoute
@@ -72,9 +98,13 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/(auth)': typeof authRouteRouteWithChildren
+  '/(landing)': typeof landingRouteRouteWithChildren
   '/app': typeof AppRouteRouteWithChildren
+  '/(landing)/': typeof landingIndexRoute
   '/app/': typeof AppIndexRoute
+  '/(auth)/login/': typeof authLoginIndexRoute
+  '/(auth)/register/': typeof authRegisterIndexRoute
   '/app/examples/': typeof AppExamplesIndexRoute
   '/app/home/': typeof AppHomeIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
@@ -83,9 +113,11 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/app'
+    | '/'
     | '/app/'
+    | '/login/'
+    | '/register/'
     | '/app/examples/'
     | '/app/home/'
     | '/app/projects/'
@@ -94,15 +126,21 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/app'
+    | '/login'
+    | '/register'
     | '/app/examples'
     | '/app/home'
     | '/app/projects'
     | '/app/settings'
   id:
     | '__root__'
-    | '/'
+    | '/(auth)'
+    | '/(landing)'
     | '/app'
+    | '/(landing)/'
     | '/app/'
+    | '/(auth)/login/'
+    | '/(auth)/register/'
     | '/app/examples/'
     | '/app/home/'
     | '/app/projects/'
@@ -110,7 +148,8 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  authRouteRoute: typeof authRouteRouteWithChildren
+  landingRouteRoute: typeof landingRouteRouteWithChildren
   AppRouteRoute: typeof AppRouteRouteWithChildren
 }
 
@@ -123,11 +162,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/(landing)': {
+      id: '/(landing)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof landingRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)': {
+      id: '/(auth)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof authRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -136,6 +182,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRouteRoute
+    }
+    '/(landing)/': {
+      id: '/(landing)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof landingIndexRouteImport
+      parentRoute: typeof landingRouteRoute
     }
     '/app/settings/': {
       id: '/app/settings/'
@@ -165,8 +218,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExamplesIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/(auth)/register/': {
+      id: '/(auth)/register/'
+      path: '/register'
+      fullPath: '/register/'
+      preLoaderRoute: typeof authRegisterIndexRouteImport
+      parentRoute: typeof authRouteRoute
+    }
+    '/(auth)/login/': {
+      id: '/(auth)/login/'
+      path: '/login'
+      fullPath: '/login/'
+      preLoaderRoute: typeof authLoginIndexRouteImport
+      parentRoute: typeof authRouteRoute
+    }
   }
 }
+
+interface authRouteRouteChildren {
+  authLoginIndexRoute: typeof authLoginIndexRoute
+  authRegisterIndexRoute: typeof authRegisterIndexRoute
+}
+
+const authRouteRouteChildren: authRouteRouteChildren = {
+  authLoginIndexRoute: authLoginIndexRoute,
+  authRegisterIndexRoute: authRegisterIndexRoute,
+}
+
+const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
+  authRouteRouteChildren,
+)
+
+interface landingRouteRouteChildren {
+  landingIndexRoute: typeof landingIndexRoute
+}
+
+const landingRouteRouteChildren: landingRouteRouteChildren = {
+  landingIndexRoute: landingIndexRoute,
+}
+
+const landingRouteRouteWithChildren = landingRouteRoute._addFileChildren(
+  landingRouteRouteChildren,
+)
 
 interface AppRouteRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
@@ -189,7 +282,8 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  authRouteRoute: authRouteRouteWithChildren,
+  landingRouteRoute: landingRouteRouteWithChildren,
   AppRouteRoute: AppRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport

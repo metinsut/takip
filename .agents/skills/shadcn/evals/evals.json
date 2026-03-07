@@ -25,7 +25,7 @@
         "Avatar component includes AvatarFallback",
         "Icons on buttons use the data-icon attribute (data-icon=\"inline-start\" or data-icon=\"inline-end\")",
         "No sizing classes on icons inside components (no size-4, w-4, h-4, etc.)",
-        "Uses tabler icons (@tabler/icons-react) instead of lucide-react",
+        "Uses phosphor icons (@phosphor-icons/react)",
         "Uses asChild for custom triggers (radix preset)"
       ]
     },
