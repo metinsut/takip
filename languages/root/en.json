@@ -25,5 +25,6 @@
   "billing": "Billing",
   "notifications": "Notifications",
   "logOut": "Log out",
-  "examples": "Examples"
+  "examples": "Examples",
+  "logOutSuccess": "Successfully logged out."
 }

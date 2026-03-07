@@ -25,5 +25,6 @@
   "billing": "الفوترة",
   "notifications": "الإشعارات",
   "logOut": "تسجيل الخروج",
-  "examples": "الأمثلة"
+  "examples": "الأمثلة",
+  "logOutSuccess": "تم تسجيل الخروج بنجاح."
 }

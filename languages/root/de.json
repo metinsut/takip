@@ -25,5 +25,6 @@
   "billing": "Abrechnung",
   "notifications": "Benachrichtigungen",
   "logOut": "Abmelden",
-  "examples": "Beispiele"
+  "examples": "Beispiele",
+  "logOutSuccess": "Erfolgreich abgemeldet."
 }

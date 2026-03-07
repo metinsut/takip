@@ -25,5 +25,6 @@
   "billing": "Faturalandırma",
   "notifications": "Bildirimler",
   "logOut": "Çıkış yap",
-  "examples": "Örnekler"
+  "examples": "Örnekler",
+  "logOutSuccess": "Başarıyla çıkış yapıldı."
 }
