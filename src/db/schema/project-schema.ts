@@ -21,6 +21,8 @@ export const projectSchema = pgTable(
   (table) => [index("project_name_idx").on(table.name)],
 );
 
+export type ProjectType = typeof projectSchema.$inferSelect;
+
 export const updateProjectSchema = createUpdateSchema(projectSchema)
   .omit({
     createdBy: true,

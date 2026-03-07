@@ -1,10 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import type { Project } from "@/db/schema/project-schema";
+import type { ProjectType } from "@/db/schema";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
 
-export const columns: ColumnDef<Project>[] = [
+export const columns: ColumnDef<ProjectType>[] = [
   {
     header: m.projectName(),
     accessorKey: "name",

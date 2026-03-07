@@ -8,6 +8,8 @@ import { Toolbar } from "./toolbar";
 export function ProjectsList() {
   const { data: projects } = useSuspenseQuery(useGetProjects());
 
+  console.log(projects);
+
   const table = useReactTable({
     data: projects,
     columns: columns,
@@ -15,7 +17,7 @@ export function ProjectsList() {
   });
 
   return (
-    <div className="grid gap-4">
+    <div className="flex flex-col gap-4">
       <Toolbar />
       <DataTable table={table} />
     </div>

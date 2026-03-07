@@ -3,7 +3,7 @@ import { BreadCrumb } from "./breadcrumb";
 
 export function Header() {
   return (
-    <header className="flex items-center pt-3 px-3">
+    <header className="flex items-center">
       <SidebarTrigger />
       <BreadCrumb />
     </header>

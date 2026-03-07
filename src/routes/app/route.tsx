@@ -15,11 +15,9 @@ function AppComponent() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="flex flex-1 flex-col gap-3 overflow-x-hidden p-3">
         <Header />
-        <div className="flex flex-1 flex-col p-3">
-          <Outlet />
-        </div>
+        <Outlet />
       </SidebarInset>
     </SidebarProvider>
   );
