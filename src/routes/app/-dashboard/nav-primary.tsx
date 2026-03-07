@@ -1,4 +1,4 @@
-import { HouseIcon } from "@phosphor-icons/react";
+import { HouseIcon, ListIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { m } from "@/paraglide/messages";
@@ -12,6 +12,16 @@ export function NavPrimary() {
             <Link to="/app" activeProps={{ className: "bg-background" }}>
               <HouseIcon />
               {m.home()}
+            </Link>
+          }
+        />
+      </SidebarMenuItem>
+      <SidebarMenuItem>
+        <SidebarMenuButton
+          render={
+            <Link to="/app/projects" activeProps={{ className: "bg-background" }}>
+              <ListIcon />
+              {m.projects()}
             </Link>
           }
         />

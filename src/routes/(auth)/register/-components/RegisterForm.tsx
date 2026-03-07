@@ -37,7 +37,7 @@ export function RegisterForm() {
         return;
       }
 
-      await navigate({ to: "/app/home" });
+      await navigate({ to: "/app" });
     },
   });
 

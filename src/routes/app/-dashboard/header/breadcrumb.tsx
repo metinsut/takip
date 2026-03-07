@@ -52,8 +52,8 @@ export function BreadCrumb() {
               {index === items.length - 1 ? (
                 <BreadcrumbPage>{crumb?.label}</BreadcrumbPage>
               ) : (
-                <BreadcrumbLink asChild>
-                  <Link to={crumb?.href}>{crumb?.label}</Link>
+                <BreadcrumbLink render={<Link to={crumb?.href} />}>
+                  {crumb?.label}
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>

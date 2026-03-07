@@ -41,7 +41,7 @@ export function LoginForm() {
         return;
       }
 
-      await navigate({ to: "/app/home" });
+      await navigate({ to: "/app" });
     },
   });
 

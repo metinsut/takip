@@ -31,10 +31,26 @@ export const projectInsertSchema = createInsertSchema(project, {
 
 export const createProjectSchema = projectInsertSchema.omit({
   id: true,
+  createdBy: true,
   createdAt: true,
   updatedAt: true,
 });
 
+export const projectIdSchema = z.object({
+  id: z.string().trim().min(1).max(64),
+});
+
+export const updateProjectSchema = projectIdSchema
+  .extend({
+    name: z.string().trim().min(3).max(160).optional(),
+    description: z.string().trim().min(1).max(5000).nullable().optional(),
+  })
+  .refine((data) => data.name !== undefined || data.description !== undefined, {
+    message: "At least one field must be provided.",
+  });
+
 export type Project = typeof project.$inferSelect;
 export type NewProject = typeof project.$inferInsert;
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
+export type ProjectIdInput = z.infer<typeof projectIdSchema>;
+export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;

@@ -13,6 +13,7 @@ import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as landingRouteRouteImport } from './routes/(landing)/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as landingIndexRouteImport } from './routes/(landing)/index'
+import { Route as AppProjectsRouteRouteImport } from './routes/app/projects/route'
 import { Route as AppSettingsIndexRouteImport } from './routes/app/settings/index'
 import { Route as AppProjectsIndexRouteImport } from './routes/app/projects/index'
 import { Route as AppExamplesIndexRouteImport } from './routes/app/examples/index'
@@ -39,15 +40,20 @@ const landingIndexRoute = landingIndexRouteImport.update({
   path: '/',
   getParentRoute: () => landingRouteRoute,
 } as any)
+const AppProjectsRouteRoute = AppProjectsRouteRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppProjectsIndexRoute = AppProjectsIndexRouteImport.update({
-  id: '/projects/',
-  path: '/projects/',
-  getParentRoute: () => AppRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppProjectsRouteRoute,
 } as any)
 const AppExamplesIndexRoute = AppExamplesIndexRouteImport.update({
   id: '/examples/',
@@ -77,6 +83,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
+  '/app/projects': typeof AppProjectsRouteRouteWithChildren
   '/': typeof landingIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/login/': typeof authLoginIndexRoute
@@ -101,6 +108,7 @@ export interface FileRoutesById {
   '/(auth)': typeof authRouteRouteWithChildren
   '/(landing)': typeof landingRouteRouteWithChildren
   '/app': typeof AppRouteRouteWithChildren
+  '/app/projects': typeof AppProjectsRouteRouteWithChildren
   '/(landing)/': typeof landingIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/(auth)/login/': typeof authLoginIndexRoute
@@ -114,6 +122,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/app'
+    | '/app/projects'
     | '/'
     | '/api/auth/$'
     | '/login/'
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/(auth)'
     | '/(landing)'
     | '/app'
+    | '/app/projects'
     | '/(landing)/'
     | '/api/auth/$'
     | '/(auth)/login/'
@@ -184,6 +194,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof landingIndexRouteImport
       parentRoute: typeof landingRouteRoute
     }
+    '/app/projects': {
+      id: '/app/projects'
+      path: '/projects'
+      fullPath: '/app/projects'
+      preLoaderRoute: typeof AppProjectsRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/settings/': {
       id: '/app/settings/'
       path: '/settings'
@@ -193,10 +210,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/projects/': {
       id: '/app/projects/'
-      path: '/projects'
+      path: '/'
       fullPath: '/app/projects/'
       preLoaderRoute: typeof AppProjectsIndexRouteImport
-      parentRoute: typeof AppRouteRoute
+      parentRoute: typeof AppProjectsRouteRoute
     }
     '/app/examples/': {
       id: '/app/examples/'
@@ -262,17 +279,28 @@ const landingRouteRouteWithChildren = landingRouteRoute._addFileChildren(
   landingRouteRouteChildren,
 )
 
+interface AppProjectsRouteRouteChildren {
+  AppProjectsIndexRoute: typeof AppProjectsIndexRoute
+}
+
+const AppProjectsRouteRouteChildren: AppProjectsRouteRouteChildren = {
+  AppProjectsIndexRoute: AppProjectsIndexRoute,
+}
+
+const AppProjectsRouteRouteWithChildren =
+  AppProjectsRouteRoute._addFileChildren(AppProjectsRouteRouteChildren)
+
 interface AppRouteRouteChildren {
+  AppProjectsRouteRoute: typeof AppProjectsRouteRouteWithChildren
   AppappIndexRoute: typeof AppappIndexRoute
   AppExamplesIndexRoute: typeof AppExamplesIndexRoute
-  AppProjectsIndexRoute: typeof AppProjectsIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppProjectsRouteRoute: AppProjectsRouteRouteWithChildren,
   AppappIndexRoute: AppappIndexRoute,
   AppExamplesIndexRoute: AppExamplesIndexRoute,
-  AppProjectsIndexRoute: AppProjectsIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 

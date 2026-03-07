@@ -14,7 +14,7 @@ import { m } from "@/paraglide/messages";
 
 type NotFoundComponentProps = {
   actionLabel?: string;
-  actionTo?: "/" | "/app/home";
+  actionTo?: "/" | "/app";
   className?: string;
   description?: string;
   title?: string;
