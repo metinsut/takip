@@ -6,13 +6,17 @@ import { UserDetail } from "./-user-detail";
 
 export const Route = createFileRoute("/app/settings/")({
   component: SettingsPage,
+  loader: () => {
+    return {
+      breadcrumb: m.settings(),
+    };
+  },
 });
 
 function SettingsPage() {
   return (
     <div className="grid gap-3">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">{m.settings()}</h1>
         <p className="text-muted-foreground text-sm">{m.settingsDescription()}</p>
       </div>
       <UserDetail />

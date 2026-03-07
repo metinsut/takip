@@ -12,11 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as landingRouteRouteImport } from './routes/(landing)/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
-import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as landingIndexRouteImport } from './routes/(landing)/index'
+import { Route as ApphomeRouteRouteImport } from './routes/app/(home)/route'
 import { Route as AppSettingsIndexRouteImport } from './routes/app/settings/index'
 import { Route as AppProjectsIndexRouteImport } from './routes/app/projects/index'
-import { Route as AppHomeIndexRouteImport } from './routes/app/home/index'
 import { Route as AppExamplesIndexRouteImport } from './routes/app/examples/index'
 import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
@@ -35,15 +34,14 @@ const authRouteRoute = authRouteRouteImport.update({
   id: '/(auth)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppIndexRoute = AppIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 const landingIndexRoute = landingIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => landingRouteRoute,
+} as any)
+const ApphomeRouteRoute = ApphomeRouteRouteImport.update({
+  id: '/(home)',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   id: '/settings/',
@@ -53,11 +51,6 @@ const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
 const AppProjectsIndexRoute = AppProjectsIndexRouteImport.update({
   id: '/projects/',
   path: '/projects/',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppHomeIndexRoute = AppHomeIndexRouteImport.update({
-  id: '/home/',
-  path: '/home/',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppExamplesIndexRoute = AppExamplesIndexRouteImport.update({
@@ -82,25 +75,22 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/app': typeof AppRouteRouteWithChildren
+  '/app': typeof ApphomeRouteRoute
   '/': typeof landingIndexRoute
-  '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/login/': typeof authLoginIndexRoute
   '/register/': typeof authRegisterIndexRoute
   '/app/examples/': typeof AppExamplesIndexRoute
-  '/app/home/': typeof AppHomeIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/app': typeof ApphomeRouteRoute
   '/': typeof landingIndexRoute
-  '/app': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/login': typeof authLoginIndexRoute
   '/register': typeof authRegisterIndexRoute
   '/app/examples': typeof AppExamplesIndexRoute
-  '/app/home': typeof AppHomeIndexRoute
   '/app/projects': typeof AppProjectsIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
 }
@@ -109,13 +99,12 @@ export interface FileRoutesById {
   '/(auth)': typeof authRouteRouteWithChildren
   '/(landing)': typeof landingRouteRouteWithChildren
   '/app': typeof AppRouteRouteWithChildren
+  '/app/(home)': typeof ApphomeRouteRoute
   '/(landing)/': typeof landingIndexRoute
-  '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/register/': typeof authRegisterIndexRoute
   '/app/examples/': typeof AppExamplesIndexRoute
-  '/app/home/': typeof AppHomeIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
 }
@@ -124,23 +113,20 @@ export interface FileRouteTypes {
   fullPaths:
     | '/app'
     | '/'
-    | '/app/'
     | '/api/auth/$'
     | '/login/'
     | '/register/'
     | '/app/examples/'
-    | '/app/home/'
     | '/app/projects/'
     | '/app/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/app'
+    | '/'
     | '/api/auth/$'
     | '/login'
     | '/register'
     | '/app/examples'
-    | '/app/home'
     | '/app/projects'
     | '/app/settings'
   id:
@@ -148,13 +134,12 @@ export interface FileRouteTypes {
     | '/(auth)'
     | '/(landing)'
     | '/app'
+    | '/app/(home)'
     | '/(landing)/'
-    | '/app/'
     | '/api/auth/$'
     | '/(auth)/login/'
     | '/(auth)/register/'
     | '/app/examples/'
-    | '/app/home/'
     | '/app/projects/'
     | '/app/settings/'
   fileRoutesById: FileRoutesById
@@ -189,19 +174,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/': {
-      id: '/app/'
-      path: '/'
-      fullPath: '/app/'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/(landing)/': {
       id: '/(landing)/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof landingIndexRouteImport
       parentRoute: typeof landingRouteRoute
+    }
+    '/app/(home)': {
+      id: '/app/(home)'
+      path: ''
+      fullPath: '/app'
+      preLoaderRoute: typeof ApphomeRouteRouteImport
+      parentRoute: typeof AppRouteRoute
     }
     '/app/settings/': {
       id: '/app/settings/'
@@ -215,13 +200,6 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/app/projects/'
       preLoaderRoute: typeof AppProjectsIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/home/': {
-      id: '/app/home/'
-      path: '/home'
-      fullPath: '/app/home/'
-      preLoaderRoute: typeof AppHomeIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/examples/': {
@@ -282,17 +260,15 @@ const landingRouteRouteWithChildren = landingRouteRoute._addFileChildren(
 )
 
 interface AppRouteRouteChildren {
-  AppIndexRoute: typeof AppIndexRoute
+  ApphomeRouteRoute: typeof ApphomeRouteRoute
   AppExamplesIndexRoute: typeof AppExamplesIndexRoute
-  AppHomeIndexRoute: typeof AppHomeIndexRoute
   AppProjectsIndexRoute: typeof AppProjectsIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppIndexRoute: AppIndexRoute,
+  ApphomeRouteRoute: ApphomeRouteRoute,
   AppExamplesIndexRoute: AppExamplesIndexRoute,
-  AppHomeIndexRoute: AppHomeIndexRoute,
   AppProjectsIndexRoute: AppProjectsIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }

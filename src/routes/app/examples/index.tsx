@@ -16,25 +16,27 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
+import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/app/examples/")({
   component: ExamplesPage,
+  loader: () => {
+    return {
+      breadcrumb: m.examples(),
+    };
+  },
 });
 
 function ExamplesPage() {
   return (
-    <div className="space-y-10">
+    <div className="grid gap-4">
       <div>
-        <h1 className="text-2xl font-semibold">UI Örnekleri</h1>
         <p className="text-muted-foreground text-sm">
           Input, Switch, Checkbox, Radio, Textarea, Select ve ilgili bileşenlerin kullanım
           örnekleri.
         </p>
       </div>
-
       <Separator />
-
-      {/* Input */}
       <Section title="Input" description="Metin girişi bileşenleri">
         <Card className="max-w-sm">
           <CardHeader>

@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { m } from "@/paraglide/messages";
 
-export const Route = createFileRoute("/app/home/")({
+export const Route = createFileRoute("/app/(home)")({
   component: AppComponent,
+  loader: () => {
+    return {
+      breadcrumb: m.home(),
+    };
+  },
 });
 
 function AppComponent() {

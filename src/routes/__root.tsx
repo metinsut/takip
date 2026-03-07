@@ -45,7 +45,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   loader: async () => {
     const theme = await getThemeServerFn();
     const locale = getLocale();
-    return { theme, locale };
+    return { theme, locale, breadcrumb: undefined };
   },
 });
 
