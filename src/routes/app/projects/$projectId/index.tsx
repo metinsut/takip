@@ -1,12 +1,13 @@
 import { CheckCircleIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/sonner";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import type { CreateProjectType } from "@/db/schema";
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/app/projects/$projectId/")({
 
 function ProjectForm() {
   const { projectId } = Route.useParams();
+  const navigate = useNavigate();
   const { data: project } = useSuspenseQuery(useGetProject(projectId));
 
   const form = useForm({
@@ -39,6 +41,9 @@ function ProjectForm() {
       } else {
         await createProject({ data: { name: value.name, description: value.description } });
       }
+
+      toast.success("Proje başarıyla oluşturuldu.");
+      navigate({ to: "/app/projects" });
     },
   });
 

@@ -5,7 +5,8 @@ import {
   WarningIcon,
   XCircleIcon,
 } from "@phosphor-icons/react";
-import { Toaster as Sonner, type ToasterProps } from "sonner";
+import type { ToasterProps } from "sonner";
+import { Toaster as Sonner, toast } from "sonner";
 
 const Toaster = ({ ...props }: ToasterProps) => {
   return (
@@ -36,4 +37,4 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-export { Toaster };
+export { Toaster, toast };

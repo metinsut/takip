@@ -8,8 +8,6 @@ import { Toolbar } from "./toolbar";
 export function ProjectsList() {
   const { data: projects } = useSuspenseQuery(useGetProjects());
 
-  console.log(projects);
-
   const table = useReactTable({
     data: projects,
     columns: columns,
