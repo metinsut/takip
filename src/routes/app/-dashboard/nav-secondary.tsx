@@ -1,4 +1,4 @@
-import { ExclamationMarkIcon, GearIcon } from "@phosphor-icons/react";
+import { CodesandboxLogoIcon, GearIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { m } from "@/paraglide/messages";
@@ -20,7 +20,7 @@ export function NavSecondary() {
         <SidebarMenuButton
           render={
             <Link to="/app/examples" activeProps={{ className: "bg-background" }}>
-              <ExclamationMarkIcon />
+              <CodesandboxLogoIcon />
               {m.examples()}
             </Link>
           }

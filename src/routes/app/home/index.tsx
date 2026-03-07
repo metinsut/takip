@@ -6,5 +6,9 @@ export const Route = createFileRoute("/app/home/")({
 });
 
 function AppComponent() {
-  return <p>{m.helloApp()}</p>;
+  return (
+    <div className="grid gap-4">
+      <p>{m.helloApp()}</p>
+    </div>
+  );
 }
