@@ -1,22 +1,36 @@
-import { ClockIcon, ShieldCheckIcon, SparkleIcon } from "@phosphor-icons/react";
+import { BrainIcon, KanbanIcon, LightningIcon, UsersThreeIcon } from "@phosphor-icons/react";
 
 export const LANDING_FEATURES = [
   {
-    icon: SparkleIcon,
-    title: "Akıllı Özet",
+    icon: KanbanIcon,
+    label: "Tek görünüm",
+    title: "Dağılmayan proje akışı",
     description:
-      "Her maili bağlamıyla birlikte tek satırda özetleyip kritik aksiyonları öne çıkarır.",
+      "Görev, backlog, not ve kararlar ayrı araçlara bölünmeden aynı çalışma alanında kalır.",
+    footnote: "Yeni bir sistem öğretmeden, ekibi hızlı şekilde aynı ritme sokar.",
   },
   {
-    icon: ClockIcon,
-    title: "Durum Takibi",
+    icon: BrainIcon,
+    label: "AI destek",
+    title: "Toplantı yerine net özet",
     description:
-      "Beklemede, yanıtlandı, acil gibi etiketlerle ekipte neyin nerede kaldığını görünür yapar.",
+      "AI; günlük standup, değişen öncelik ve teslim risklerini tek bakışta anlaşılır hale getirir.",
+    footnote: "Sabah nereden başlanacağı tartışılmaz, doğrudan uygulanır.",
   },
   {
-    icon: ShieldCheckIcon,
-    title: "Güvenli İşleyiş",
+    icon: LightningIcon,
+    label: "Hız odağı",
+    title: "Kararı bekletmeyen görünürlük",
     description:
-      "Hassas içerikler için güvenli analiz akışı ile sadece gereken kişilere bilgi paylaşır.",
+      "Kim birini bekliyor, hangi iş blokta, hangi görev gecikiyor gibi sinyalleri erken gösterir.",
+    footnote: "Takım fazla rapor yazmadan bile operasyon ritmi korunur.",
+  },
+  {
+    icon: UsersThreeIcon,
+    label: "Takım hızı",
+    title: "Herkes aynı resmi görür",
+    description:
+      "Ürün, operasyon ve kurucu ekibi aynı veri üzerinden ilerler; bağlam kaybı ve tekrar azalır.",
+    footnote: "Durum güncellemesi değil, paylaşılan netlik oluşur.",
   },
 ] as const;

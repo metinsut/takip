@@ -4,24 +4,18 @@ import { cn } from "@/lib/utils";
 
 export function LandingHeader() {
   return (
-    <header className="mb-10 flex items-center justify-between">
-      <Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
-        <img src="/mailer2.png" alt="Side Project 2026" className="h-10 object-contain" />
+    <header className="mb-12 flex items-center justify-between gap-4">
+      <Link to="/" className="inline-flex items-center gap-3 text-foreground">
+        <img src="/takip.png" alt="Takip" className="h-20 w-auto object-contain" />
       </Link>
       <div className="flex items-center gap-2">
         <Link
           to="/login"
-          className={cn(
-            buttonVariants({ variant: "ghost", size: "lg" }),
-            "h-9 rounded-xl px-4 text-sm",
-          )}
+          className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "hidden sm:inline-flex")}
         >
           Giriş
         </Link>
-        <Link
-          to="/register"
-          className={cn(buttonVariants({ size: "lg" }), "h-9 rounded-xl px-4 text-sm")}
-        >
+        <Link to="/register" className={buttonVariants({ size: "lg" })}>
           Kayıt Ol
         </Link>
       </div>
