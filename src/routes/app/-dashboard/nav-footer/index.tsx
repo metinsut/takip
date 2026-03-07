@@ -28,7 +28,7 @@ export function NavFooter() {
 
   const { data: user } = useSuspenseQuery(useGetUser());
 
-  const avatar = user?.image ? user.image : "/default-avatar.png";
+  const avatar = user?.image || undefined;
   const name = user?.name ? user.name : "Guest";
   const email = user?.email ? user.email : "guest@example.com";
 
@@ -42,7 +42,9 @@ export function NavFooter() {
                 <SidebarMenuButton>
                   <Avatar>
                     <AvatarImage src={avatar} alt={user?.name} />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback>
+                      <UserIcon />
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">{name}</span>

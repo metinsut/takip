@@ -25,5 +25,6 @@
   "notifications": "Bildirimler",
   "logOut": "Çıkış yap",
   "examples": "Örnekler",
-  "logOutSuccess": "Başarıyla çıkış yapıldı."
+  "logOutSuccess": "Başarıyla çıkış yapıldı.",
+  "joinedAt": "Katılma Tarihi"
 }
