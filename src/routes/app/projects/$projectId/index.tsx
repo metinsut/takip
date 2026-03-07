@@ -4,8 +4,8 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/sonner";
 import { Spinner } from "@/components/ui/spinner";
@@ -38,11 +38,11 @@ function ProjectForm() {
         await updateProject({
           data: { id: project.id, name: value.name, description: value.description },
         });
+        toast.success("Proje başarıyla güncellendi.");
       } else {
         await createProject({ data: { name: value.name, description: value.description } });
+        toast.success("Proje başarıyla oluşturuldu.");
       }
-
-      toast.success("Proje başarıyla oluşturuldu.");
       navigate({ to: "/app/projects" });
     },
   });
@@ -50,9 +50,6 @@ function ProjectForm() {
   return (
     <div className="grid gap-4">
       <Card className="max-w-3xl">
-        <CardHeader>
-          <CardTitle>{project?.name ?? m.addProject()}</CardTitle>
-        </CardHeader>
         <CardContent>
           <form
             noValidate
@@ -71,9 +68,6 @@ function ProjectForm() {
                   return (
                     <Field data-invalid={isInvalid}>
                       <FieldLabel htmlFor={field.name}>{m.projectName()}</FieldLabel>
-                      <FieldDescription>
-                        Projede görünecek kısa ve anlaşılır adı yaz.
-                      </FieldDescription>
                       <Input
                         id={field.name}
                         name={field.name}
@@ -97,9 +91,6 @@ function ProjectForm() {
                   return (
                     <Field data-invalid={isInvalid}>
                       <FieldLabel htmlFor={field.name}>{m.projectDescription()}</FieldLabel>
-                      <FieldDescription>
-                        İsteğe bağlı. Proje kapsamını birkaç cümleyle özetle.
-                      </FieldDescription>
                       <Textarea
                         id={field.name}
                         name={field.name}
@@ -119,9 +110,9 @@ function ProjectForm() {
 
             <div className="flex justify-end">
               <form.Subscribe
-                selector={(state) => [state.canSubmit, state.isSubmitting]}
-                children={([canSubmit, isSubmitting]) => (
-                  <Button type="submit" disabled={!canSubmit || isSubmitting}>
+                selector={(state) => [state.canSubmit, state.isSubmitting, state.isDirty]}
+                children={([canSubmit, isSubmitting, isDirty]) => (
+                  <Button type="submit" disabled={!canSubmit || isSubmitting || !isDirty}>
                     {isSubmitting ? <Spinner /> : <CheckCircleIcon />}
                     Değişiklikleri kaydet
                   </Button>
