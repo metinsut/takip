@@ -26,7 +26,7 @@ export function DataTable<T>(props: Props<T>) {
   const { table, noResult, onRowClick, getRowClassName, isPending, isFetching, className } = props;
 
   return (
-    <div className={cn("rounded-md relative border", { "min-h-96": isPending }, className)}>
+    <div className={cn("rounded-md border relative", { "min-h-96": isPending }, className)}>
       <div
         className={cn("absolute h-0.5 w-full overflow-hidden rounded-full z-20", {
           hidden: !isFetching,

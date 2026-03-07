@@ -1,11 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { and, eq } from "drizzle-orm";
+import { z } from "zod";
 import { db } from "@/db";
-import { projectIdSchema, project as projectSchema } from "@/db/schema";
+import { projectSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 
 export const deleteProject = createServerFn({ method: "POST" })
-  .inputValidator(projectIdSchema)
+  .inputValidator(z.object({ id: z.string() }))
   .handler(async ({ data }) => {
     const userId = await getAuthenticatedUserId();
 

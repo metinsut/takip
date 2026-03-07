@@ -1,10 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import type { ProjectType } from "@/db/schema";
+import type { ProjectListItem } from "@/functions/projects/get-projects";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
 
-export const columns: ColumnDef<ProjectType>[] = [
+export const columns: ColumnDef<ProjectListItem>[] = [
   {
     header: m.projectName(),
     accessorKey: "name",
@@ -15,7 +15,7 @@ export const columns: ColumnDef<ProjectType>[] = [
   },
   {
     header: m.projectCreatedBy(),
-    accessorKey: "createdBy",
+    accessorFn: (row) => row.user.name || row.user.email || row.createdBy,
   },
   {
     header: m.projectCreatedAt(),
