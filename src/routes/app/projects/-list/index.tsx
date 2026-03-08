@@ -22,7 +22,7 @@ export function ProjectsList() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       <Toolbar />
       <DataTable table={table} onRowClick={handleRowClick} />
     </div>

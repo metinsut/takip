@@ -8,5 +8,7 @@
   "projectStatus": "Proje Durumu",
   "addProject": "Proje Ekle",
   "deleteProjectTitle": "Proje Silinecek!",
-  "deleteProjectDescription": "Projeyi silmek istediğinize emin misiniz? Tüm bağlı veriler(tasklar vs) silinecek."
+  "deleteProjectDescription": "Projeyi silmek istediğinize emin misiniz? Tüm bağlı veriler(tasklar vs) silinecek.",
+  "noProjectsFound": "Proje bulunamadı",
+  "searchProject": "Proje ara"
 }
