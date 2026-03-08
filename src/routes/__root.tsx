@@ -13,7 +13,7 @@ import { NotFoundComponent } from "@/components/global/not-found";
 import { DirectionProvider } from "@/components/ui/direction";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { getProjectServerFn } from "@/functions/projects";
+import { getProjectServerFn, getProjects } from "@/functions/projects";
 import { getThemeServerFn } from "@/functions/theme/theme-server";
 import type { ThemeTypes } from "@/functions/theme/types";
 import { m } from "@/paraglide/messages";
@@ -50,9 +50,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   errorComponent: (props) => <ErrorComponent {...props} />,
   loader: async () => {
     const theme = await getThemeServerFn();
-    const projectId = await getProjectServerFn();
+    const activeProjectId = await getProjectServerFn();
+    const projects = await getProjects();
     const locale = getLocale();
-    return { theme, projectId, locale, breadcrumb: undefined };
+    return { theme, activeProjectId, projects, locale, breadcrumb: undefined };
   },
 });
 

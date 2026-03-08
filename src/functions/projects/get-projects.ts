@@ -19,8 +19,6 @@ export const getProjects = createServerFn({ method: "GET" }).handler(async () =>
       user: {
         id: userSchema.id,
         name: userSchema.name,
-        email: userSchema.email,
-        image: userSchema.image,
       },
     })
     .from(projectSchema)

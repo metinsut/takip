@@ -10,7 +10,7 @@ import { Toolbar } from "./toolbar";
 export function ProjectsList() {
   const navigate = useNavigate();
   const { data: projects } = useSuspenseQuery(useGetProjects());
-  const { projectId } = useLoaderData({ from: "__root__" });
+  const { activeProjectId } = useLoaderData({ from: "__root__" });
 
   const table = useReactTable({
     data: projects,
@@ -22,7 +22,7 @@ export function ProjectsList() {
     navigate({ to: "/app/projects/$projectId", params: { projectId: row.id } });
   };
 
-  const activeProject = projects.find((project) => project.id === projectId);
+  const activeProject = projects.find((project) => project.id === activeProjectId);
 
   return (
     <div className="flex flex-col gap-3">
