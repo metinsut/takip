@@ -1,6 +1,6 @@
 {
-  "id": "1d08ef7a-6b2e-4542-82e7-c6ec0773c6f4",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "ffd2929e-353f-43e3-845f-3b2ddbb5f26e",
+  "prevId": "92938d8f-572b-4dd8-afa8-1bc0dcebe551",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -76,14 +76,14 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
@@ -172,14 +172,14 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
@@ -204,6 +204,18 @@
         },
         "impersonated_by": {
           "name": "impersonated_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "active_organization_id": {
+          "name": "active_organization_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "active_team_id": {
+          "name": "active_team_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -307,14 +319,14 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
@@ -329,7 +341,7 @@
           "name": "banned",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": false
         },
         "ban_reason": {
@@ -340,7 +352,7 @@
         },
         "ban_expires": {
           "name": "ban_expires",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         }
@@ -391,14 +403,14 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
@@ -479,14 +491,14 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
@@ -560,7 +572,7 @@
         },
         "status": {
           "name": "status",
-          "type": "task_status",
+          "type": "status",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -568,7 +580,7 @@
         },
         "priority": {
           "name": "priority",
-          "type": "task_priority",
+          "type": "priority",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -607,14 +619,14 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
@@ -761,8 +773,8 @@
     }
   },
   "enums": {
-    "public.task_priority": {
-      "name": "task_priority",
+    "public.priority": {
+      "name": "priority",
       "schema": "public",
       "values": [
         "low",
@@ -770,8 +782,8 @@
         "high"
       ]
     },
-    "public.task_status": {
-      "name": "task_status",
+    "public.status": {
+      "name": "status",
       "schema": "public",
       "values": [
         "todo",

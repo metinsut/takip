@@ -5,8 +5,22 @@
     {
       "idx": 0,
       "version": "7",
+      "when": 1772890530339,
+      "tag": "0000_talented_ravenous",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1772896169992,
+      "tag": "0001_broken_vampiro",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
       "when": 1772928037955,
-      "tag": "0000_same_viper",
+      "tag": "0002_schema_alignment",
       "breakpoints": true
     }
   ]
