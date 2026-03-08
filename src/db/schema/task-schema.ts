@@ -1,15 +1,9 @@
 import { index, integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
 import { user } from "./auth-schema";
 import { projectSchema } from "./project-schema";
 
-export const taskStatusValues = ["todo", "in_progress", "done"] as const;
-
-export const taskPriorityValues = ["low", "medium", "high"] as const;
-
-export const taskStatusEnum = pgEnum("status", taskStatusValues);
-export const taskPriorityEnum = pgEnum("priority", taskPriorityValues);
+export const taskStatusEnum = pgEnum("status", ["todo", "in_progress", "done"]);
+export const taskPriorityEnum = pgEnum("priority", ["low", "medium", "high"]);
 
 export const task = pgTable(
   "task",
@@ -20,8 +14,8 @@ export const task = pgTable(
       .references(() => projectSchema.id, { onDelete: "cascade" }),
     title: text("title").notNull(),
     description: text("description"),
-    status: taskStatusEnum("status").default("todo").notNull(),
-    priority: taskPriorityEnum("priority").default("medium").notNull(),
+    status: taskStatusEnum("status").notNull().default("todo"),
+    priority: taskPriorityEnum("priority").default("medium"),
     assigneeId: text("assignee_id").references(() => user.id, { onDelete: "set null" }),
     createdBy: text("created_by")
       .notNull()
@@ -42,42 +36,3 @@ export const task = pgTable(
     index("task_project_created_by_idx").on(table.projectId, table.createdBy),
   ],
 );
-
-export const taskStatusSchema = z.enum(taskStatusValues);
-export const taskPrioritySchema = z.enum(taskPriorityValues);
-
-export const taskSelectSchema = createSelectSchema(task);
-
-export const taskInsertSchema = createInsertSchema(task, {
-  title: z.string().trim().min(3).max(160),
-  description: z.string().trim().min(1).max(5000).optional(),
-  projectId: z.string().trim().min(1).max(64),
-  assigneeId: z.string().trim().min(1).optional(),
-  createdBy: z.string().trim().min(1),
-  dueDate: z.coerce.date().optional(),
-});
-
-export const createTaskSchema = taskInsertSchema.omit({
-  id: true,
-  createdBy: true,
-  completedAt: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-// Listing endpoint can reuse this for filter and pagination validation.
-export const listTasksSchema = z.object({
-  projectId: z.string().trim().min(1).max(64).optional(),
-  assigneeId: z.string().trim().min(1).optional(),
-  status: z.array(taskStatusSchema).optional(),
-  priority: z.array(taskPrioritySchema).optional(),
-  search: z.string().trim().min(1).max(160).optional(),
-  includeCompleted: z.boolean().default(true),
-  limit: z.coerce.number().int().min(1).max(100).default(20),
-  offset: z.coerce.number().int().min(0).default(0),
-});
-
-export type Task = typeof task.$inferSelect;
-export type NewTask = typeof task.$inferInsert;
-export type CreateTaskInput = z.infer<typeof createTaskSchema>;
-export type ListTasksInput = z.infer<typeof listTasksSchema>;

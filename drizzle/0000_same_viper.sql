@@ -26,6 +26,8 @@ CREATE TABLE "session" (
 	"user_agent" text,
 	"user_id" text NOT NULL,
 	"impersonated_by" text,
+	"active_organization_id" text,
+	"active_team_id" text,
 	CONSTRAINT "session_token_unique" UNIQUE("token")
 );
 --> statement-breakpoint
@@ -40,7 +42,7 @@ CREATE TABLE "user" (
 	"role" text,
 	"banned" boolean DEFAULT false,
 	"ban_reason" text,
-	"ban_expires" timestamp,
+	"ban_expires" timestamp with time zone,
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -68,7 +70,7 @@ CREATE TABLE "task" (
 	"title" text NOT NULL,
 	"description" text,
 	"status" "status" DEFAULT 'todo' NOT NULL,
-	"priority" "priority" DEFAULT 'medium' NOT NULL,
+	"priority" "priority" DEFAULT 'medium',
 	"assignee_id" text,
 	"created_by" text NOT NULL,
 	"due_date" timestamp,
