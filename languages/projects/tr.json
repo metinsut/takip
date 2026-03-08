@@ -6,5 +6,7 @@
   "projectUpdatedAt": "Güncellenme Tarihi",
   "projectCreatedBy": "Oluşturan",
   "projectStatus": "Proje Durumu",
-  "addProject": "Proje Ekle"
+  "addProject": "Proje Ekle",
+  "deleteProjectTitle": "Proje Silinecek!",
+  "deleteProjectDescription": "Projeyi silmek istediğinize emin misiniz? Tüm bağlı veriler(tasklar vs) silinecek."
 }

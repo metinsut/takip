@@ -29,5 +29,10 @@
   "logOutSuccess": "Başarıyla çıkış yapıldı.",
   "pageNotFound": "Sayfa bulunamadı",
   "noResult": "Sonuç bulunamadı.",
-  "loading": "Yükleniyor..."
+  "loading": "Yükleniyor...",
+  "cancel": "Vazgeç",
+  "delete": "Sil",
+  "confirmDelete": "Evet, sil",
+  "areYouSureDeleteTitle": "Kayıt Silinecek!",
+  "areYouSureDeleteDescription": "Kaydı silmek istediğinize emin misiniz?"
 }
