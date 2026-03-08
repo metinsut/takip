@@ -34,5 +34,7 @@
   "delete": "Sil",
   "confirmDelete": "Evet, sil",
   "areYouSureDeleteTitle": "Kayıt Silinecek!",
-  "areYouSureDeleteDescription": "Kaydı silmek istediğinize emin misiniz?"
+  "areYouSureDeleteDescription": "Kaydı silmek istediğinize emin misiniz?",
+  "deleteProjectError": "Proje silinirken bir hata oluştu.",
+  "deleteProjectSuccess": "Proje başarıyla silindi."
 }
