@@ -10,5 +10,7 @@
   "deleteProjectTitle": "Proje Silinecek!",
   "deleteProjectDescription": "Projeyi silmek istediğinize emin misiniz? Tüm bağlı veriler(tasklar vs) silinecek.",
   "noProjectsFound": "Proje bulunamadı",
-  "searchProject": "Proje ara"
+  "searchProject": "Proje ara",
+  "activeProject": "Aktif Proje",
+  "setAsActiveProject": "Aktif Proje Yap"
 }

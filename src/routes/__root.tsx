@@ -50,9 +50,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   errorComponent: (props) => <ErrorComponent {...props} />,
   loader: async () => {
     const theme = await getThemeServerFn();
-    const project = await getProjectServerFn();
+    const projectId = await getProjectServerFn();
     const locale = getLocale();
-    return { theme, project, locale, breadcrumb: undefined };
+    return { theme, projectId, locale, breadcrumb: undefined };
   },
 });
 

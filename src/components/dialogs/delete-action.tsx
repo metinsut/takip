@@ -79,7 +79,6 @@ function DeleteTrigger(props: DeleteTriggerProps) {
     <AlertDialogTrigger
       render={
         <Button
-          type="button"
           variant="ghost"
           className="text-destructive hover:text-destructive"
           size="icon-sm"

@@ -58,6 +58,7 @@ export function DataTable<T>(props: Props<T>) {
                 data-state={row.getIsSelected() && "selected"}
                 onClick={onRowClick ? () => onRowClick(row.original) : undefined}
                 className={cn(
+                  row.getIsSelected() && "bg-green-500",
                   onRowClick && "cursor-pointer hover:bg-muted/50 transition-colors",
                   getRowClassName?.(row.original),
                 )}
