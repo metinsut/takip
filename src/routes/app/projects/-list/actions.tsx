@@ -1,5 +1,6 @@
 import { FolderSimplePlusIcon } from "@phosphor-icons/react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { DeleteAction } from "@/components/dialogs/delete-action";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ export const Actions = (props: Props) => {
   const { project } = props;
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { mutateAsync: deleteProject, isPending } = useDeleteProject();
 
   const onDelete = async () => {
@@ -25,8 +27,9 @@ export const Actions = (props: Props) => {
     queryClient.invalidateQueries({ queryKey: [getProjectsQueryKey] });
   };
 
-  const handleSetAsActiveProject = () => {
-    setProjectServerFn({ data: project.id });
+  const handleSetAsActiveProject = async () => {
+    await setProjectServerFn({ data: project.id });
+    await router.invalidate();
   };
 
   return (

@@ -16,7 +16,7 @@ export const columns: ColumnDef<ProjectListItem>[] = [
   },
   {
     header: m.projectCreatedBy(),
-    accessorFn: (row) => row.user.name || row.user.email || row.createdBy,
+    accessorFn: (row) => row.user.name,
   },
   {
     header: m.projectCreatedAt(),
@@ -30,6 +30,7 @@ export const columns: ColumnDef<ProjectListItem>[] = [
   },
   {
     accessorKey: "actions",
+    header: "",
     cell: ({ row }) => <Actions project={row.original} />,
   },
 ];

@@ -1,16 +1,13 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { useLoaderData, useNavigate } from "@tanstack/react-router";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { DataTable } from "@/components/table";
-import { useGetProjects } from "@/functions/projects";
 import type { ProjectListItem } from "@/functions/projects/get-projects";
 import { columns } from "./columns";
 import { Toolbar } from "./toolbar";
 
 export function ProjectsList() {
   const navigate = useNavigate();
-  const { data: projects } = useSuspenseQuery(useGetProjects());
-  const { activeProjectId } = useLoaderData({ from: "__root__" });
+  const { activeProjectId, projects } = useLoaderData({ from: "__root__" });
 
   const table = useReactTable({
     data: projects,

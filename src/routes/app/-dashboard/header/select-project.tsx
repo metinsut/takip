@@ -1,5 +1,5 @@
 import { FoldersIcon } from "@phosphor-icons/react";
-import { useLoaderData } from "@tanstack/react-router";
+import { useLoaderData, useRouter } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
   Combobox,
@@ -16,13 +16,11 @@ import { m } from "@/paraglide/messages";
 
 export function SelectProject() {
   const { activeProjectId, projects } = useLoaderData({ from: "__root__" });
+  const router = useRouter();
 
-  function handleValueChange(projectId: string | null) {
-    if (!projectId) {
-      setProjectServerFn({ data: "" });
-      return;
-    }
-    setProjectServerFn({ data: projectId });
+  async function handleValueChange(projectId: string | null) {
+    await setProjectServerFn({ data: projectId ?? "" });
+    await router.invalidate();
   }
 
   const projectName = projects?.find((project) => project.id === activeProjectId)?.name;
@@ -30,11 +28,10 @@ export function SelectProject() {
   return (
     <Combobox value={activeProjectId} onValueChange={handleValueChange} items={projects}>
       <ComboboxTrigger
-        className="max-w-3xs"
         render={
-          <Button variant="outline">
-            <span className="truncate">{projectName}</span>
+          <Button variant="outline" className="w-44">
             <FoldersIcon />
+            <span>{projectName}</span>
           </Button>
         }
       />

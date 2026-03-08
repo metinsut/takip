@@ -49,7 +49,7 @@ function ProjectForm() {
 
   return (
     <div className="grid gap-4">
-      <Card className="max-w-3xl">
+      <Card className="max-w-xl">
         <CardContent>
           <form
             noValidate
