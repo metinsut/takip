@@ -25,6 +25,7 @@ export const Actions = (props: Props) => {
   const onDelete = async () => {
     await deleteProject(project.id);
     queryClient.invalidateQueries({ queryKey: [getProjectsQueryKey] });
+    setOpen(false);
   };
 
   const handleSetAsActiveProject = async () => {

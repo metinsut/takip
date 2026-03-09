@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Navigate, useLoaderData } from "@tanstack/react-router";
 import { TasksList } from "./-list";
 
 export const Route = createFileRoute("/app/task/")({
@@ -6,5 +6,6 @@ export const Route = createFileRoute("/app/task/")({
 });
 
 export function TasksIndex() {
-  return <TasksList />;
+  const { activeProjectId } = useLoaderData({ from: "__root__" });
+  return activeProjectId ? <TasksList /> : <Navigate to="/app/projects" />;
 }

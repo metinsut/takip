@@ -4,8 +4,25 @@ import { z } from "zod";
 import { user } from "./auth-schema";
 import { projectSchema } from "./project-schema";
 
-export const taskStatusEnum = pgEnum("status", ["todo", "in_progress", "done"]);
-export const taskPriorityEnum = pgEnum("priority", ["low", "medium", "high"]);
+export const taskStatus = {
+  todo: "todo",
+  in_progress: "in_progress",
+  done: "done",
+} as const;
+export const taskPriority = {
+  low: "low",
+  medium: "medium",
+  high: "high",
+} as const;
+
+export const taskStatusEnum = pgEnum(
+  "status",
+  Object.values(taskStatus) as [string, ...string[]],
+);
+export const taskPriorityEnum = pgEnum(
+  "priority",
+  Object.values(taskPriority) as [string, ...string[]],
+);
 
 export const task = pgTable(
   "task",
@@ -44,8 +61,8 @@ export type NewTask = typeof task.$inferInsert;
 export type TaskStatus = (typeof taskStatusEnum.enumValues)[number];
 export type TaskPriority = (typeof taskPriorityEnum.enumValues)[number];
 
-const taskStatusSchema = z.enum(taskStatusEnum.enumValues);
-const taskPrioritySchema = z.enum(taskPriorityEnum.enumValues);
+export const taskStatusSchema = z.enum(taskStatusEnum.enumValues);
+export const taskPrioritySchema = z.enum(taskPriorityEnum.enumValues);
 
 export const updateTaskSchema = createUpdateSchema(task)
   .omit({

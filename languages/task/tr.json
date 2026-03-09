@@ -1,4 +1,10 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "tasks": "Görevler"
+  "tasks": "Görevler",
+  "low": "Düşük",
+  "medium": "Orta",
+  "high": "Yüksek",
+  "todo": "Yapılacak",
+  "in_progress": "Devam ediyor",
+  "done": "Tamamlandı"
 }

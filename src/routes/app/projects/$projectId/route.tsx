@@ -9,11 +9,13 @@ export const Route = createFileRoute("/app/projects/$projectId")({
     if (projectId === "add") {
       return {
         breadcrumb: m.addProject(),
+        project: null,
       };
     }
     const project = await context.queryClient.fetchQuery(useGetProject(Number(projectId)));
     return {
       breadcrumb: project?.name ?? "",
+      project,
     };
   },
   errorComponent: (props) => <ErrorComponent {...props} />,

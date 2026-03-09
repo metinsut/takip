@@ -19,6 +19,7 @@ export function Actions(props: Props) {
   const onDelete = async () => {
     await deleteTask(task.id);
     queryClient.invalidateQueries({ queryKey: [getTasksQueryKey] });
+    setOpen(false);
   };
 
   return (

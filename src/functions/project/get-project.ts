@@ -19,11 +19,15 @@ export const getProject = createServerFn({ method: "GET" })
       return null;
     }
 
+    console.log({ data });
+
     const [project] = await db
       .select()
       .from(projectSchema)
       .where(and(eq(projectSchema.id, data.projectId), eq(projectSchema.createdBy, userId)))
       .limit(1);
+
+    console.log({ project });
 
     return project ?? null;
   });
@@ -32,6 +36,7 @@ export function useGetProject(projectId: number) {
   return queryOptions({
     queryKey: [getProjectQueryKey, projectId],
     queryFn: () => getProject({ data: { projectId } }),
+    enabled: !!projectId && projectId > 0,
   });
 }
 

@@ -17,20 +17,40 @@ import {
 import { toast } from "@/components/ui/sonner";
 import { Spinner } from "@/components/ui/spinner";
 import type { CreateTaskType, TaskPriority, TaskStatus } from "@/db/schema";
-import { createTask, updateTask, useGetTask } from "@/functions/task";
+import { taskPriority, taskStatus } from "@/db/schema";
+import { createTask, updateTask } from "@/functions/task";
 import { dateFormat } from "@/helpers/date-format";
+import { m } from "@/paraglide/messages";
 
-const STATUS_OPTIONS: { value: TaskStatus; label: string }[] = [
-  { value: "todo", label: "Yapılacak" },
-  { value: "in_progress", label: "Devam ediyor" },
-  { value: "done", label: "Tamamlandı" },
-];
+const PRIORITY_OPTIONS = {
+  low: {
+    label: m.low(),
+    value: taskPriority.low,
+  },
+  medium: {
+    label: m.medium(),
+    value: taskPriority.medium,
+  },
+  high: {
+    label: m.high(),
+    value: taskPriority.high,
+  },
+};
 
-const PRIORITY_OPTIONS: { value: TaskPriority; label: string }[] = [
-  { value: "low", label: "Düşük" },
-  { value: "medium", label: "Orta" },
-  { value: "high", label: "Yüksek" },
-];
+const STATUS_OPTIONS = {
+  todo: {
+    label: m.todo(),
+    value: taskStatus.todo,
+  },
+  in_progress: {
+    label: m.in_progress(),
+    value: taskStatus.in_progress,
+  },
+  done: {
+    label: m.done(),
+    value: taskStatus.done,
+  },
+};
 
 type TaskFormValues = Omit<CreateTaskType, "dueDate"> & {
   id?: number;
@@ -39,31 +59,17 @@ type TaskFormValues = Omit<CreateTaskType, "dueDate"> & {
 
 export const Route = createFileRoute("/app/task/$taskId/")({
   component: TaskForm,
-  validateSearch: (search: Record<string, unknown>) => ({
-    projectId: (search.projectId as string | undefined) ?? undefined,
-  }),
-  loader: async ({ context, params }) => {
-    const { taskId } = params;
-    if (taskId === "add") return { task: null };
-    const task = await context.queryClient.fetchQuery(useGetTask(taskId));
-    return { task };
-  },
 });
 
 function TaskForm() {
-  const { taskId } = Route.useParams();
-  const { projectId: searchProjectId } = Route.useSearch();
   const navigate = useNavigate();
-  const { task } = useLoaderData({ from: "/app/task/$taskId/" });
-  const { projects, activeProjectId } = useLoaderData({ from: "__root__" });
-
-  const isAdd = taskId === "add";
-  const defaultProjectId = searchProjectId ?? activeProjectId ?? projects?.[0]?.id ?? "";
+  const { task } = useLoaderData({ from: "/app/task/$taskId" });
+  const { activeProjectId } = useLoaderData({ from: "__root__" });
 
   const form = useForm({
     defaultValues: {
-      ...(task ? { id: task.id } : {}),
-      projectId: task?.projectId ?? defaultProjectId,
+      ...task,
+      projectId: task?.projectId ?? activeProjectId,
       title: task?.title ?? "",
       description: task?.description ?? undefined,
       status: (task?.status ?? "todo") as TaskStatus,
@@ -117,33 +123,6 @@ function TaskForm() {
             }}
           >
             <FieldGroup>
-              {isAdd && projects?.length ? (
-                <form.Field name="projectId">
-                  {(field) => (
-                    <Field>
-                      <label htmlFor="task-project" className="text-sm font-medium">
-                        Proje
-                      </label>
-                      <Select
-                        value={field.state.value.toString()}
-                        onValueChange={(v: string | null) => field.handleChange(v ? Number(v) : 0)}
-                      >
-                        <SelectTrigger id="task-project" className="w-full">
-                          <SelectValue placeholder="Proje seçin" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {projects.map((p) => (
-                            <SelectItem key={p.id} value={p.id}>
-                              {p.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </Field>
-                  )}
-                </form.Field>
-              ) : null}
-
               <form.Field name="title">
                 {(field) => <InputForm field={field} label="Başlık" placeholder="Görev başlığı" />}
               </form.Field>
@@ -170,7 +149,7 @@ function TaskForm() {
                         <SelectValue placeholder="Durum" />
                       </SelectTrigger>
                       <SelectContent>
-                        {STATUS_OPTIONS.map((o) => (
+                        {Object.values(STATUS_OPTIONS).map((o) => (
                           <SelectItem key={o.value} value={o.value}>
                             {o.label}
                           </SelectItem>
@@ -197,9 +176,9 @@ function TaskForm() {
                         <SelectValue placeholder="Öncelik" />
                       </SelectTrigger>
                       <SelectContent>
-                        {PRIORITY_OPTIONS.map((o) => (
-                          <SelectItem key={o.value} value={o.value}>
-                            {o.label}
+                        {Object.values(PRIORITY_OPTIONS).map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
                           </SelectItem>
                         ))}
                       </SelectContent>

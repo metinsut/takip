@@ -1,7 +1,6 @@
 import { CheckCircleIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useLoaderData, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { InputForm } from "@/components/forms/input-form";
 import { TextareaForm } from "@/components/forms/textarea-form";
@@ -12,7 +11,7 @@ import { toast } from "@/components/ui/sonner";
 import { Spinner } from "@/components/ui/spinner";
 import type { CreateProjectType } from "@/db/schema";
 import { createProjectSchema } from "@/db/schema";
-import { createProject, updateProject, useGetProject } from "@/functions/project";
+import { createProject, updateProject } from "@/functions/project";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
 
@@ -21,9 +20,10 @@ export const Route = createFileRoute("/app/projects/$projectId/")({
 });
 
 function ProjectForm() {
-  const { projectId } = Route.useParams();
   const navigate = useNavigate();
-  const { data: project } = useSuspenseQuery(useGetProject(Number(projectId)));
+  const { project } = useLoaderData({ from: "/app/projects/$projectId" });
+
+  console.log({ project });
 
   const form = useForm({
     defaultValues: {
