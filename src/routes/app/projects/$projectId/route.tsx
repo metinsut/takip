@@ -1,5 +1,5 @@
 import { createFileRoute, ErrorComponent, Outlet } from "@tanstack/react-router";
-import { useGetProject } from "@/functions/projects";
+import { useGetProject } from "@/functions/project";
 import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/app/projects/$projectId")({

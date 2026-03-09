@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import type { ProjectListItem } from "@/functions/projects/get-projects";
+import type { ProjectListItem } from "@/functions/project/get-projects";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
 import { Actions } from "./actions";

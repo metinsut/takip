@@ -12,7 +12,7 @@ import { toast } from "@/components/ui/sonner";
 import { Spinner } from "@/components/ui/spinner";
 import type { CreateProjectType } from "@/db/schema";
 import { createProjectSchema } from "@/db/schema";
-import { createProject, updateProject, useGetProject } from "@/functions/projects";
+import { createProject, updateProject, useGetProject } from "@/functions/project";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
 

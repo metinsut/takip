@@ -11,7 +11,7 @@ import {
   ComboboxList,
   ComboboxTrigger,
 } from "@/components/ui/combobox";
-import { setProjectServerFn } from "@/functions/projects/get-project";
+import { setProjectServerFn } from "@/functions/project/get-project";
 import { m } from "@/paraglide/messages";
 
 export function SelectProject() {

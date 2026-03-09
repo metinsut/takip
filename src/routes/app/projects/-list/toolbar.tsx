@@ -1,7 +1,7 @@
 import { PlusIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import type { ProjectListItem } from "@/functions/projects/get-projects";
+import type { ProjectListItem } from "@/functions/project/get-projects";
 import { m } from "@/paraglide/messages";
 
 type Props = {

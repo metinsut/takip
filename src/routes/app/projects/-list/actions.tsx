@@ -5,10 +5,10 @@ import { useState } from "react";
 import { DeleteAction } from "@/components/dialogs/delete-action";
 import { Button } from "@/components/ui/button";
 import { StopPropagation } from "@/components/wrapper/stop-propagation";
-import { useDeleteProject } from "@/functions/projects/delete-project";
-import { setProjectServerFn } from "@/functions/projects/get-project";
-import type { ProjectListItem } from "@/functions/projects/get-projects";
-import { getProjectsQueryKey } from "@/functions/projects/shared";
+import { useDeleteProject } from "@/functions/project/delete-project";
+import { setProjectServerFn } from "@/functions/project/get-project";
+import type { ProjectListItem } from "@/functions/project/get-projects";
+import { getProjectsQueryKey } from "@/functions/project/shared";
 import { m } from "@/paraglide/messages";
 
 type Props = {

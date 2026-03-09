@@ -36,3 +36,8 @@ export const task = pgTable(
     index("task_project_created_by_idx").on(table.projectId, table.createdBy),
   ],
 );
+
+export type Task = typeof task.$inferSelect;
+export type NewTask = typeof task.$inferInsert;
+export type TaskStatus = (typeof taskStatusEnum.enumValues)[number];
+export type TaskPriority = (typeof taskPriorityEnum.enumValues)[number];

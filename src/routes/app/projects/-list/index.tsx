@@ -1,7 +1,7 @@
 import { useLoaderData, useNavigate } from "@tanstack/react-router";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { DataTable } from "@/components/table";
-import type { ProjectListItem } from "@/functions/projects/get-projects";
+import type { ProjectListItem } from "@/functions/project/get-projects";
 import { columns } from "./columns";
 import { Toolbar } from "./toolbar";
 
