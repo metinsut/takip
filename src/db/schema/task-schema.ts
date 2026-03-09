@@ -1,4 +1,6 @@
 import { index, integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
+import { z } from "zod";
 import { user } from "./auth-schema";
 import { projectSchema } from "./project-schema";
 
@@ -41,3 +43,42 @@ export type Task = typeof task.$inferSelect;
 export type NewTask = typeof task.$inferInsert;
 export type TaskStatus = (typeof taskStatusEnum.enumValues)[number];
 export type TaskPriority = (typeof taskPriorityEnum.enumValues)[number];
+
+const taskStatusSchema = z.enum(taskStatusEnum.enumValues);
+const taskPrioritySchema = z.enum(taskPriorityEnum.enumValues);
+
+export const updateTaskSchema = createUpdateSchema(task)
+  .omit({
+    createdBy: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .extend({
+    id: z.string().min(1),
+    projectId: z.string().uuid().optional(),
+    title: z.string().trim().min(1).max(500).optional(),
+    description: z.string().trim().max(5000).optional().nullable(),
+    status: taskStatusSchema.optional(),
+    priority: taskPrioritySchema.optional(),
+    dueDate: z.coerce.date().optional().nullable(),
+  });
+export type UpdateTaskType = z.infer<typeof updateTaskSchema>;
+
+export const createTaskSchema = createInsertSchema(task)
+  .omit({
+    id: true,
+    createdBy: true,
+    createdAt: true,
+    updatedAt: true,
+    completedAt: true,
+    sortOrder: true,
+  })
+  .extend({
+    projectId: z.string().uuid(),
+    title: z.string().trim().min(1).max(500),
+    description: z.string().trim().max(5000).optional(),
+    status: taskStatusSchema.optional(),
+    priority: taskPrioritySchema.optional(),
+    dueDate: z.coerce.date().optional(),
+  });
+export type CreateTaskType = z.infer<typeof createTaskSchema>;

@@ -16,7 +16,7 @@ export function BreadCrumb() {
 
   const items = matches
     .map((match) => {
-      const { loaderData } = match;
+      const loaderData = match.loaderData as { breadcrumb?: string | Array<{ href: string; label: string }> } | undefined;
 
       if (Array.isArray(loaderData?.breadcrumb)) {
         return loaderData.breadcrumb;

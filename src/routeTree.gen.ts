@@ -13,7 +13,9 @@ import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as landingRouteRouteImport } from './routes/(landing)/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as landingIndexRouteImport } from './routes/(landing)/index'
+import { Route as AppTaskRouteRouteImport } from './routes/app/task/route'
 import { Route as AppProjectsRouteRouteImport } from './routes/app/projects/route'
+import { Route as AppTaskIndexRouteImport } from './routes/app/task/index'
 import { Route as AppSettingsIndexRouteImport } from './routes/app/settings/index'
 import { Route as AppProjectsIndexRouteImport } from './routes/app/projects/index'
 import { Route as AppExamplesIndexRouteImport } from './routes/app/examples/index'
@@ -21,7 +23,9 @@ import { Route as AppappIndexRouteImport } from './routes/app/(app)/index'
 import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AppTaskTaskIdRouteRouteImport } from './routes/app/task/$taskId/route'
 import { Route as AppProjectsProjectIdRouteRouteImport } from './routes/app/projects/$projectId/route'
+import { Route as AppTaskTaskIdIndexRouteImport } from './routes/app/task/$taskId/index'
 import { Route as AppProjectsProjectIdIndexRouteImport } from './routes/app/projects/$projectId/index'
 
 const AppRouteRoute = AppRouteRouteImport.update({
@@ -42,10 +46,20 @@ const landingIndexRoute = landingIndexRouteImport.update({
   path: '/',
   getParentRoute: () => landingRouteRoute,
 } as any)
+const AppTaskRouteRoute = AppTaskRouteRouteImport.update({
+  id: '/task',
+  path: '/task',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppProjectsRouteRoute = AppProjectsRouteRouteImport.update({
   id: '/projects',
   path: '/projects',
   getParentRoute: () => AppRouteRoute,
+} as any)
+const AppTaskIndexRoute = AppTaskIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppTaskRouteRoute,
 } as any)
 const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   id: '/settings/',
@@ -82,12 +96,22 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppTaskTaskIdRouteRoute = AppTaskTaskIdRouteRouteImport.update({
+  id: '/$taskId',
+  path: '/$taskId',
+  getParentRoute: () => AppTaskRouteRoute,
+} as any)
 const AppProjectsProjectIdRouteRoute =
   AppProjectsProjectIdRouteRouteImport.update({
     id: '/$projectId',
     path: '/$projectId',
     getParentRoute: () => AppProjectsRouteRoute,
   } as any)
+const AppTaskTaskIdIndexRoute = AppTaskTaskIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppTaskTaskIdRouteRoute,
+} as any)
 const AppProjectsProjectIdIndexRoute =
   AppProjectsProjectIdIndexRouteImport.update({
     id: '/',
@@ -98,8 +122,10 @@ const AppProjectsProjectIdIndexRoute =
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/app/projects': typeof AppProjectsRouteRouteWithChildren
+  '/app/task': typeof AppTaskRouteRouteWithChildren
   '/': typeof landingIndexRoute
   '/app/projects/$projectId': typeof AppProjectsProjectIdRouteRouteWithChildren
+  '/app/task/$taskId': typeof AppTaskTaskIdRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/login/': typeof authLoginIndexRoute
   '/register/': typeof authRegisterIndexRoute
@@ -107,7 +133,9 @@ export interface FileRoutesByFullPath {
   '/app/examples/': typeof AppExamplesIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/app/task/': typeof AppTaskIndexRoute
   '/app/projects/$projectId/': typeof AppProjectsProjectIdIndexRoute
+  '/app/task/$taskId/': typeof AppTaskTaskIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof landingIndexRoute
@@ -118,7 +146,9 @@ export interface FileRoutesByTo {
   '/app/examples': typeof AppExamplesIndexRoute
   '/app/projects': typeof AppProjectsIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
+  '/app/task': typeof AppTaskIndexRoute
   '/app/projects/$projectId': typeof AppProjectsProjectIdIndexRoute
+  '/app/task/$taskId': typeof AppTaskTaskIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -126,8 +156,10 @@ export interface FileRoutesById {
   '/(landing)': typeof landingRouteRouteWithChildren
   '/app': typeof AppRouteRouteWithChildren
   '/app/projects': typeof AppProjectsRouteRouteWithChildren
+  '/app/task': typeof AppTaskRouteRouteWithChildren
   '/(landing)/': typeof landingIndexRoute
   '/app/projects/$projectId': typeof AppProjectsProjectIdRouteRouteWithChildren
+  '/app/task/$taskId': typeof AppTaskTaskIdRouteRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/register/': typeof authRegisterIndexRoute
@@ -135,15 +167,19 @@ export interface FileRoutesById {
   '/app/examples/': typeof AppExamplesIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
+  '/app/task/': typeof AppTaskIndexRoute
   '/app/projects/$projectId/': typeof AppProjectsProjectIdIndexRoute
+  '/app/task/$taskId/': typeof AppTaskTaskIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/app'
     | '/app/projects'
+    | '/app/task'
     | '/'
     | '/app/projects/$projectId'
+    | '/app/task/$taskId'
     | '/api/auth/$'
     | '/login/'
     | '/register/'
@@ -151,7 +187,9 @@ export interface FileRouteTypes {
     | '/app/examples/'
     | '/app/projects/'
     | '/app/settings/'
+    | '/app/task/'
     | '/app/projects/$projectId/'
+    | '/app/task/$taskId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -162,15 +200,19 @@ export interface FileRouteTypes {
     | '/app/examples'
     | '/app/projects'
     | '/app/settings'
+    | '/app/task'
     | '/app/projects/$projectId'
+    | '/app/task/$taskId'
   id:
     | '__root__'
     | '/(auth)'
     | '/(landing)'
     | '/app'
     | '/app/projects'
+    | '/app/task'
     | '/(landing)/'
     | '/app/projects/$projectId'
+    | '/app/task/$taskId'
     | '/api/auth/$'
     | '/(auth)/login/'
     | '/(auth)/register/'
@@ -178,7 +220,9 @@ export interface FileRouteTypes {
     | '/app/examples/'
     | '/app/projects/'
     | '/app/settings/'
+    | '/app/task/'
     | '/app/projects/$projectId/'
+    | '/app/task/$taskId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -218,12 +262,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof landingIndexRouteImport
       parentRoute: typeof landingRouteRoute
     }
+    '/app/task': {
+      id: '/app/task'
+      path: '/task'
+      fullPath: '/app/task'
+      preLoaderRoute: typeof AppTaskRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/projects': {
       id: '/app/projects'
       path: '/projects'
       fullPath: '/app/projects'
       preLoaderRoute: typeof AppProjectsRouteRouteImport
       parentRoute: typeof AppRouteRoute
+    }
+    '/app/task/': {
+      id: '/app/task/'
+      path: '/'
+      fullPath: '/app/task/'
+      preLoaderRoute: typeof AppTaskIndexRouteImport
+      parentRoute: typeof AppTaskRouteRoute
     }
     '/app/settings/': {
       id: '/app/settings/'
@@ -274,12 +332,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/task/$taskId': {
+      id: '/app/task/$taskId'
+      path: '/$taskId'
+      fullPath: '/app/task/$taskId'
+      preLoaderRoute: typeof AppTaskTaskIdRouteRouteImport
+      parentRoute: typeof AppTaskRouteRoute
+    }
     '/app/projects/$projectId': {
       id: '/app/projects/$projectId'
       path: '/$projectId'
       fullPath: '/app/projects/$projectId'
       preLoaderRoute: typeof AppProjectsProjectIdRouteRouteImport
       parentRoute: typeof AppProjectsRouteRoute
+    }
+    '/app/task/$taskId/': {
+      id: '/app/task/$taskId/'
+      path: '/'
+      fullPath: '/app/task/$taskId/'
+      preLoaderRoute: typeof AppTaskTaskIdIndexRouteImport
+      parentRoute: typeof AppTaskTaskIdRouteRoute
     }
     '/app/projects/$projectId/': {
       id: '/app/projects/$projectId/'
@@ -344,8 +416,34 @@ const AppProjectsRouteRouteChildren: AppProjectsRouteRouteChildren = {
 const AppProjectsRouteRouteWithChildren =
   AppProjectsRouteRoute._addFileChildren(AppProjectsRouteRouteChildren)
 
+interface AppTaskTaskIdRouteRouteChildren {
+  AppTaskTaskIdIndexRoute: typeof AppTaskTaskIdIndexRoute
+}
+
+const AppTaskTaskIdRouteRouteChildren: AppTaskTaskIdRouteRouteChildren = {
+  AppTaskTaskIdIndexRoute: AppTaskTaskIdIndexRoute,
+}
+
+const AppTaskTaskIdRouteRouteWithChildren =
+  AppTaskTaskIdRouteRoute._addFileChildren(AppTaskTaskIdRouteRouteChildren)
+
+interface AppTaskRouteRouteChildren {
+  AppTaskTaskIdRouteRoute: typeof AppTaskTaskIdRouteRouteWithChildren
+  AppTaskIndexRoute: typeof AppTaskIndexRoute
+}
+
+const AppTaskRouteRouteChildren: AppTaskRouteRouteChildren = {
+  AppTaskTaskIdRouteRoute: AppTaskTaskIdRouteRouteWithChildren,
+  AppTaskIndexRoute: AppTaskIndexRoute,
+}
+
+const AppTaskRouteRouteWithChildren = AppTaskRouteRoute._addFileChildren(
+  AppTaskRouteRouteChildren,
+)
+
 interface AppRouteRouteChildren {
   AppProjectsRouteRoute: typeof AppProjectsRouteRouteWithChildren
+  AppTaskRouteRoute: typeof AppTaskRouteRouteWithChildren
   AppappIndexRoute: typeof AppappIndexRoute
   AppExamplesIndexRoute: typeof AppExamplesIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
@@ -353,6 +451,7 @@ interface AppRouteRouteChildren {
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppProjectsRouteRoute: AppProjectsRouteRouteWithChildren,
+  AppTaskRouteRoute: AppTaskRouteRouteWithChildren,
   AppappIndexRoute: AppappIndexRoute,
   AppExamplesIndexRoute: AppExamplesIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
