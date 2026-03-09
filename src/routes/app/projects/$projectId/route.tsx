@@ -11,7 +11,7 @@ export const Route = createFileRoute("/app/projects/$projectId")({
         breadcrumb: m.addProject(),
       };
     }
-    const project = await context.queryClient.fetchQuery(useGetProject(projectId));
+    const project = await context.queryClient.fetchQuery(useGetProject(Number(projectId)));
     return {
       breadcrumb: project?.name ?? "",
     };

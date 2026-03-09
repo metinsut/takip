@@ -1,4 +1,4 @@
-import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import { z } from "zod";
 import { user } from "./auth-schema";
@@ -6,7 +6,7 @@ import { user } from "./auth-schema";
 export const projectSchema = pgTable(
   "project",
   {
-    id: text("id").primaryKey(),
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity({ startWith: 1, increment: 1 }),
     name: text("name").notNull(),
     description: text("description"),
     createdBy: text("created_by")
@@ -30,7 +30,7 @@ export const updateProjectSchema = createUpdateSchema(projectSchema)
     updatedAt: true,
   })
   .extend({
-    id: z.string().min(1),
+    id: z.number().int().positive(),
     name: z.string().trim().min(3).max(160),
     description: z.string().trim().min(1).max(5000).optional(),
   });
@@ -38,7 +38,6 @@ export type UpdateProjectType = z.infer<typeof updateProjectSchema>;
 
 export const createProjectSchema = createInsertSchema(projectSchema)
   .omit({
-    id: true,
     createdBy: true,
     createdAt: true,
     updatedAt: true,

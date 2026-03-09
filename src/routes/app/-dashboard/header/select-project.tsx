@@ -11,6 +11,7 @@ import {
   ComboboxList,
   ComboboxTrigger,
 } from "@/components/ui/combobox";
+import { toast } from "@/components/ui/sonner";
 import { setProjectServerFn } from "@/functions/project/get-project";
 import { m } from "@/paraglide/messages";
 
@@ -18,8 +19,12 @@ export function SelectProject() {
   const { activeProjectId, projects } = useLoaderData({ from: "__root__" });
   const router = useRouter();
 
-  async function handleValueChange(projectId: string | null) {
-    await setProjectServerFn({ data: projectId ?? "" });
+  async function handleValueChange(projectId: number | null) {
+    if (!projectId) {
+      toast.error(m.selectProjectError());
+      return;
+    }
+    await setProjectServerFn({ data: projectId });
     await router.invalidate();
   }
 

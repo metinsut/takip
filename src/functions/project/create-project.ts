@@ -15,7 +15,6 @@ export const createProject = createServerFn({ method: "POST" })
     const [createdProject] = await db
       .insert(projectSchema)
       .values({
-        id: crypto.randomUUID(),
         name: data.name,
         description: data.description ?? null,
         createdBy: userId,

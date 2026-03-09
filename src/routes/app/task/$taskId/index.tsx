@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
-import { createFileRoute, useNavigate, useLoaderData } from "@tanstack/react-router";
+import { createFileRoute, useLoaderData, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { InputForm } from "@/components/forms/input-form";
 import { TextareaForm } from "@/components/forms/textarea-form";
@@ -16,8 +16,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/components/ui/sonner";
 import { Spinner } from "@/components/ui/spinner";
-import type { CreateTaskType } from "@/db/schema";
-import type { TaskStatus, TaskPriority } from "@/db/schema";
+import type { CreateTaskType, TaskPriority, TaskStatus } from "@/db/schema";
 import { createTask, updateTask, useGetTask } from "@/functions/task";
 import { dateFormat } from "@/helpers/date-format";
 
@@ -34,7 +33,7 @@ const PRIORITY_OPTIONS: { value: TaskPriority; label: string }[] = [
 ];
 
 type TaskFormValues = Omit<CreateTaskType, "dueDate"> & {
-  id?: string;
+  id?: number;
   dueDate?: string;
 };
 
@@ -69,9 +68,7 @@ function TaskForm() {
       description: task?.description ?? undefined,
       status: (task?.status ?? "todo") as TaskStatus,
       priority: (task?.priority ?? "medium") as TaskPriority,
-      dueDate: task?.dueDate
-        ? dayjs(task.dueDate).format("YYYY-MM-DD")
-        : "",
+      dueDate: task?.dueDate ? dayjs(task.dueDate).format("YYYY-MM-DD") : "",
     } as TaskFormValues,
     onSubmit: async ({ value }) => {
       if (task) {
@@ -128,8 +125,8 @@ function TaskForm() {
                         Proje
                       </label>
                       <Select
-                        value={field.state.value}
-                        onValueChange={(v: string | null) => field.handleChange(v ?? "")}
+                        value={field.state.value.toString()}
+                        onValueChange={(v: string | null) => field.handleChange(v ? Number(v) : 0)}
                       >
                         <SelectTrigger id="task-project" className="w-full">
                           <SelectValue placeholder="Proje seçin" />
@@ -148,22 +145,12 @@ function TaskForm() {
               ) : null}
 
               <form.Field name="title">
-                {(field) => (
-                  <InputForm
-                    field={field}
-                    label="Başlık"
-                    placeholder="Görev başlığı"
-                  />
-                )}
+                {(field) => <InputForm field={field} label="Başlık" placeholder="Görev başlığı" />}
               </form.Field>
 
               <form.Field name="description">
                 {(field) => (
-                  <TextareaForm
-                    field={field}
-                    label="Açıklama"
-                    placeholder="Görev detayları"
-                  />
+                  <TextareaForm field={field} label="Açıklama" placeholder="Görev detayları" />
                 )}
               </form.Field>
 
@@ -265,4 +252,3 @@ function TaskForm() {
     </div>
   );
 }
-

@@ -16,7 +16,7 @@ export function ProjectsList() {
   });
 
   const handleRowClick = (row: ProjectListItem) => {
-    navigate({ to: "/app/projects/$projectId", params: { projectId: row.id } });
+    navigate({ to: "/app/projects/$projectId", params: { projectId: row.id.toString() } });
   };
 
   const activeProject = projects.find((project) => project.id === activeProjectId);

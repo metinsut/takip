@@ -1,4 +1,4 @@
-import { index, pgTable, primaryKey, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { index, integer, pgTable, primaryKey, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 import { organizationSchema } from "./organization-schema";
 import { task } from "./task-schema";
 
@@ -25,7 +25,7 @@ export const label = pgTable(
 export const taskLabel = pgTable(
   "task_label",
   {
-    taskId: text("task_id")
+    taskId: integer("task_id")
       .notNull()
       .references(() => task.id, { onDelete: "cascade" }),
     labelId: text("label_id")

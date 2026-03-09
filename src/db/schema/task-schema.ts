@@ -10,8 +10,8 @@ export const taskPriorityEnum = pgEnum("priority", ["low", "medium", "high"]);
 export const task = pgTable(
   "task",
   {
-    id: text("id").primaryKey(),
-    projectId: text("project_id")
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity({ startWith: 1, increment: 1 }),
+    projectId: integer("project_id")
       .notNull()
       .references(() => projectSchema.id, { onDelete: "cascade" }),
     title: text("title").notNull(),
@@ -54,8 +54,8 @@ export const updateTaskSchema = createUpdateSchema(task)
     updatedAt: true,
   })
   .extend({
-    id: z.string().min(1),
-    projectId: z.string().uuid().optional(),
+    id: z.number().int().positive(),
+    projectId: z.number().int().positive().optional(),
     title: z.string().trim().min(1).max(500).optional(),
     description: z.string().trim().max(5000).optional().nullable(),
     status: taskStatusSchema.optional(),
@@ -66,7 +66,6 @@ export type UpdateTaskType = z.infer<typeof updateTaskSchema>;
 
 export const createTaskSchema = createInsertSchema(task)
   .omit({
-    id: true,
     createdBy: true,
     createdAt: true,
     updatedAt: true,
@@ -74,7 +73,7 @@ export const createTaskSchema = createInsertSchema(task)
     sortOrder: true,
   })
   .extend({
-    projectId: z.string().uuid(),
+    projectId: z.number().int().positive(),
     title: z.string().trim().min(1).max(500),
     description: z.string().trim().max(5000).optional(),
     status: taskStatusSchema.optional(),

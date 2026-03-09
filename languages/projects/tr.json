@@ -12,5 +12,6 @@
   "noProjectsFound": "Proje bulunamadı",
   "searchProject": "Proje ara",
   "activeProject": "Aktif Proje",
-  "setAsActiveProject": "Aktif Proje Yap"
+  "setAsActiveProject": "Aktif Proje Yap",
+  "selectProjectError": "Proje seçilmedi."
 }

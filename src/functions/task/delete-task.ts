@@ -8,7 +8,7 @@ import { task } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 
 export const deleteTask = createServerFn({ method: "POST" })
-  .inputValidator(z.object({ id: z.string() }))
+  .inputValidator(z.object({ id: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const userId = await getAuthenticatedUserId();
 
@@ -26,7 +26,7 @@ export const deleteTask = createServerFn({ method: "POST" })
 
 export function useDeleteTask() {
   return useMutation({
-    mutationFn: (id: string) => deleteTask({ data: { id } }),
+    mutationFn: (id: number) => deleteTask({ data: { id } }),
     onSuccess: () => {
       toast.success("Görev başarıyla silindi.");
     },

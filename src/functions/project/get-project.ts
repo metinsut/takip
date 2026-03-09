@@ -11,7 +11,7 @@ import { getProjectQueryKey } from "./shared";
 export const PROJECT_COOKIE_ID = "project-id";
 
 export const getProject = createServerFn({ method: "GET" })
-  .inputValidator(z.object({ projectId: z.string() }))
+  .inputValidator(z.object({ projectId: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const userId = await getAuthenticatedUserId();
 
@@ -28,7 +28,7 @@ export const getProject = createServerFn({ method: "GET" })
     return project ?? null;
   });
 
-export function useGetProject(projectId: string) {
+export function useGetProject(projectId: number) {
   return queryOptions({
     queryKey: [getProjectQueryKey, projectId],
     queryFn: () => getProject({ data: { projectId } }),
@@ -37,11 +37,11 @@ export function useGetProject(projectId: string) {
 
 export const getProjectServerFn = createServerFn().handler(async () => {
   const cookieProjectId = getCookie(PROJECT_COOKIE_ID);
-  return cookieProjectId ?? null;
+  return cookieProjectId ? Number(cookieProjectId) : null;
 });
 
 export const setProjectServerFn = createServerFn({ method: "POST" })
-  .inputValidator(z.string())
+  .inputValidator(z.number().int().positive())
   .handler(async ({ data }) => {
-    setCookie(PROJECT_COOKIE_ID, data);
+    setCookie(PROJECT_COOKIE_ID, data.toString());
   });

@@ -9,7 +9,7 @@ import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userI
 import { m } from "@/paraglide/messages";
 
 export const deleteProject = createServerFn({ method: "POST" })
-  .inputValidator(z.object({ id: z.string() }))
+  .inputValidator(z.object({ id: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const userId = await getAuthenticatedUserId();
 
@@ -27,7 +27,7 @@ export const deleteProject = createServerFn({ method: "POST" })
 
 export function useDeleteProject() {
   return useMutation({
-    mutationFn: (id: string) => deleteProject({ data: { id } }),
+    mutationFn: (id: number) => deleteProject({ data: { id } }),
     onSuccess: () => {
       toast.success(m.deleteProjectSuccess());
     },

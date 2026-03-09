@@ -8,7 +8,7 @@ import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userI
 import { getTaskQueryKey } from "./shared";
 
 export const getTask = createServerFn({ method: "GET" })
-  .inputValidator(z.object({ taskId: z.string() }))
+  .inputValidator(z.object({ taskId: z.coerce.number().int().positive() }))
   .handler(async ({ data }) => {
     const userId = await getAuthenticatedUserId();
 

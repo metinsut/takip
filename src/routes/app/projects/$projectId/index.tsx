@@ -23,7 +23,7 @@ export const Route = createFileRoute("/app/projects/$projectId/")({
 function ProjectForm() {
   const { projectId } = Route.useParams();
   const navigate = useNavigate();
-  const { data: project } = useSuspenseQuery(useGetProject(projectId));
+  const { data: project } = useSuspenseQuery(useGetProject(Number(projectId)));
 
   const form = useForm({
     defaultValues: {

@@ -20,7 +20,7 @@ export function TasksList() {
   const handleRowClick = (row: TaskListItem) => {
     navigate({
       to: "/app/task/$taskId",
-      params: { taskId: row.id },
+      params: { taskId: String(row.id) },
       search: { projectId: undefined },
     });
   };
