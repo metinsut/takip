@@ -2,12 +2,14 @@ import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import viteReact from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
-import viteTsConfigPaths from "vite-tsconfig-paths";
+import babel from "vite-plugin-babel";
 
 const config = defineConfig({
+  resolve: {
+    tsconfigPaths: true,
+  },
   server: {
     port: 8090,
     open: true,
@@ -22,16 +24,9 @@ const config = defineConfig({
     nitro({
       preset: "bun",
     }),
-    viteTsConfigPaths({
-      projects: ["./tsconfig.json"],
-    }),
     tailwindcss(),
     tanstackStart(),
-    viteReact({
-      babel: {
-        plugins: ["babel-plugin-react-compiler"],
-      },
-    }),
+    babel({ babelConfig: { plugins: ["babel-plugin-react-compiler"] } }),
   ],
 });
 

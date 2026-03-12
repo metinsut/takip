@@ -68,10 +68,10 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
-    "babel-plugin-react-compiler": "latest",
     "drizzle-kit": "latest",
     "typescript": "latest",
     "vite": "latest",
-    "vite-tsconfig-paths": "latest"
+    "babel-plugin-react-compiler": "latest",
+    "vite-plugin-babel": "latest"
   }
 }
