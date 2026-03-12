@@ -15,10 +15,7 @@ export const taskPriority = {
   high: "high",
 } as const;
 
-export const taskStatusEnum = pgEnum(
-  "status",
-  Object.values(taskStatus) as [string, ...string[]],
-);
+export const taskStatusEnum = pgEnum("status", Object.values(taskStatus) as [string, ...string[]]);
 export const taskPriorityEnum = pgEnum(
   "priority",
   Object.values(taskPriority) as [string, ...string[]],

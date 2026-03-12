@@ -19,15 +19,11 @@ export const getProject = createServerFn({ method: "GET" })
       return null;
     }
 
-    console.log({ data });
-
     const [project] = await db
       .select()
       .from(projectSchema)
       .where(and(eq(projectSchema.id, data.projectId), eq(projectSchema.createdBy, userId)))
       .limit(1);
-
-    console.log({ project });
 
     return project ?? null;
   });

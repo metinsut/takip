@@ -70,8 +70,6 @@
     "@vitejs/plugin-react": "latest",
     "drizzle-kit": "latest",
     "typescript": "latest",
-    "vite": "latest",
-    "babel-plugin-react-compiler": "latest",
-    "vite-plugin-babel": "latest"
+    "vite": "latest"
   }
 }

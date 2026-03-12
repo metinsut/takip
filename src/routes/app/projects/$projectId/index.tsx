@@ -23,8 +23,6 @@ function ProjectForm() {
   const navigate = useNavigate();
   const { project } = useLoaderData({ from: "/app/projects/$projectId" });
 
-  console.log({ project });
-
   const form = useForm({
     defaultValues: {
       name: project?.name ?? "",
