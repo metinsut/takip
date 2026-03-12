@@ -34,13 +34,13 @@ export function SelectProject() {
     <Combobox value={activeProjectId} onValueChange={handleValueChange} items={projects}>
       <ComboboxTrigger
         render={
-          <Button variant="outline" className="w-44">
+          <Button variant="outline">
             <FoldersIcon />
             <span>{projectName}</span>
           </Button>
         }
       />
-      <ComboboxContent>
+      <ComboboxContent className="min-w-56">
         <ComboboxInput showTrigger={false} placeholder={m.searchProject()} showClear={false} />
         <ComboboxList>
           <ComboboxEmpty>{m.noProjectsFound()}</ComboboxEmpty>
