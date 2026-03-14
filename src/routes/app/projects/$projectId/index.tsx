@@ -23,7 +23,7 @@ function ProjectForm() {
   const navigate = useNavigate();
   const { project } = useLoaderData({ from: "/app/projects/$projectId" });
 
-  const form = useForm({
+  const { Field, handleSubmit, Subscribe } = useForm({
     defaultValues: {
       name: project?.name ?? "",
       description: project?.description ?? undefined,
@@ -54,11 +54,11 @@ function ProjectForm() {
             className="flex flex-col gap-3"
             onSubmit={(e) => {
               e.preventDefault();
-              form.handleSubmit();
+              handleSubmit();
             }}
           >
             <FieldGroup>
-              <form.Field name="name">
+              <Field name="name">
                 {(field) => (
                   <InputForm
                     field={field}
@@ -66,9 +66,9 @@ function ProjectForm() {
                     placeholder="Örn. Takip mobil uygulaması"
                   />
                 )}
-              </form.Field>
+              </Field>
 
-              <form.Field name="description">
+              <Field name="description">
                 {(field) => (
                   <TextareaForm
                     field={field}
@@ -76,11 +76,11 @@ function ProjectForm() {
                     placeholder="Bu projede neyi takip etmek istiyorsun?"
                   />
                 )}
-              </form.Field>
+              </Field>
             </FieldGroup>
 
             <div className="flex justify-end">
-              <form.Subscribe
+              <Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting, state.isDirty]}
                 children={([canSubmit, isSubmitting, isDirty]) => (
                   <Button type="submit" disabled={!canSubmit || isSubmitting || !isDirty}>
