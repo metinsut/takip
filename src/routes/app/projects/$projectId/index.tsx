@@ -1,6 +1,7 @@
 import { CheckCircleIcon } from "@phosphor-icons/react";
 import { useForm } from "@tanstack/react-form";
-import { createFileRoute, useLoaderData, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useLoaderData, useNavigate, useRouter } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { InputForm } from "@/components/forms/input-form";
 import { TextareaForm } from "@/components/forms/textarea-form";
@@ -12,6 +13,8 @@ import { Spinner } from "@/components/ui/spinner";
 import type { CreateProjectType } from "@/db/schema";
 import { createProjectSchema } from "@/db/schema";
 import { createProject, updateProject } from "@/functions/project";
+import { getProjectQueryKey } from "@/functions/project/get-project";
+import { getProjectsQueryKey } from "@/functions/project/get-projects";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
 
@@ -21,6 +24,8 @@ export const Route = createFileRoute("/app/projects/$projectId/")({
 
 function ProjectForm() {
   const navigate = useNavigate();
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { project } = useLoaderData({ from: "/app/projects/$projectId" });
 
   const { Field, handleSubmit, Subscribe } = useForm({
@@ -36,11 +41,17 @@ function ProjectForm() {
         await updateProject({
           data: { id: project.id, name: value.name, description: value.description },
         });
+        await queryClient.invalidateQueries({
+          queryKey: [getProjectQueryKey, project.id],
+        });
         toast.success("Proje başarıyla güncellendi.");
       } else {
         await createProject({ data: { name: value.name, description: value.description } });
         toast.success("Proje başarıyla oluşturuldu.");
       }
+
+      await queryClient.invalidateQueries({ queryKey: [getProjectsQueryKey] });
+      await router.invalidate();
       navigate({ to: "/app/projects" });
     },
   });

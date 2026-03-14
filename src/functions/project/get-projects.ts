@@ -4,7 +4,8 @@ import { desc, eq, getTableColumns } from "drizzle-orm";
 import { db } from "@/db";
 import { projectSchema, user as userSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
-import { getProjectsQueryKey } from "./shared";
+
+export const getProjectsQueryKey = "projects-query-key";
 
 export const getProjects = createServerFn({ method: "GET" }).handler(async () => {
   const userId = await getAuthenticatedUserId();

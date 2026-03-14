@@ -6,7 +6,8 @@ import { z } from "zod";
 import { db } from "@/db";
 import { projectSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
-import { getProjectQueryKey } from "./shared";
+
+export const getProjectQueryKey = "project-query-key";
 
 export const PROJECT_COOKIE_ID = "project-id";
 
