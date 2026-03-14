@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useLoaderData, useNavigate } from "@tanstack/react-router";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { DataTable } from "@/components/table";
 import { useGetTasks } from "@/functions/task";
@@ -8,8 +8,9 @@ import { columns } from "./columns";
 import { Toolbar } from "./toolbar";
 
 export function TasksList() {
+  const { activeProjectId } = useLoaderData({ from: "__root__" });
   const navigate = useNavigate();
-  const { data: tasks } = useSuspenseQuery(useGetTasks());
+  const { data: tasks } = useSuspenseQuery(useGetTasks(activeProjectId));
 
   const table = useReactTable({
     data: tasks,

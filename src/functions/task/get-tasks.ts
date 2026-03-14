@@ -1,15 +1,17 @@
 import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { desc, eq, getTableColumns } from "drizzle-orm";
+import { and, desc, eq, getTableColumns } from "drizzle-orm";
 import { db } from "@/db";
 import { projectSchema, task, user as userSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
+import { getProjectServerFn } from "@/functions/project";
 import { getTasksQueryKey } from "./shared";
 
 export const getTasks = createServerFn({ method: "GET" }).handler(async () => {
   const userId = await getAuthenticatedUserId();
+  const activeProjectId = await getProjectServerFn();
 
-  if (!userId) {
+  if (!userId || !activeProjectId) {
     return [];
   }
 
@@ -25,7 +27,7 @@ export const getTasks = createServerFn({ method: "GET" }).handler(async () => {
     .from(task)
     .innerJoin(projectSchema, eq(task.projectId, projectSchema.id))
     .innerJoin(userSchema, eq(task.createdBy, userSchema.id))
-    .where(eq(projectSchema.createdBy, userId))
+    .where(and(eq(projectSchema.createdBy, userId), eq(task.projectId, activeProjectId)))
     .orderBy(desc(task.updatedAt));
 
   return tasks;
@@ -33,9 +35,9 @@ export const getTasks = createServerFn({ method: "GET" }).handler(async () => {
 
 export type TaskListItem = Awaited<ReturnType<typeof getTasks>>[number];
 
-export function useGetTasks() {
+export function useGetTasks(activeProjectId: number | null) {
   return queryOptions({
-    queryKey: [getTasksQueryKey],
+    queryKey: [getTasksQueryKey, activeProjectId],
     queryFn: () => getTasks(),
   });
 }

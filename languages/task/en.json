@@ -1,0 +1,10 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "tasks": "Tasks",
+  "low": "Low",
+  "medium": "Medium",
+  "high": "High",
+  "todo": "To Do",
+  "in_progress": "In Progress",
+  "done": "Done"
+}

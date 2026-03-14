@@ -1,3 +1,17 @@
 {
-  "projects": "Projects"
+  "projects": "Projects",
+  "projectName": "Project Name",
+  "projectDescription": "Project Description",
+  "projectCreatedAt": "Created At",
+  "projectUpdatedAt": "Updated At",
+  "projectCreatedBy": "Created By",
+  "projectStatus": "Project Status",
+  "addProject": "Add Project",
+  "deleteProjectTitle": "Project Will Be Deleted!",
+  "deleteProjectDescription": "Are you sure you want to delete the project? All related data(tasks etc) will be deleted.",
+  "noProjectsFound": "No projects found",
+  "searchProject": "Search project",
+  "activeProject": "Active Project",
+  "setAsActiveProject": "Set as Active Project",
+  "selectProjectError": "Project not selected."
 }
