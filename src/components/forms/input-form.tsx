@@ -1,22 +1,9 @@
+import type { AnyFieldApi } from "@tanstack/react-form";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
-export type FieldType = {
-  name: string;
-  state: {
-    value: string | null | undefined;
-    meta: {
-      isTouched: boolean;
-      isValid: boolean;
-      errors: Array<{ message?: string } | undefined>;
-    };
-  };
-  handleBlur: () => void;
-  handleChange: (value: string) => void;
-};
-
 type InputFormProps = {
-  field: FieldType;
+  field: AnyFieldApi;
   label: string;
   placeholder: string;
   description?: string;

@@ -3,17 +3,11 @@ import { useForm } from "@tanstack/react-form";
 import { createFileRoute, useLoaderData, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { InputForm } from "@/components/forms/input-form";
+import { SelectForm } from "@/components/forms/select-form";
 import { TextareaForm } from "@/components/forms/textarea-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Field, FieldGroup } from "@/components/ui/field";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "@/components/ui/sonner";
 import { Spinner } from "@/components/ui/spinner";
 import type { CreateTaskType, TaskPriority, TaskStatus } from "@/db/schema";
@@ -124,7 +118,7 @@ function TaskForm() {
           >
             <FieldGroup>
               <form.Field name="title">
-                {(field) => <InputForm field={field} label="Başlık" placeholder="Görev başlığı" />}
+                {(field) => <InputForm field={field} label="My Input" placeholder="Placeholder" />}
               </form.Field>
 
               <form.Field name="description">
@@ -135,55 +129,25 @@ function TaskForm() {
 
               <form.Field name="status">
                 {(field) => (
-                  <Field>
-                    <label htmlFor="task-status" className="text-sm font-medium">
-                      Durum
-                    </label>
-                    <Select
-                      value={field.state.value}
-                      onValueChange={(v: string | null) =>
-                        field.handleChange((v ?? "todo") as TaskStatus)
-                      }
-                    >
-                      <SelectTrigger id="task-status" className="w-full">
-                        <SelectValue placeholder="Durum" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Object.values(STATUS_OPTIONS).map((o) => (
-                          <SelectItem key={o.value} value={o.value}>
-                            {o.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </Field>
+                  <SelectForm
+                    field={field}
+                    label="Durum"
+                    placeholder="Durum"
+                    options={Object.values(STATUS_OPTIONS)}
+                    emptyValue={taskStatus.todo}
+                  />
                 )}
               </form.Field>
 
               <form.Field name="priority">
                 {(field) => (
-                  <Field>
-                    <label htmlFor="task-priority" className="text-sm font-medium">
-                      Öncelik
-                    </label>
-                    <Select
-                      value={field.state.value}
-                      onValueChange={(v: string | null) =>
-                        field.handleChange((v ?? "medium") as TaskPriority)
-                      }
-                    >
-                      <SelectTrigger id="task-priority" className="w-full">
-                        <SelectValue placeholder="Öncelik" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Object.values(PRIORITY_OPTIONS).map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </Field>
+                  <SelectForm
+                    field={field}
+                    label="Öncelik"
+                    placeholder="Öncelik"
+                    options={Object.values(PRIORITY_OPTIONS)}
+                    emptyValue={taskPriority.medium}
+                  />
                 )}
               </form.Field>
 

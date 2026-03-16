@@ -1,23 +1,10 @@
+import type { AnyFieldApi } from "@tanstack/react-form";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { FieldContent } from "../ui/field";
 import { Switch } from "../ui/switch";
 
-export type FieldType = {
-  name: string;
-  state: {
-    value: boolean | undefined;
-    meta: {
-      isTouched: boolean;
-      isValid: boolean;
-      errors: Array<{ message?: string } | undefined>;
-    };
-  };
-  handleBlur: () => void;
-  handleChange: (value: boolean) => void;
-};
-
 export type SwitchFormProps = {
-  field: FieldType;
+  field: AnyFieldApi;
   label: string;
   description?: string;
 };
