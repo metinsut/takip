@@ -1,4 +1,3 @@
-import type { AnyFieldApi } from "@tanstack/react-form";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
 import {
   Select,
@@ -8,48 +7,36 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useFieldContext } from ".";
+import { isFieldInvalid } from "./field-helpers";
 
-export type SelectOption<TValue extends string = string> = {
+export type SelectOption = {
   label: string;
-  value: TValue;
+  value: string | null;
   disabled?: boolean;
 };
 
-type SelectFormProps = {
-  field: AnyFieldApi;
+type Props = {
   label: string;
   options: SelectOption[];
   placeholder: string;
   description?: string;
-  emptyValue?: string;
 };
 
-export function SelectForm(props: SelectFormProps) {
-  const { field, label, options, placeholder, description, emptyValue } = props;
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+export function SelectForm(props: Props) {
+  const { label, description, placeholder, options } = props;
+  const field = useFieldContext<string | null>();
+  const isInvalid = isFieldInvalid(field);
 
   return (
     <Field data-invalid={isInvalid}>
       <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-      <Select
-        value={field.state.value ?? null}
-        onValueChange={(value) => {
-          if (value !== null) {
-            field.handleChange(value);
-            return;
-          }
-
-          if (emptyValue !== undefined) {
-            field.handleChange(emptyValue);
-          }
-        }}
-      >
+      <Select value={field.state.value} onValueChange={field.handleChange}>
         <SelectTrigger
           id={field.name}
           name={field.name}
           className="w-full"
-          aria-invalid={isInvalid || undefined}
-          onBlur={field.handleBlur}
+          aria-invalid={isInvalid}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

@@ -1,19 +1,21 @@
-import type { AnyFieldApi } from "@tanstack/react-form";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { FieldContent } from "../ui/field";
 import { Switch } from "../ui/switch";
+import { useFieldContext } from ".";
+import { isFieldInvalid } from "./field-helpers";
 
-export type SwitchFormProps = {
-  field: AnyFieldApi;
+type Props = {
   label: string;
   description?: string;
 };
 
-export function SwitchForm(props: SwitchFormProps) {
-  const { field, label, description } = props;
+export function SwitchForm(props: Props) {
+  const { label, description } = props;
+  const field = useFieldContext<boolean | undefined>();
+  const isInvalid = isFieldInvalid(field);
 
   return (
-    <Field orientation="horizontal" className="max-w-sm">
+    <Field orientation="horizontal" data-invalid={isInvalid}>
       <FieldContent>
         <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
         {description ? <FieldDescription>{description}</FieldDescription> : null}
@@ -22,6 +24,7 @@ export function SwitchForm(props: SwitchFormProps) {
         id={field.name}
         checked={Boolean(field.state.value)}
         onCheckedChange={field.handleChange}
+        aria-invalid={isInvalid}
       />
     </Field>
   );

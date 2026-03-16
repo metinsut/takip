@@ -1,12 +1,9 @@
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
-import {
-  InputField,
-  SelectField,
-  type SelectFieldOption,
-  SwitchField,
-  TextareaField,
-} from "./field-components";
-import { SubmitButton } from "./form-components";
+import { InputForm } from "./input-form";
+import { SelectForm } from "./select-form";
+import { SubmitButton } from "./submit-button";
+import { SwitchForm } from "./switch-form";
+import { TextareaForm } from "./textarea-form";
 
 const { fieldContext, formContext, useFieldContext, useFormContext } = createFormHookContexts();
 
@@ -14,17 +11,16 @@ const { useAppForm, withForm, withFieldGroup, useTypedAppFormContext } = createF
   fieldContext,
   formContext,
   fieldComponents: {
-    InputField,
-    TextareaField,
-    SelectField,
-    SwitchField,
+    InputForm,
+    TextareaForm,
+    SelectForm,
+    SwitchForm,
   },
   formComponents: {
     SubmitButton,
   },
 });
 
-export type { SelectFieldOption };
 export {
   fieldContext,
   formContext,

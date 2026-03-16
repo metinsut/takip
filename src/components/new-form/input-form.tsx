@@ -1,25 +1,28 @@
-import type { AnyFieldApi } from "@tanstack/react-form";
-import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
+import { Input } from "../ui/input";
+import { useFieldContext } from ".";
+import { isFieldInvalid } from "./field-helpers";
 
-type InputFormProps = {
-  field: AnyFieldApi;
+type Props = {
   label: string;
-  placeholder: string;
   description?: string;
+  placeholder?: string;
 };
 
-export function InputForm(props: InputFormProps) {
-  const { field, label, placeholder, description } = props;
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+export function InputForm(props: Props) {
+  const { label, description, placeholder, ...rest } = props;
+  const field = useFieldContext<string>();
+  const isInvalid = isFieldInvalid(field);
 
   return (
     <Field data-invalid={isInvalid}>
       <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
       <Input
+        {...rest}
         id={field.name}
         name={field.name}
-        value={field.state.value ?? ""}
+        value={field.state.value}
+        aria-invalid={isInvalid}
         onBlur={field.handleBlur}
         onChange={(event) => field.handleChange(event.target.value)}
         placeholder={placeholder}
