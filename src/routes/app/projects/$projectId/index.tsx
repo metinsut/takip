@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useLoaderData, useNavigate, useRouter } from "@tanstack/react-router";
 import dayjs from "dayjs";
-import { useAppForm } from "@/components/new-form";
+import { useAppForm } from "@/components/form";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { toast } from "@/components/ui/sonner";
