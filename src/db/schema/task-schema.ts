@@ -9,6 +9,7 @@ export const taskStatus = {
   in_progress: "in_progress",
   done: "done",
 } as const;
+
 export const taskPriority = {
   low: "low",
   medium: "medium",
@@ -29,15 +30,17 @@ export const task = pgTable(
       .notNull()
       .references(() => projectSchema.id, { onDelete: "cascade" }),
     title: text("title").notNull(),
-    description: text("description"),
+    description: text("description").notNull(),
     status: taskStatusEnum("status").notNull().default("todo"),
     priority: taskPriorityEnum("priority").default("medium").notNull(),
-    assigneeId: text("assignee_id").references(() => user.id, { onDelete: "set null" }),
+    assigneeId: integer("assignee_id")
+      .references(() => user.id, { onDelete: "set null" })
+      .notNull(),
     createdBy: text("created_by")
       .notNull()
       .references(() => user.id, { onDelete: "restrict" }),
-    dueDate: timestamp("due_date"),
-    completedAt: timestamp("completed_at"),
+    dueDate: timestamp("due_date").notNull(),
+    completedAt: timestamp("completed_at").notNull(),
     sortOrder: integer("sort_order").default(0).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true })
@@ -69,12 +72,13 @@ export const updateTaskSchema = createUpdateSchema(task)
   })
   .extend({
     id: z.number().int().positive(),
-    projectId: z.number().int().positive().optional(),
-    title: z.string().trim().min(1).max(500).optional(),
-    description: z.string().trim().max(5000).optional().nullable(),
-    status: taskStatusSchema.optional(),
-    priority: taskPrioritySchema.optional(),
-    dueDate: z.coerce.date().optional().nullable(),
+    projectId: z.number().int().positive(),
+    title: z.string().trim().min(1).max(500),
+    description: z.string().trim().min(1).max(5000),
+    status: taskStatusSchema,
+    priority: taskPrioritySchema,
+    dueDate: z.date().optional(),
+    assigneeId: z.number().int().positive().optional(),
   });
 export type UpdateTaskType = z.infer<typeof updateTaskSchema>;
 
@@ -89,9 +93,10 @@ export const createTaskSchema = createInsertSchema(task)
   .extend({
     projectId: z.number().int().positive(),
     title: z.string().trim().min(1).max(500),
-    description: z.string().trim().max(5000).optional(),
-    status: taskStatusSchema.optional(),
-    priority: taskPrioritySchema.optional(),
-    dueDate: z.coerce.date().optional(),
+    description: z.string().trim().min(1).max(5000),
+    status: taskStatusSchema,
+    priority: taskPrioritySchema,
+    dueDate: z.date().optional(),
+    assigneeId: z.number().int().positive().optional(),
   });
 export type CreateTaskType = z.infer<typeof createTaskSchema>;

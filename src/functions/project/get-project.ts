@@ -17,7 +17,7 @@ export const getProject = createServerFn({ method: "GET" })
     const userId = await getAuthenticatedUserId();
 
     if (!userId) {
-      return null;
+      return undefined;
     }
 
     const [project] = await db
@@ -26,7 +26,7 @@ export const getProject = createServerFn({ method: "GET" })
       .where(and(eq(projectSchema.id, data.projectId), eq(projectSchema.createdBy, userId)))
       .limit(1);
 
-    return project ?? null;
+    return project ?? undefined;
   });
 
 export function useGetProject(projectId: number) {
@@ -39,7 +39,7 @@ export function useGetProject(projectId: number) {
 
 export const getProjectServerFn = createServerFn().handler(async () => {
   const cookieProjectId = getCookie(PROJECT_COOKIE_ID);
-  return cookieProjectId ? Number(cookieProjectId) : null;
+  return cookieProjectId ? Number(cookieProjectId) : undefined;
 });
 
 export const setProjectServerFn = createServerFn({ method: "POST" })
