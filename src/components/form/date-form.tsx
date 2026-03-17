@@ -1,9 +1,9 @@
 import { CalendarBlankIcon } from "@phosphor-icons/react";
 import dayjs from "dayjs";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "../ui/button";
 import { useFieldContext } from ".";
 import { isFieldInvalid } from "./field-helpers";
 
@@ -42,7 +42,7 @@ export function DateForm(props: Props) {
               data-empty={!selectedDate}
               aria-invalid={isInvalid}
               onBlur={field.handleBlur}
-              className="w-full justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
+              className="max-w-xs justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
             />
           }
         >

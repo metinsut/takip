@@ -4,12 +4,12 @@ import { and, desc, eq, getTableColumns } from "drizzle-orm";
 import { db } from "@/db";
 import { projectSchema, task, user as userSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
-import { getProjectServerFn } from "@/functions/project";
+import { getProjectIdFromCookie } from "@/functions/project";
 import { getTasksQueryKey } from "./shared";
 
 export const getTasks = createServerFn({ method: "GET" }).handler(async () => {
   const userId = await getAuthenticatedUserId();
-  const activeProjectId = await getProjectServerFn();
+  const activeProjectId = await getProjectIdFromCookie();
 
   if (!userId || !activeProjectId) {
     return [];
@@ -35,7 +35,7 @@ export const getTasks = createServerFn({ method: "GET" }).handler(async () => {
 
 export type TaskListItem = Awaited<ReturnType<typeof getTasks>>[number];
 
-export function useGetTasks(activeProjectId: number | null) {
+export function useGetTasks(activeProjectId: number | null | undefined) {
   return queryOptions({
     queryKey: [getTasksQueryKey, activeProjectId],
     queryFn: () => getTasks(),

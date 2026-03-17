@@ -1,11 +1,12 @@
 import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
+import { deleteCookie, getCookie, setCookie } from "@tanstack/react-start/server";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db";
 import { projectSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
+import { getProjects } from "./get-projects";
 
 export const getProjectQueryKey = "project-query-key";
 
@@ -37,9 +38,19 @@ export function useGetProject(projectId: number) {
   });
 }
 
-export const getProjectServerFn = createServerFn().handler(async () => {
+export const getProjectIdFromCookie = createServerFn().handler(async () => {
   const cookieProjectId = getCookie(PROJECT_COOKIE_ID);
-  return cookieProjectId ? Number(cookieProjectId) : undefined;
+  const activeProjectId = cookieProjectId ? Number(cookieProjectId) : undefined;
+  const projects = await getProjects();
+  const activeProject = projects.find((project) => project.id === activeProjectId);
+  if (activeProject) {
+    return activeProjectId;
+  }
+  return undefined;
+});
+
+export const resetProjectServerFn = createServerFn({ method: "POST" }).handler(async () => {
+  deleteCookie(PROJECT_COOKIE_ID);
 });
 
 export const setProjectServerFn = createServerFn({ method: "POST" })

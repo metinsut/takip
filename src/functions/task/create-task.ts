@@ -1,10 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { db } from "@/db";
-import { createTaskSchema, task } from "@/db/schema";
+import { saveTaskSchema, task } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 
 export const createTask = createServerFn({ method: "POST" })
-  .inputValidator(createTaskSchema)
+  .inputValidator(saveTaskSchema)
   .handler(async ({ data }) => {
     const userId = await getAuthenticatedUserId();
 
@@ -17,14 +17,14 @@ export const createTask = createServerFn({ method: "POST" })
       .values({
         projectId: data.projectId,
         title: data.title,
-        description: data.description ?? null,
+        description: data.description,
         status: data.status ?? "todo",
         priority: data.priority ?? "medium",
-        assigneeId: data.assigneeId ?? null,
-        dueDate: data.dueDate ?? null,
+        dueDate: data.dueDate,
+        assigneeId: data.assigneeId,
         createdBy: userId,
       })
       .returning();
 
-    return createdTask ?? null;
+    return createdTask ?? undefined;
   });

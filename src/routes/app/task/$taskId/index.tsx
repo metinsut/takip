@@ -1,17 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  createFileRoute,
-  useLoaderData,
-  useNavigate,
-  useParams,
-  useRouter,
-} from "@tanstack/react-router";
+import { createFileRoute, useLoaderData, useNavigate, useRouter } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { useAppForm } from "@/components/form";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { toast } from "@/components/ui/sonner";
-import { createTaskSchema, taskPriority, taskStatus, updateTaskSchema } from "@/db/schema";
+import type { SaveTaskType } from "@/db/schema";
+import { saveTaskSchema, taskPriority, taskStatus } from "@/db/schema";
 import { createTask, getTaskQueryKey, getTasksQueryKey, updateTask } from "@/functions/task";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
@@ -53,34 +48,34 @@ export const Route = createFileRoute("/app/task/$taskId/")({
 function TaskForm() {
   const navigate = useNavigate();
   const router = useRouter();
-  const { taskId } = useParams({ from: "/app/task/$taskId" });
   const queryClient = useQueryClient();
   const { task } = useLoaderData({ from: "/app/task/$taskId" });
   const { activeProjectId } = useLoaderData({ from: "__root__" });
 
+  const defaultValues: SaveTaskType = {
+    projectId: task?.projectId ?? activeProjectId ?? 0,
+    title: task?.title ?? "",
+    description: task?.description ?? "",
+    status: task?.status ?? taskStatus.todo,
+    priority: task?.priority ?? taskPriority.medium,
+    dueDate: task?.dueDate ? dayjs(task.dueDate).toDate() : undefined,
+    assigneeId: task?.assigneeId ?? undefined,
+  };
+
   const form = useAppForm({
-    defaultValues: {
-      // id: task?.id ?? undefined,
-      projectId: task?.projectId ?? activeProjectId,
-      title: task?.title ?? "",
-      description: task?.description ?? "",
-      status: task?.status ?? taskStatus.todo,
-      priority: task?.priority ?? taskPriority.medium,
-      dueDate: task?.dueDate,
-      assigneeId: task?.assigneeId,
-    },
+    defaultValues,
     validators: {
-      onSubmit: taskId === "add" ? createTaskSchema : updateTaskSchema,
+      onSubmit: saveTaskSchema,
     },
     onSubmit: async ({ value }) => {
       if (!value.projectId) {
         toast.error("Lütfen bir proje seçin.");
         return;
       }
+
       if (task) {
         await updateTask({
           data: {
-            // id: value.id ?? task.id,
             id: task.id,
             projectId: value.projectId,
             title: value.title,

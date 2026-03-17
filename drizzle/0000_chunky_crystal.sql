@@ -1,5 +1,13 @@
-CREATE TYPE "public"."priority" AS ENUM('low', 'medium', 'high');--> statement-breakpoint
-CREATE TYPE "public"."status" AS ENUM('todo', 'in_progress', 'done');--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."priority" AS ENUM('low', 'medium', 'high');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."status" AS ENUM('todo', 'in_progress', 'done');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;--> statement-breakpoint
 CREATE TABLE "account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
@@ -127,7 +135,7 @@ CREATE TABLE "task" (
 	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "task_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
 	"project_id" integer NOT NULL,
 	"title" text NOT NULL,
-	"description" text,
+	"description" text NOT NULL,
 	"status" "status" DEFAULT 'todo' NOT NULL,
 	"priority" "priority" DEFAULT 'medium' NOT NULL,
 	"assignee_id" text,
