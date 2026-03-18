@@ -6,5 +6,7 @@
   "high": "Yüksek",
   "todo": "Yapılacak",
   "in_progress": "Devam ediyor",
-  "done": "Tamamlandı"
+  "done": "Tamamlandı",
+  "createTask": "Görev oluştur",
+  "addedByDateAgo": "{date} tarihinde {user} tarafından eklendi."
 }

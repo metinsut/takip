@@ -80,8 +80,8 @@ function ProjectForm() {
       {project ? (
         <CardFooter className="justify-between gap-3">
           <div className="flex flex-col gap-1 text-xs text-muted-foreground">
-            <p>Oluşturulma: {dayjs(project.createdAt).format(dateFormat.DATETIME_FORMAT)}</p>
-            <p>Son güncelleme: {dayjs(project.updatedAt).format(dateFormat.DATETIME_FORMAT)}</p>
+            <p>Oluşturulma: {dayjs(project.createdAt).format(dateFormat.DATE_TIME_FORMAT)}</p>
+            <p>Son güncelleme: {dayjs(project.updatedAt).format(dateFormat.DATE_TIME_FORMAT)}</p>
           </div>
         </CardFooter>
       ) : null}

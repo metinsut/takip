@@ -6,5 +6,7 @@
   "high": "High",
   "todo": "To Do",
   "in_progress": "In Progress",
-  "done": "Done"
+  "done": "Done",
+  "createTask": "Create Task",
+  "addedByDateAgo": "{date} date by {user} added."
 }

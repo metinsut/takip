@@ -31,7 +31,7 @@ export const Actions = (props: Props) => {
   };
 
   return (
-    <StopPropagation className="flex justify-end gap-2">
+    <StopPropagation className="flex justify-end items-center gap-2">
       <DeleteAction
         open={open}
         onOpenChange={(open) => setOpen(open)}
@@ -41,7 +41,7 @@ export const Actions = (props: Props) => {
         isLoading={isPending}
       />
       <Button variant="ghost" size="icon-sm" onClick={handleSetAsActiveProject}>
-        <FolderSimplePlusIcon data-icon="inline-start" />
+        <FolderSimplePlusIcon />
       </Button>
     </StopPropagation>
   );

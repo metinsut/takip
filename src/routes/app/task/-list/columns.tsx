@@ -36,7 +36,7 @@ export const columns: ColumnDef<TaskListItem>[] = [
   {
     header: "Son güncelleme",
     accessorKey: "updatedAt",
-    accessorFn: (row) => dayjs(row.updatedAt).format(dateFormat.DATETIME_FORMAT),
+    accessorFn: (row) => dayjs(row.updatedAt).format(dateFormat.DATE_TIME_FORMAT),
   },
   {
     accessorKey: "actions",

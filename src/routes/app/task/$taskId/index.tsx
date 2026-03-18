@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useLoaderData, useNavigate, useRouter } from "@tanstack/react-router";
 import dayjs from "dayjs";
+import { useMemo } from "react";
 import { useAppForm } from "@/components/form";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
@@ -109,6 +110,18 @@ function TaskForm() {
     },
   });
 
+  const addedByDateAgo = useMemo(() => {
+    if (task) {
+      const text = m.addedByDateAgo({
+        date: dayjs(task?.createdAt).format(dateFormat.DATE_TIME_FORMAT),
+        user: task?.createdBy,
+      });
+      return text;
+    } else {
+      return null;
+    }
+  }, [task]);
+
   return (
     <Card>
       <CardContent>
@@ -122,8 +135,8 @@ function TaskForm() {
         >
           <form.AppForm>
             <FieldSet>
-              <FieldLegend>Görev bilgileri</FieldLegend>
-              <FieldDescription>Görevinizin bilgilerini giriniz.</FieldDescription>
+              <FieldLegend>{task?.title ?? m.createTask()}</FieldLegend>
+              <FieldDescription>{addedByDateAgo}</FieldDescription>
               <FieldGroup>
                 <form.AppField
                   name="title"
@@ -137,32 +150,34 @@ function TaskForm() {
                     <field.TextareaForm label="Açıklama" placeholder="Görev detayları" />
                   )}
                 />
-                <form.AppField
-                  name="status"
-                  children={(field) => (
-                    <field.SelectForm
-                      label="Durum"
-                      placeholder="Durum seçin"
-                      options={STATUS_OPTIONS}
-                    />
-                  )}
-                />
-                <form.AppField
-                  name="priority"
-                  children={(field) => (
-                    <field.SelectForm
-                      label="Öncelik"
-                      placeholder="Öncelik seçin"
-                      options={PRIORITY_OPTIONS}
-                    />
-                  )}
-                />
-                <form.AppField
-                  name="dueDate"
-                  children={(field) => (
-                    <field.DateForm label="Bitiş tarihi" placeholder="Tarih seçin" />
-                  )}
-                />
+                <div className="flex gap-3">
+                  <form.AppField
+                    name="status"
+                    children={(field) => (
+                      <field.SelectForm
+                        label="Durum"
+                        placeholder="Durum seçin"
+                        options={STATUS_OPTIONS}
+                      />
+                    )}
+                  />
+                  <form.AppField
+                    name="priority"
+                    children={(field) => (
+                      <field.SelectForm
+                        label="Öncelik"
+                        placeholder="Öncelik seçin"
+                        options={PRIORITY_OPTIONS}
+                      />
+                    )}
+                  />
+                  <form.AppField
+                    name="dueDate"
+                    children={(field) => (
+                      <field.DateForm label="Bitiş tarihi" placeholder="Tarih seçin" />
+                    )}
+                  />
+                </div>
                 <div className="flex justify-end">
                   <form.SubmitButton label="Değişiklikleri kaydet" />
                 </div>
@@ -174,8 +189,8 @@ function TaskForm() {
       {task ? (
         <CardFooter className="justify-between gap-3">
           <div className="flex flex-col gap-1 text-xs text-muted-foreground">
-            <p>Oluşturulma: {dayjs(task.createdAt).format(dateFormat.DATETIME_FORMAT)}</p>
-            <p>Son güncelleme: {dayjs(task.updatedAt).format(dateFormat.DATETIME_FORMAT)}</p>
+            <p>Oluşturulma: {dayjs(task.createdAt).format(dateFormat.DATE_TIME_FORMAT)}</p>
+            <p>Son güncelleme: {dayjs(task.updatedAt).format(dateFormat.DATE_TIME_FORMAT)}</p>
           </div>
         </CardFooter>
       ) : null}

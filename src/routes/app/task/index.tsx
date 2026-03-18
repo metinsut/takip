@@ -7,6 +7,5 @@ export const Route = createFileRoute("/app/task/")({
 
 export function TasksIndex() {
   const { activeProjectId } = useLoaderData({ from: "__root__" });
-  console.log(activeProjectId);
   return activeProjectId ? <TasksList /> : <Navigate to="/app/projects" />;
 }
