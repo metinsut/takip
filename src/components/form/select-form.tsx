@@ -37,7 +37,12 @@ export function SelectForm(props: Props) {
         {label}
         {required && <span>*</span>}
       </FieldLabel>
-      <Select value={field.state.value} onValueChange={field.handleChange} disabled={disabled}>
+      <Select
+        value={field.state.value}
+        onValueChange={field.handleChange}
+        disabled={disabled}
+        items={options}
+      >
         <SelectTrigger
           id={field.name}
           name={field.name}
@@ -49,7 +54,7 @@ export function SelectForm(props: Props) {
             <SelectValue placeholder={placeholder} />
           </div>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent side="bottom" align="start" alignItemWithTrigger={false}>
           <SelectGroup>
             {options.map((option) => (
               <SelectItem key={option.value} value={option.value} disabled={option.disabled}>
