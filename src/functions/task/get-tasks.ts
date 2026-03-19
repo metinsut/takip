@@ -12,7 +12,7 @@ export const getTasks = createServerFn({ method: "GET" }).handler(async () => {
   const activeProjectId = await getProjectIdFromCookie();
 
   if (!userId || !activeProjectId) {
-    return [];
+    throw new Error("Unauthorized");
   }
 
   const tasks = await db

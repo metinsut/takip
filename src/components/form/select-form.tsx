@@ -21,24 +21,33 @@ type Props = {
   options: SelectOption[];
   placeholder: string;
   description?: string;
+  leftIcon?: React.ReactNode;
+  disabled?: boolean;
+  required?: boolean;
 };
 
 export function SelectForm(props: Props) {
-  const { label, description, placeholder, options } = props;
+  const { label, description, placeholder, options, leftIcon, disabled, required } = props;
   const field = useFieldContext<string | null>();
   const isInvalid = isFieldInvalid(field);
 
   return (
-    <Field data-invalid={isInvalid}>
-      <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-      <Select value={field.state.value} onValueChange={field.handleChange}>
+    <Field data-invalid={isInvalid} data-disabled={disabled}>
+      <FieldLabel htmlFor={field.name}>
+        {label}
+        {required && <span>*</span>}
+      </FieldLabel>
+      <Select value={field.state.value} onValueChange={field.handleChange} disabled={disabled}>
         <SelectTrigger
           id={field.name}
           name={field.name}
           className="w-full"
           aria-invalid={isInvalid}
         >
-          <SelectValue placeholder={placeholder} />
+          <div className="flex items-center gap-2 w-full">
+            {leftIcon}
+            <SelectValue placeholder={placeholder} />
+          </div>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

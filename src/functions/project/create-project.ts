@@ -1,10 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { db } from "@/db";
-import { createProjectSchema, projectSchema } from "@/db/schema";
+import { projectSchema, saveProjectSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 
 export const createProject = createServerFn({ method: "POST" })
-  .inputValidator(createProjectSchema)
+  .inputValidator(saveProjectSchema)
   .handler(async ({ data }) => {
     const userId = await getAuthenticatedUserId();
 
@@ -16,10 +16,10 @@ export const createProject = createServerFn({ method: "POST" })
       .insert(projectSchema)
       .values({
         name: data.name,
-        description: data.description ?? null,
+        description: data.description,
         createdBy: userId,
       })
       .returning();
 
-    return createdProject ?? null;
+    return createdProject;
   });

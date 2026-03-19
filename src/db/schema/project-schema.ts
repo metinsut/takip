@@ -1,5 +1,5 @@
 import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { user } from "./auth-schema";
 
@@ -8,7 +8,7 @@ export const projectSchema = pgTable(
   {
     id: integer("id").primaryKey().generatedAlwaysAsIdentity({ startWith: 1, increment: 1 }),
     name: text("name").notNull(),
-    description: text("description"),
+    description: text("description").notNull(),
     createdBy: text("created_by")
       .notNull()
       .references(() => user.id, { onDelete: "restrict" }),
@@ -22,28 +22,16 @@ export const projectSchema = pgTable(
 );
 
 export type ProjectType = typeof projectSchema.$inferSelect;
+export type SaveProjectType = z.infer<typeof saveProjectSchema>;
 
-export const updateProjectSchema = createUpdateSchema(projectSchema)
+export const saveProjectSchema = createInsertSchema(projectSchema)
   .omit({
     createdBy: true,
     createdAt: true,
     updatedAt: true,
   })
   .extend({
-    id: z.number().int().positive(),
+    id: z.number().int().positive().optional(),
     name: z.string().trim().min(3).max(160),
-    description: z.string().trim().min(1).max(5000).optional(),
+    description: z.string().trim().min(1).max(5000),
   });
-export type UpdateProjectType = z.infer<typeof updateProjectSchema>;
-
-export const createProjectSchema = createInsertSchema(projectSchema)
-  .omit({
-    createdBy: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    name: z.string().trim().min(3).max(160),
-    description: z.string().trim().min(1).max(5000).optional(),
-  });
-export type CreateProjectType = z.infer<typeof createProjectSchema>;

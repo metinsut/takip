@@ -1,10 +1,10 @@
 import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { deleteCookie, getCookie, setCookie } from "@tanstack/react-start/server";
-import { and, eq } from "drizzle-orm";
+import { and, eq, getTableColumns } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db";
-import { projectSchema } from "@/db/schema";
+import { projectSchema, user as userSchema } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { getProjects } from "./get-projects";
 
@@ -18,16 +18,24 @@ export const getProject = createServerFn({ method: "GET" })
     const userId = await getAuthenticatedUserId();
 
     if (!userId) {
-      return undefined;
+      throw new Error("Unauthorized");
     }
 
     const [project] = await db
-      .select()
+      .select({
+        ...getTableColumns(projectSchema),
+        createdByUser: {
+          id: userSchema.id,
+          name: userSchema.name,
+          email: userSchema.email,
+        },
+      })
       .from(projectSchema)
+      .innerJoin(userSchema, eq(projectSchema.createdBy, userSchema.id))
       .where(and(eq(projectSchema.id, data.projectId), eq(projectSchema.createdBy, userId)))
       .limit(1);
 
-    return project ?? undefined;
+    return project;
   });
 
 export function useGetProject(projectId: number) {

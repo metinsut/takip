@@ -9,7 +9,7 @@ export const Route = createFileRoute("/app/projects/$projectId")({
     if (projectId === "add") {
       return {
         breadcrumb: m.addProject(),
-        project: null,
+        project: undefined,
       };
     }
     const project = await context.queryClient.fetchQuery(useGetProject(Number(projectId)));

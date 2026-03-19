@@ -22,7 +22,7 @@ export const deleteProject = createServerFn({ method: "POST" })
       .where(and(eq(projectSchema.id, data.id), eq(projectSchema.createdBy, userId)))
       .returning();
 
-    return deletedProject ?? null;
+    return deletedProject;
   });
 
 export function useDeleteProject() {

@@ -5,6 +5,7 @@ import { useAppForm } from "@/components/form";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { toast } from "@/components/ui/sonner";
+import { saveProjectSchema } from "@/db/schema";
 import { createProject, updateProject } from "@/functions/project";
 import { getProjectQueryKey } from "@/functions/project/get-project";
 import { getProjectsQueryKey } from "@/functions/project/get-projects";
@@ -23,7 +24,10 @@ function ProjectForm() {
   const form = useAppForm({
     defaultValues: {
       name: project?.name ?? "",
-      description: project?.description ?? undefined,
+      description: project?.description ?? "",
+    },
+    validators: {
+      onSubmit: saveProjectSchema,
     },
     onSubmit: async ({ value }) => {
       if (project) {

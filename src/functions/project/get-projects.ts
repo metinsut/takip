@@ -11,7 +11,7 @@ export const getProjects = createServerFn({ method: "GET" }).handler(async () =>
   const userId = await getAuthenticatedUserId();
 
   if (!userId) {
-    return [];
+    throw new Error("Unauthorized");
   }
 
   const projects = await db

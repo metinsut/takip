@@ -114,7 +114,7 @@ function TaskForm() {
     if (task) {
       const text = m.addedByDateAgo({
         date: dayjs(task?.createdAt).format(dateFormat.DATE_TIME_FORMAT),
-        user: task?.createdBy,
+        user: task?.createdByUser?.name ?? task?.createdBy,
       });
       return text;
     } else {
