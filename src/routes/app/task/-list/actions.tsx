@@ -1,11 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { DeleteAction } from "@/components/dialogs/delete-action";
-import { TaskBoardToggleButton } from "@/components/task/task-board-toggle-button";
 import { StopPropagation } from "@/components/wrapper/stop-propagation";
 import { useDeleteTask } from "@/functions/task/delete-task";
 import type { TaskListItem } from "@/functions/task/get-tasks";
 import { getTasksQueryKey } from "@/functions/task/shared";
+import { TaskBoardToggleButton } from "@/routes/app/task/-components/task-board-toggle-button";
 
 type Props = {
   isOnBoard: boolean;

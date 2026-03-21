@@ -5,7 +5,7 @@ import {
   getBoardColumnId,
   getBoardDropTarget,
   moveBoardTaskLocally,
-} from "./task-board-view-helpers";
+} from "./board-view-helpers";
 
 const boardTasks = [
   {
@@ -30,7 +30,7 @@ const boardTasks = [
   },
 ] as const;
 
-describe("task board view helpers", () => {
+describe("board view helpers", () => {
   it("builds three fixed columns in board order", () => {
     const columns = buildBoardColumns([...boardTasks]);
 

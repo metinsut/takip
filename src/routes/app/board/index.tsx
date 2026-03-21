@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { TaskBoard } from "@/components/task/task-board";
 import { getProjectIdFromCookie } from "@/functions/project";
 import { useGetBoardTasks } from "@/functions/project-board";
+import { BoardScreen } from "./-board";
 
 export const Route = createFileRoute("/app/board/")({
   component: BoardPage,
@@ -21,5 +21,5 @@ export const Route = createFileRoute("/app/board/")({
 });
 
 function BoardPage() {
-  return <TaskBoard />;
+  return <BoardScreen />;
 }

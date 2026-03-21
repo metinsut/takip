@@ -2,7 +2,6 @@ import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useLoaderData, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { useAppForm } from "@/components/form";
-import { TaskBoardToggleButton } from "@/components/task/task-board-toggle-button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { toast } from "@/components/ui/sonner";
@@ -13,6 +12,7 @@ import { createTask, getTaskQueryKey, updateTask } from "@/functions/task";
 import { getTaskActivitiesQueryKey } from "@/functions/task-activity/shared";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
+import { TaskBoardToggleButton } from "@/routes/app/task/-components/task-board-toggle-button";
 
 const PRIORITY_OPTIONS = [
   {

@@ -112,11 +112,9 @@ export function moveBoardTaskLocally<TTask extends BoardTaskLike>(
   }
 
   const sourceStatus = activeTask.status as BoardColumnStatus;
-
   const groupedTaskIds = new Map(
     buildBoardColumns(tasks).map((column) => [column.status, column.tasks.map((task) => task.id)]),
   );
-
   const sourceTaskIds = groupedTaskIds.get(sourceStatus) ?? [];
   const destinationTaskIds =
     sourceStatus === input.status ? sourceTaskIds : [...(groupedTaskIds.get(input.status) ?? [])];
