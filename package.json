@@ -23,6 +23,10 @@
   },
   "dependencies": {
     "@base-ui/react": "latest",
+    "@dnd-kit/core": "latest",
+    "@dnd-kit/modifiers": "latest",
+    "@dnd-kit/sortable": "latest",
+    "@dnd-kit/utilities": "latest",
     "@fontsource-variable/figtree": "latest",
     "@phosphor-icons/react": "latest",
     "@tanstack/react-form": "latest",
