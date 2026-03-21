@@ -15,6 +15,13 @@
       "when": 1774093835865,
       "tag": "0001_eminent_ogun",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774128784741,
+      "tag": "0002_free_queen_noir",
+      "breakpoints": true
     }
   ]
 }

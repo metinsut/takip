@@ -1,8 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { saveTaskSchema, task, taskActivityType } from "@/db/schema";
+import { projectBoardTask, saveTaskSchema, task, taskActivityType } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
+import { getBoardMembershipByTaskId } from "@/functions/project-board/board-access";
+import { getNextDoneAt, isBoardMembershipActive } from "@/functions/project-board/board-helpers";
 import { buildTaskUpdateChanges } from "@/functions/task-activity/build-task-activity-payload";
 import { recordTaskActivity } from "@/functions/task-activity/record-task-activity";
 import { assertOwnedProjectForUser, getOwnedTaskForUser } from "./task-access";
@@ -23,9 +25,13 @@ export const updateTask = createServerFn({ method: "POST" })
     const taskId = data.id;
 
     return db.transaction(async (tx) => {
+      const now = new Date();
       const existingTask = await getOwnedTaskForUser(tx, {
         taskId,
         userId,
+      });
+      const membership = await getBoardMembershipByTaskId(tx, {
+        taskId,
       });
 
       await assertOwnedProjectForUser(tx, {
@@ -76,6 +82,44 @@ export const updateTask = createServerFn({ method: "POST" })
 
       if (!updatedTask) {
         return undefined;
+      }
+
+      if (membership) {
+        const membershipWasActive = isBoardMembershipActive({
+          doneAt: membership.doneAt ?? undefined,
+          now,
+          removedAt: membership.removedAt ?? undefined,
+          status: existingTask.status,
+        });
+        const shouldCloseMembership =
+          membershipWasActive && existingTask.projectId !== data.projectId;
+        const nextDoneAt = getNextDoneAt({
+          isMembershipActive: membershipWasActive && !shouldCloseMembership,
+          nextStatus: data.status,
+          now,
+          previousDoneAt: membership.doneAt ?? undefined,
+          previousStatus: existingTask.status,
+        });
+        const previousDoneAtTime = membership.doneAt?.getTime();
+        const nextDoneAtTime = nextDoneAt?.getTime();
+        const shouldSyncDoneAt = membershipWasActive && previousDoneAtTime !== nextDoneAtTime;
+
+        if (shouldCloseMembership) {
+          await tx
+            .update(projectBoardTask)
+            .set({
+              doneAt: null,
+              removedAt: now,
+            })
+            .where(eq(projectBoardTask.id, membership.id));
+        } else if (shouldSyncDoneAt) {
+          await tx
+            .update(projectBoardTask)
+            .set({
+              doneAt: nextDoneAt ?? null,
+            })
+            .where(eq(projectBoardTask.id, membership.id));
+        }
       }
 
       await recordTaskActivity(tx, {
