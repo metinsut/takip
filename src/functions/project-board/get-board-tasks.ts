@@ -2,7 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { and, asc, eq, getTableColumns, isNull, or, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { projectBoardTask, task } from "@/db/schema";
+import { board, task } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { getProjectIdFromCookie } from "@/functions/project";
 import { getBoardTasksQueryKey } from "./shared";
@@ -27,26 +27,26 @@ export const getBoardTasks = createServerFn({ method: "GET" }).handler(async () 
   return db
     .select({
       ...getTableColumns(task),
-      boardAddedAt: projectBoardTask.addedAt,
-      boardDoneAt: projectBoardTask.doneAt,
-      boardId: projectBoardTask.id,
-      boardSortOrder: projectBoardTask.sortOrder,
+      boardAddedAt: board.addedAt,
+      boardDoneAt: board.doneAt,
+      boardId: board.id,
+      boardSortOrder: board.sortOrder,
     })
-    .from(projectBoardTask)
-    .innerJoin(task, eq(projectBoardTask.taskId, task.id))
+    .from(board)
+    .innerJoin(task, eq(board.taskId, task.id))
     .where(
       and(
-        eq(projectBoardTask.projectId, activeProjectId),
+        eq(board.projectId, activeProjectId),
         eq(task.createdBy, userId),
-        isNull(projectBoardTask.removedAt),
+        isNull(board.removedAt),
         or(
           sql`${task.status} <> 'done'`,
-          isNull(projectBoardTask.doneAt),
-          sql`${projectBoardTask.doneAt} >= now() - interval '72 hours'`,
+          isNull(board.doneAt),
+          sql`${board.doneAt} >= now() - interval '72 hours'`,
         ),
       ),
     )
-    .orderBy(boardStatusSortSql, asc(projectBoardTask.sortOrder), asc(task.id));
+    .orderBy(boardStatusSortSql, asc(board.sortOrder), asc(task.id));
 });
 
 export type BoardTaskListItem = Awaited<ReturnType<typeof getBoardTasks>>[number];

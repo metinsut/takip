@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { projectBoardTask, saveTaskSchema, task, taskActivityType } from "@/db/schema";
+import { board, saveTaskSchema, task, taskActivityType } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { getBoardMembershipByTaskId } from "@/functions/project-board/board-access";
 import { getNextDoneAt, isBoardMembershipActive } from "@/functions/project-board/board-helpers";
@@ -106,19 +106,19 @@ export const updateTask = createServerFn({ method: "POST" })
 
         if (shouldCloseMembership) {
           await tx
-            .update(projectBoardTask)
+            .update(board)
             .set({
               doneAt: null,
               removedAt: now,
             })
-            .where(eq(projectBoardTask.id, membership.id));
+            .where(eq(board.id, membership.id));
         } else if (shouldSyncDoneAt) {
           await tx
-            .update(projectBoardTask)
+            .update(board)
             .set({
               doneAt: nextDoneAt ?? null,
             })
-            .where(eq(projectBoardTask.id, membership.id));
+            .where(eq(board.id, membership.id));
         }
       }
 

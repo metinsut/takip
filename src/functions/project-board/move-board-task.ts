@@ -1,13 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { and, asc, eq, isNull, or, sql } from "drizzle-orm";
 import { db } from "@/db";
-import {
-  moveBoardTaskSchema,
-  projectBoardTask,
-  type TaskStatus,
-  task,
-  taskActivityType,
-} from "@/db/schema";
+import { board, moveBoardTaskSchema, type TaskStatus, task, taskActivityType } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { buildTaskUpdateChanges } from "@/functions/task-activity/build-task-activity-payload";
 import { recordTaskActivity } from "@/functions/task-activity/record-task-activity";
@@ -22,7 +16,7 @@ type ActiveBoardRow = {
 type BoardSelectExecutor = Pick<typeof db, "select">;
 type BoardUpdateExecutor = Pick<typeof db, "update">;
 
-const doneMembershipFilterSql = sql`${task.status} <> 'done' or ${projectBoardTask.doneAt} is null or ${projectBoardTask.doneAt} >= now() - interval '72 hours'`;
+const doneMembershipFilterSql = sql`${task.status} <> 'done' or ${board.doneAt} is null or ${board.doneAt} >= now() - interval '72 hours'`;
 
 async function listActiveBoardRowsByStatus(input: {
   projectId: number;
@@ -31,20 +25,20 @@ async function listActiveBoardRowsByStatus(input: {
 }) {
   return input.tx
     .select({
-      membershipId: projectBoardTask.id,
+      membershipId: board.id,
       taskId: task.id,
     })
-    .from(projectBoardTask)
-    .innerJoin(task, eq(projectBoardTask.taskId, task.id))
+    .from(board)
+    .innerJoin(task, eq(board.taskId, task.id))
     .where(
       and(
-        eq(projectBoardTask.projectId, input.projectId),
+        eq(board.projectId, input.projectId),
         eq(task.status, input.status),
-        isNull(projectBoardTask.removedAt),
+        isNull(board.removedAt),
         or(sql`${task.status} <> 'done'`, doneMembershipFilterSql),
       ),
     )
-    .orderBy(asc(projectBoardTask.sortOrder), asc(task.id));
+    .orderBy(asc(board.sortOrder), asc(task.id));
 }
 
 async function updateSortOrders(
@@ -62,11 +56,11 @@ async function updateSortOrders(
     }
 
     await tx
-      .update(projectBoardTask)
+      .update(board)
       .set({
         sortOrder,
       })
-      .where(eq(projectBoardTask.id, membershipId));
+      .where(eq(board.id, membershipId));
   }
 }
 
@@ -169,11 +163,11 @@ export const moveBoardTask = createServerFn({ method: "POST" })
       });
 
       await tx
-        .update(projectBoardTask)
+        .update(board)
         .set({
           doneAt: nextDoneAt ?? null,
         })
-        .where(eq(projectBoardTask.id, boardState.membership.id));
+        .where(eq(board.id, boardState.membership.id));
 
       await updateSortOrders(tx, sourceRows, sourceTaskIds);
       await updateSortOrders(

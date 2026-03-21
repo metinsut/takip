@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { addTaskToBoardSchema, projectBoardTask, taskStatus } from "@/db/schema";
+import { addTaskToBoardSchema, board, taskStatus } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { assertOwnedProjectForUser } from "@/functions/task/task-access";
 import { getNextBoardSortOrder, getOwnedBoardMembershipForUser } from "./board-access";
@@ -41,21 +41,21 @@ export const addTaskToBoard = createServerFn({ method: "POST" })
 
       if (boardState.membership) {
         const [reactivatedMembership] = await tx
-          .update(projectBoardTask)
+          .update(board)
           .set({
             doneAt: nextDoneAt,
             projectId: boardState.task.projectId,
             removedAt: null,
             sortOrder: nextSortOrder,
           })
-          .where(eq(projectBoardTask.id, boardState.membership.id))
+          .where(eq(board.id, boardState.membership.id))
           .returning();
 
         return reactivatedMembership ?? undefined;
       }
 
       const [createdMembership] = await tx
-        .insert(projectBoardTask)
+        .insert(board)
         .values({
           doneAt: nextDoneAt,
           projectId: boardState.task.projectId,

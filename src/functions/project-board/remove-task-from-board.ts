@@ -1,13 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import {
-  projectBoardTask,
-  removeTaskFromBoardSchema,
-  task,
-  taskActivityType,
-  taskStatus,
-} from "@/db/schema";
+import { board, removeTaskFromBoardSchema, task, taskActivityType, taskStatus } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { buildTaskUpdateChanges } from "@/functions/task-activity/build-task-activity-payload";
 import { recordTaskActivity } from "@/functions/task-activity/record-task-activity";
@@ -66,12 +60,12 @@ export const removeTaskFromBoard = createServerFn({ method: "POST" })
         .returning();
 
       const [updatedMembership] = await tx
-        .update(projectBoardTask)
+        .update(board)
         .set({
           doneAt: null,
           removedAt: now,
         })
-        .where(eq(projectBoardTask.id, boardState.membership.id))
+        .where(eq(board.id, boardState.membership.id))
         .returning();
 
       if (updatedTask && changes.length > 0) {

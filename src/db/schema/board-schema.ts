@@ -3,8 +3,8 @@ import { z } from "zod";
 import { projectSchema } from "./project-schema";
 import { task, taskStatusSchema } from "./task-schema";
 
-export const projectBoardTask = pgTable(
-  "project_board_task",
+export const board = pgTable(
+  "board",
   {
     id: integer("id").primaryKey().generatedAlwaysAsIdentity({ startWith: 1, increment: 1 }),
     projectId: integer("project_id")
@@ -24,17 +24,13 @@ export const projectBoardTask = pgTable(
       .$onUpdate(() => new Date()),
   },
   (table) => [
-    uniqueIndex("project_board_task_task_id_unique").on(table.taskId),
-    index("project_board_task_project_removed_sort_idx").on(
-      table.projectId,
-      table.removedAt,
-      table.sortOrder,
-    ),
-    index("project_board_task_project_done_idx").on(table.projectId, table.doneAt),
+    uniqueIndex("board_task_id_unique").on(table.taskId),
+    index("board_project_removed_sort_idx").on(table.projectId, table.removedAt, table.sortOrder),
+    index("board_project_done_idx").on(table.projectId, table.doneAt),
   ],
 );
 
-export type ProjectBoardTask = typeof projectBoardTask.$inferSelect;
+export type Board = typeof board.$inferSelect;
 
 export const addTaskToBoardSchema = z.object({
   taskId: z.number().int().positive(),

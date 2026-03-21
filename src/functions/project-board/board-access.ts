@@ -1,6 +1,6 @@
 import { and, eq, getTableColumns, isNull, max, or, sql } from "drizzle-orm";
 import type { db } from "@/db";
-import { projectBoardTask, type TaskStatus, task } from "@/db/schema";
+import { board, type TaskStatus, task } from "@/db/schema";
 import { getOwnedTaskForUser } from "@/functions/task/task-access";
 import { isBoardMembershipActive } from "./board-helpers";
 
@@ -14,10 +14,10 @@ export async function getBoardMembershipByTaskId(
 ) {
   const [membership] = await executor
     .select({
-      ...getTableColumns(projectBoardTask),
+      ...getTableColumns(board),
     })
-    .from(projectBoardTask)
-    .where(eq(projectBoardTask.taskId, input.taskId))
+    .from(board)
+    .where(eq(board.taskId, input.taskId))
     .limit(1);
 
   return membership;
@@ -78,19 +78,19 @@ export async function getNextBoardSortOrder(
 ) {
   const [result] = await executor
     .select({
-      maxSortOrder: max(projectBoardTask.sortOrder),
+      maxSortOrder: max(board.sortOrder),
     })
-    .from(projectBoardTask)
-    .innerJoin(task, eq(projectBoardTask.taskId, task.id))
+    .from(board)
+    .innerJoin(task, eq(board.taskId, task.id))
     .where(
       and(
-        eq(projectBoardTask.projectId, input.projectId),
+        eq(board.projectId, input.projectId),
         eq(task.status, input.status),
-        isNull(projectBoardTask.removedAt),
+        isNull(board.removedAt),
         or(
           sql`${task.status} <> 'done'`,
-          isNull(projectBoardTask.doneAt),
-          sql`${projectBoardTask.doneAt} >= now() - interval '72 hours'`,
+          isNull(board.doneAt),
+          sql`${board.doneAt} >= now() - interval '72 hours'`,
         ),
       ),
     );
