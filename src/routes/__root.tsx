@@ -16,6 +16,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { getProjectIdFromCookie, getProjects } from "@/functions/project";
 import { getThemeServerFn } from "@/functions/theme/theme-server";
 import type { ThemeTypes } from "@/functions/theme/types";
+import { ThemeEnum } from "@/functions/theme/types";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 import appCss from "../tailwind.css?url";
@@ -60,7 +61,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 function RootComponent() {
-  const { theme, locale } = Route.useLoaderData();
+  const data = Route.useLoaderData();
+  const { theme, locale } = data ?? { theme: ThemeEnum.light, locale: "en" };
+
   return (
     <RootDocument theme={theme} locale={locale}>
       <Outlet />
