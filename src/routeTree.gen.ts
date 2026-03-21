@@ -19,6 +19,7 @@ import { Route as AppTaskIndexRouteImport } from './routes/app/task/index'
 import { Route as AppSettingsIndexRouteImport } from './routes/app/settings/index'
 import { Route as AppProjectsIndexRouteImport } from './routes/app/projects/index'
 import { Route as AppExamplesIndexRouteImport } from './routes/app/examples/index'
+import { Route as AppBoardIndexRouteImport } from './routes/app/board/index'
 import { Route as AppappIndexRouteImport } from './routes/app/(app)/index'
 import { Route as authRegisterIndexRouteImport } from './routes/(auth)/register/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
@@ -76,6 +77,11 @@ const AppExamplesIndexRoute = AppExamplesIndexRouteImport.update({
   path: '/examples/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppBoardIndexRoute = AppBoardIndexRouteImport.update({
+  id: '/board/',
+  path: '/board/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppappIndexRoute = AppappIndexRouteImport.update({
   id: '/(app)/',
   path: '/',
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/login/': typeof authLoginIndexRoute
   '/register/': typeof authRegisterIndexRoute
   '/app/': typeof AppappIndexRoute
+  '/app/board/': typeof AppBoardIndexRoute
   '/app/examples/': typeof AppExamplesIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/login': typeof authLoginIndexRoute
   '/register': typeof authRegisterIndexRoute
   '/app': typeof AppappIndexRoute
+  '/app/board': typeof AppBoardIndexRoute
   '/app/examples': typeof AppExamplesIndexRoute
   '/app/projects': typeof AppProjectsIndexRoute
   '/app/settings': typeof AppSettingsIndexRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/register/': typeof authRegisterIndexRoute
   '/app/(app)/': typeof AppappIndexRoute
+  '/app/board/': typeof AppBoardIndexRoute
   '/app/examples/': typeof AppExamplesIndexRoute
   '/app/projects/': typeof AppProjectsIndexRoute
   '/app/settings/': typeof AppSettingsIndexRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/login/'
     | '/register/'
     | '/app/'
+    | '/app/board/'
     | '/app/examples/'
     | '/app/projects/'
     | '/app/settings/'
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app'
+    | '/app/board'
     | '/app/examples'
     | '/app/projects'
     | '/app/settings'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/(auth)/login/'
     | '/(auth)/register/'
     | '/app/(app)/'
+    | '/app/board/'
     | '/app/examples/'
     | '/app/projects/'
     | '/app/settings/'
@@ -302,6 +314,13 @@ declare module '@tanstack/react-router' {
       path: '/examples'
       fullPath: '/app/examples/'
       preLoaderRoute: typeof AppExamplesIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/board/': {
+      id: '/app/board/'
+      path: '/board'
+      fullPath: '/app/board/'
+      preLoaderRoute: typeof AppBoardIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/(app)/': {
@@ -445,6 +464,7 @@ interface AppRouteRouteChildren {
   AppProjectsRouteRoute: typeof AppProjectsRouteRouteWithChildren
   AppTaskRouteRoute: typeof AppTaskRouteRouteWithChildren
   AppappIndexRoute: typeof AppappIndexRoute
+  AppBoardIndexRoute: typeof AppBoardIndexRoute
   AppExamplesIndexRoute: typeof AppExamplesIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
@@ -453,6 +473,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppProjectsRouteRoute: AppProjectsRouteRouteWithChildren,
   AppTaskRouteRoute: AppTaskRouteRouteWithChildren,
   AppappIndexRoute: AppappIndexRoute,
+  AppBoardIndexRoute: AppBoardIndexRoute,
   AppExamplesIndexRoute: AppExamplesIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }

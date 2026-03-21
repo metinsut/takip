@@ -1,4 +1,4 @@
-import { CardholderIcon, FoldersIcon, HouseIcon } from "@phosphor-icons/react";
+import { CardholderIcon, FoldersIcon, HouseIcon, KanbanIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { m } from "@/paraglide/messages";
@@ -36,6 +36,16 @@ export function NavPrimary() {
             <Link to="/app/task" activeProps={{ className: "bg-background text-primary" }}>
               <CardholderIcon />
               {m.tasks()}
+            </Link>
+          }
+        />
+      </SidebarMenuItem>
+      <SidebarMenuItem>
+        <SidebarMenuButton
+          render={
+            <Link to="/app/board" activeProps={{ className: "bg-background text-primary" }}>
+              <KanbanIcon />
+              Board
             </Link>
           }
         />
