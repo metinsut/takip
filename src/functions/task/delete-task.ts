@@ -1,11 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { toast } from "@/components/ui/sonner";
 import { db } from "@/db";
-import { task } from "@/db/schema";
+import { task, taskActivityType } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
+import { buildTaskDeletedPayload } from "@/functions/task-activity/build-task-activity-payload";
+import { recordTaskActivity } from "@/functions/task-activity/record-task-activity";
+import { getOwnedTaskForUser } from "./task-access";
 
 export const deleteTask = createServerFn({ method: "POST" })
   .inputValidator(z.object({ id: z.number().int().positive() }))
@@ -16,12 +19,33 @@ export const deleteTask = createServerFn({ method: "POST" })
       throw new Error("Unauthorized");
     }
 
-    const [deletedTask] = await db
-      .delete(task)
-      .where(and(eq(task.id, data.id), eq(task.createdBy, userId)))
-      .returning();
+    return db.transaction(async (tx) => {
+      const existingTask = await getOwnedTaskForUser(tx, {
+        taskId: data.id,
+        userId,
+      });
 
-    return deletedTask ?? null;
+      await recordTaskActivity(tx, {
+        actorId: userId,
+        payload: buildTaskDeletedPayload({
+          assigneeId: existingTask.assigneeId ?? undefined,
+          completedAt: existingTask.completedAt ?? undefined,
+          description: existingTask.description,
+          dueDate: existingTask.dueDate ?? undefined,
+          priority: existingTask.priority,
+          projectId: existingTask.projectId,
+          status: existingTask.status,
+          title: existingTask.title,
+        }),
+        projectId: existingTask.projectId,
+        taskId: existingTask.id,
+        type: taskActivityType.task_deleted,
+      });
+
+      const [deletedTask] = await tx.delete(task).where(eq(task.id, data.id)).returning();
+
+      return deletedTask ?? undefined;
+    });
   });
 
 export function useDeleteTask() {

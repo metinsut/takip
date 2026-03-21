@@ -1,9 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { saveTaskSchema, task } from "@/db/schema";
+import { saveTaskSchema, task, taskActivityType } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
-import { getTask } from "./get-task";
+import { buildTaskUpdateChanges } from "@/functions/task-activity/build-task-activity-payload";
+import { recordTaskActivity } from "@/functions/task-activity/record-task-activity";
+import { assertOwnedProjectForUser, getOwnedTaskForUser } from "./task-access";
 
 export const updateTask = createServerFn({ method: "POST" })
   .inputValidator(saveTaskSchema)
@@ -18,17 +20,74 @@ export const updateTask = createServerFn({ method: "POST" })
       throw new Error("Task ID is required");
     }
 
-    const existing = await getTask({ data: { taskId: data.id } });
+    const taskId = data.id;
 
-    if (!existing || existing.createdBy !== userId) {
-      throw new Error("Task not found");
-    }
+    return db.transaction(async (tx) => {
+      const existingTask = await getOwnedTaskForUser(tx, {
+        taskId,
+        userId,
+      });
 
-    const [updatedTask] = await db
-      .update(task)
-      .set(data)
-      .where(and(eq(task.id, data.id), eq(task.createdBy, userId)))
-      .returning();
+      await assertOwnedProjectForUser(tx, {
+        projectId: data.projectId,
+        userId,
+      });
 
-    return updatedTask ?? null;
+      const changes = buildTaskUpdateChanges({
+        after: {
+          assigneeId: data.assigneeId,
+          completedAt: existingTask.completedAt ?? undefined,
+          description: data.description,
+          dueDate: data.dueDate,
+          priority: data.priority,
+          projectId: data.projectId,
+          status: data.status,
+          title: data.title,
+        },
+        before: {
+          assigneeId: existingTask.assigneeId ?? undefined,
+          completedAt: existingTask.completedAt ?? undefined,
+          description: existingTask.description,
+          dueDate: existingTask.dueDate ?? undefined,
+          priority: existingTask.priority,
+          projectId: existingTask.projectId,
+          status: existingTask.status,
+          title: existingTask.title,
+        },
+      });
+
+      if (changes.length === 0) {
+        return existingTask;
+      }
+
+      const [updatedTask] = await tx
+        .update(task)
+        .set({
+          assigneeId: data.assigneeId ?? null,
+          description: data.description,
+          dueDate: data.dueDate ?? null,
+          priority: data.priority,
+          projectId: data.projectId,
+          status: data.status,
+          title: data.title,
+        })
+        .where(eq(task.id, taskId))
+        .returning();
+
+      if (!updatedTask) {
+        return undefined;
+      }
+
+      await recordTaskActivity(tx, {
+        actorId: userId,
+        payload: {
+          changes,
+        },
+        projectId: updatedTask.projectId,
+        taskId: updatedTask.id,
+        type: taskActivityType.task_updated,
+      });
+
+      return updatedTask;
+    });
   });
