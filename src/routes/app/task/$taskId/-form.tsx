@@ -8,6 +8,7 @@ import { toast } from "@/components/ui/sonner";
 import type { SaveTaskType } from "@/db/schema";
 import { saveTaskSchema, taskPriority, taskStatus } from "@/db/schema";
 import { createTask, getTaskQueryKey, updateTask } from "@/functions/task";
+import { getTaskActivitiesQueryKey } from "@/functions/task-activity/shared";
 import { dateFormat } from "@/helpers/date-format";
 import { m } from "@/paraglide/messages";
 
@@ -101,6 +102,7 @@ export function TaskFormSection() {
       }
 
       await queryClient.invalidateQueries({ queryKey: [getTaskQueryKey] });
+      await queryClient.invalidateQueries({ queryKey: [getTaskActivitiesQueryKey] });
     },
   });
 
