@@ -22,7 +22,6 @@ export function TasksList() {
     navigate({
       to: "/app/task/$taskId",
       params: { taskId: String(row.id) },
-      search: { projectId: undefined },
     });
   };
 
