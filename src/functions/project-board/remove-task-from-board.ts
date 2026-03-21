@@ -1,11 +1,14 @@
+import { useMutation } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
+import { toast } from "@/components/ui/sonner";
 import { db } from "@/db";
 import { board, removeTaskFromBoardSchema, task, taskActivityType, taskStatus } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { buildTaskUpdateChanges } from "@/functions/task-activity/build-task-activity-payload";
 import { recordTaskActivity } from "@/functions/task-activity/record-task-activity";
 import { getActiveBoardMembershipByTaskId } from "./board-access";
+import { getTaskBoardActionCopy } from "./task-board-action";
 
 export const removeTaskFromBoard = createServerFn({ method: "POST" })
   .inputValidator(removeTaskFromBoardSchema)
@@ -86,3 +89,17 @@ export const removeTaskFromBoard = createServerFn({ method: "POST" })
       };
     });
   });
+
+export function useRemoveTaskFromBoard() {
+  const copy = getTaskBoardActionCopy(true);
+
+  return useMutation({
+    mutationFn: (taskId: number) => removeTaskFromBoard({ data: { taskId } }),
+    onSuccess: () => {
+      toast.success(copy.successMessage);
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : copy.errorMessage);
+    },
+  });
+}

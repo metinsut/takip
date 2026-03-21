@@ -1,12 +1,14 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useLoaderData, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { useAppForm } from "@/components/form";
+import { TaskBoardToggleButton } from "@/components/task/task-board-toggle-button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { FieldDescription, FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { toast } from "@/components/ui/sonner";
 import type { SaveTaskType } from "@/db/schema";
 import { saveTaskSchema, taskPriority, taskStatus } from "@/db/schema";
+import { useGetBoardTasks } from "@/functions/project-board";
 import { createTask, getTaskQueryKey, updateTask } from "@/functions/task";
 import { getTaskActivitiesQueryKey } from "@/functions/task-activity/shared";
 import { dateFormat } from "@/helpers/date-format";
@@ -47,6 +49,8 @@ export function TaskFormSection() {
   const queryClient = useQueryClient();
   const { task } = useLoaderData({ from: "/app/task/$taskId" });
   const { activeProjectId } = useLoaderData({ from: "__root__" });
+  const { data: boardTasks } = useSuspenseQuery(useGetBoardTasks(activeProjectId));
+  const isOnBoard = task ? boardTasks.some((boardTask) => boardTask.id === task.id) : false;
 
   const defaultValues: SaveTaskType = {
     assigneeId: task?.assigneeId ?? undefined,
@@ -183,6 +187,7 @@ export function TaskFormSection() {
             <p>Oluşturulma: {dayjs(task.createdAt).format(dateFormat.DATE_TIME_FORMAT)}</p>
             <p>Son güncelleme: {dayjs(task.updatedAt).format(dateFormat.DATE_TIME_FORMAT)}</p>
           </div>
+          <TaskBoardToggleButton isOnBoard={isOnBoard} taskId={task.id} variant="outline" />
         </CardFooter>
       ) : null}
     </Card>

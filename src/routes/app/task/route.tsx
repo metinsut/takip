@@ -1,5 +1,6 @@
 import { createFileRoute, ErrorComponent, Outlet, redirect } from "@tanstack/react-router";
 import { getProjectIdFromCookie } from "@/functions/project";
+import { useGetBoardTasks } from "@/functions/project-board";
 import { useGetTasks } from "@/functions/task";
 
 export const Route = createFileRoute("/app/task")({
@@ -11,7 +12,10 @@ export const Route = createFileRoute("/app/task")({
       throw redirect({ to: "/app/projects" });
     }
 
-    await context.queryClient.fetchQuery(useGetTasks(activeProjectId));
+    await Promise.all([
+      context.queryClient.fetchQuery(useGetBoardTasks(activeProjectId)),
+      context.queryClient.fetchQuery(useGetTasks(activeProjectId)),
+    ]);
     return {
       breadcrumb: "Görevler",
     };

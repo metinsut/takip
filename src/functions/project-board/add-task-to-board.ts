@@ -1,10 +1,13 @@
+import { useMutation } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
+import { toast } from "@/components/ui/sonner";
 import { db } from "@/db";
 import { addTaskToBoardSchema, board, taskStatus } from "@/db/schema";
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { assertOwnedProjectForUser } from "@/functions/task/task-access";
 import { getNextBoardSortOrder, getOwnedBoardMembershipForUser } from "./board-access";
+import { getTaskBoardActionCopy } from "./task-board-action";
 
 export const addTaskToBoard = createServerFn({ method: "POST" })
   .inputValidator(addTaskToBoardSchema)
@@ -67,3 +70,17 @@ export const addTaskToBoard = createServerFn({ method: "POST" })
       return createdMembership ?? undefined;
     });
   });
+
+export function useAddTaskToBoard() {
+  const copy = getTaskBoardActionCopy(false);
+
+  return useMutation({
+    mutationFn: (taskId: number) => addTaskToBoard({ data: { taskId } }),
+    onSuccess: () => {
+      toast.success(copy.successMessage);
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : copy.errorMessage);
+    },
+  });
+}
