@@ -14,8 +14,8 @@ import { taskStatus } from "@/db/schema";
 import type { BoardTaskListItem } from "@/functions/project-board";
 import { cn } from "@/lib/utils";
 import { m } from "@/paraglide/messages";
-import { SortableBoardTaskCard } from "./board-task-card";
-import { type BoardColumnStatus, getBoardColumnId, getBoardTaskId } from "./board-view-helpers";
+import { type BoardColumnStatus, getBoardColumnId, getBoardTaskId } from "./board-dnd-helpers";
+import { SortableBoardTaskCard } from "./sortable-board-task-card";
 
 const boardColumnCopy: Record<
   BoardColumnStatus,
@@ -42,7 +42,7 @@ const boardColumnCopy: Record<
   },
 };
 
-export function BoardColumn(props: {
+export function BoardTaskColumn(props: {
   disabled: boolean;
   tasks: BoardTaskListItem[];
   status: BoardColumnStatus;

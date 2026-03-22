@@ -1,6 +1,6 @@
 import { type TaskStatus, taskStatus } from "@/db/schema";
 
-type BoardTaskLike = {
+type BoardTaskRecord = {
   id: number;
   status: TaskStatus;
 };
@@ -13,16 +13,43 @@ export const BOARD_COLUMN_ORDER = [
 
 export type BoardColumnStatus = (typeof BOARD_COLUMN_ORDER)[number];
 
-export type BoardColumn<TTask extends BoardTaskLike> = {
+export type BoardColumnData<TTask extends BoardTaskRecord> = {
   id: string;
   status: BoardColumnStatus;
   tasks: TTask[];
 };
 
-type BoardDropTarget = {
+type BoardTaskDropTarget = {
   status: BoardColumnStatus;
   targetIndex: number;
 };
+
+export function normalizeBoardDragId(id: string | number | null | undefined) {
+  if (typeof id === "string") {
+    return id;
+  }
+
+  if (typeof id === "number") {
+    return String(id);
+  }
+
+  return undefined;
+}
+
+export function hasBoardLayoutChanged<TTask extends BoardTaskRecord>(
+  previousTasks: readonly TTask[],
+  nextTasks: readonly TTask[],
+) {
+  if (previousTasks.length !== nextTasks.length) {
+    return true;
+  }
+
+  return previousTasks.some((task, index) => {
+    const nextTask = nextTasks[index];
+
+    return nextTask?.id !== task.id || nextTask?.status !== task.status;
+  });
+}
 
 export function getBoardColumnId(status: BoardColumnStatus) {
   return `column:${status}`;
@@ -48,7 +75,7 @@ function parseBoardTaskId(value: string) {
   return Number.isInteger(taskId) ? taskId : undefined;
 }
 
-export function buildBoardColumns<TTask extends BoardTaskLike>(tasks: readonly TTask[]) {
+export function buildBoardColumns<TTask extends BoardTaskRecord>(tasks: readonly TTask[]) {
   return BOARD_COLUMN_ORDER.map((status) => ({
     id: getBoardColumnId(status),
     status,
@@ -56,13 +83,12 @@ export function buildBoardColumns<TTask extends BoardTaskLike>(tasks: readonly T
   }));
 }
 
-export function getBoardDropTarget<TTask extends BoardTaskLike>(
-  columns: readonly BoardColumn<TTask>[],
+export function getBoardDropTarget<TTask extends BoardTaskRecord>(
+  columns: readonly BoardColumnData<TTask>[],
   input: {
-    activeTaskId: number;
     overId: string | null | undefined;
   },
-): BoardDropTarget | undefined {
+): BoardTaskDropTarget | undefined {
   if (!input.overId) {
     return undefined;
   }
@@ -98,9 +124,9 @@ export function getBoardDropTarget<TTask extends BoardTaskLike>(
   return undefined;
 }
 
-export function moveBoardTaskLocally<TTask extends BoardTaskLike>(
+export function moveBoardTaskLocally<TTask extends BoardTaskRecord>(
   tasks: readonly TTask[],
-  input: BoardDropTarget & {
+  input: BoardTaskDropTarget & {
     taskId: number;
   },
 ) {

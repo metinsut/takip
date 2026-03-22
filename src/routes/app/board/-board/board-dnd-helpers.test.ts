@@ -1,13 +1,19 @@
 import { describe, expect, it } from "bun:test";
-import { taskStatus } from "@/db/schema";
+import { type TaskStatus, taskStatus } from "@/db/schema";
 import {
   buildBoardColumns,
   getBoardColumnId,
   getBoardDropTarget,
+  hasBoardLayoutChanged,
   moveBoardTaskLocally,
-} from "./board-view-helpers";
+  normalizeBoardDragId,
+} from "./board-dnd-helpers";
 
-const boardTasks = [
+const boardTasks: Array<{
+  id: number;
+  status: TaskStatus;
+  title: string;
+}> = [
   {
     id: 11,
     status: taskStatus.todo,
@@ -28,9 +34,41 @@ const boardTasks = [
     status: taskStatus.done,
     title: "Deploy",
   },
-] as const;
+];
 
-describe("board view helpers", () => {
+describe("board dnd helpers", () => {
+  it("normalizes drag ids from string and number values", () => {
+    expect(normalizeBoardDragId("task:11")).toBe("task:11");
+    expect(normalizeBoardDragId(11)).toBe("11");
+    expect(normalizeBoardDragId(null)).toBeUndefined();
+  });
+
+  it("detects when board layout order changes", () => {
+    expect(
+      hasBoardLayoutChanged(boardTasks, [
+        boardTasks[1],
+        boardTasks[0],
+        boardTasks[2],
+        boardTasks[3],
+      ]),
+    ).toBe(true);
+  });
+
+  it("detects when board layout status changes", () => {
+    expect(
+      hasBoardLayoutChanged(boardTasks, [
+        boardTasks[0],
+        { ...boardTasks[1], status: taskStatus.in_progress },
+        boardTasks[2],
+        boardTasks[3],
+      ]),
+    ).toBe(true);
+  });
+
+  it("returns false when board layout stays the same", () => {
+    expect(hasBoardLayoutChanged(boardTasks, [...boardTasks])).toBe(false);
+  });
+
   it("builds three fixed columns in board order", () => {
     const columns = buildBoardColumns([...boardTasks]);
 
@@ -49,7 +87,6 @@ describe("board view helpers", () => {
 
     expect(
       getBoardDropTarget(columns, {
-        activeTaskId: 11,
         overId: "task:33",
       }),
     ).toEqual({
@@ -63,7 +100,6 @@ describe("board view helpers", () => {
 
     expect(
       getBoardDropTarget(columns, {
-        activeTaskId: 11,
         overId: getBoardColumnId(taskStatus.done),
       }),
     ).toEqual({

@@ -1,13 +1,10 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { CalendarDotsIcon, DotsSixVerticalIcon } from "@phosphor-icons/react";
+import { CalendarDotsIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -19,7 +16,6 @@ import type { BoardTaskListItem } from "@/functions/project-board";
 import { dateFormat } from "@/helpers/date-format";
 import { cn } from "@/lib/utils";
 import { m } from "@/paraglide/messages";
-import { getBoardTaskId } from "./board-view-helpers";
 
 function getPriorityLabel(priority: BoardTaskListItem["priority"]) {
   switch (priority) {
@@ -43,12 +39,8 @@ function getPriorityVariant(priority: BoardTaskListItem["priority"]) {
   }
 }
 
-export function BoardTaskCard(props: {
-  action?: React.ReactNode;
-  isDragging?: boolean;
-  task: BoardTaskListItem;
-}) {
-  const { action, isDragging = false, task } = props;
+export function BoardTaskCard(props: { isDragging?: boolean; task: BoardTaskListItem }) {
+  const { isDragging = false, task } = props;
   const dueDateLabel = task.dueDate
     ? dayjs(task.dueDate).format(dateFormat.DATE_FORMAT)
     : "Tarihsiz";
@@ -69,7 +61,6 @@ export function BoardTaskCard(props: {
         <CardDescription className="line-clamp-3 whitespace-pre-wrap">
           {task.description}
         </CardDescription>
-        {action ? <CardAction>{action}</CardAction> : null}
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         <div className="flex flex-wrap gap-2">
@@ -98,41 +89,5 @@ export function BoardTaskCard(props: {
         />
       </CardFooter>
     </Card>
-  );
-}
-
-export function SortableBoardTaskCard(props: { disabled: boolean; task: BoardTaskListItem }) {
-  const { disabled, task } = props;
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: getBoardTaskId(task.id),
-    disabled,
-  });
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={{
-        transform: CSS.Transform.toString(transform),
-        transition,
-      }}
-    >
-      <BoardTaskCard
-        task={task}
-        isDragging={isDragging}
-        action={
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            aria-label="Görevi taşı"
-            className="touch-none"
-            disabled={disabled}
-            {...attributes}
-            {...listeners}
-          >
-            <DotsSixVerticalIcon />
-          </Button>
-        }
-      />
-    </div>
   );
 }
