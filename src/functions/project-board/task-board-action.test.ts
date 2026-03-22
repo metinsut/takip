@@ -2,21 +2,21 @@ import { describe, expect, it } from "bun:test";
 import { getTaskBoardActionCopy } from "./task-board-action";
 
 describe("getTaskBoardActionCopy", () => {
-  it("returns add copy for backlog tasks", () => {
-    expect(getTaskBoardActionCopy(false)).toEqual({
+  it("returns add copy for backlog tasks in English", () => {
+    expect(getTaskBoardActionCopy(false, { locale: "en" })).toEqual({
       action: "add",
-      errorMessage: "Görev board'a taşınamadı.",
-      label: "Board'a taşı",
-      successMessage: "Görev board'a taşındı.",
+      errorMessage: "Task could not be moved to the board.",
+      label: "Move to board",
+      successMessage: "Task moved to the board.",
     });
   });
 
-  it("returns remove copy for board tasks", () => {
-    expect(getTaskBoardActionCopy(true)).toEqual({
+  it("returns remove copy for board tasks in Turkish", () => {
+    expect(getTaskBoardActionCopy(true, { locale: "tr" })).toEqual({
       action: "remove",
-      errorMessage: "Görev board'dan çıkarılamadı.",
-      label: "Board'dan çıkar",
-      successMessage: "Görev board'dan çıkarıldı.",
+      errorMessage: "Görev panodan çıkarılamadı.",
+      label: "Panodan çıkar",
+      successMessage: "Görev panodan çıkarıldı.",
     });
   });
 });

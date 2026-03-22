@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "board": "Pano",
+  "boardDescription": "Aktif projedeki pano görevlerini durum bazında yönetin. Kartları kolon içinde veya kolonlar arasında sürükleyerek anında güncelleyebilirsiniz.",
+  "boardActiveTaskCount": "Aktif görev: {count}",
+  "boardOpenBacklog": "Backlog'u aç",
+  "boardTodoDescription": "Panoya alınmış ama henüz başlanmamış işler.",
+  "boardTodoEmpty": "Henüz yapılacak kolonunda görev yok.",
+  "boardInProgressDescription": "Şu anda üzerinde çalışılan aktif işler.",
+  "boardInProgressEmpty": "Devam eden görev bulunmuyor.",
+  "boardDoneDescription": "Son 72 saatte tamamlanan ve panoda kalan işler.",
+  "boardDoneEmpty": "Yakın zamanda tamamlanan görev yok.",
+  "boardNoDueDate": "Tarihsiz",
+  "boardTaskDetail": "Detay",
+  "boardTaskNotFound": "Pano görevi bulunamadı.",
+  "boardUpdateError": "Pano güncellenemedi.",
+  "boardMoveTaskError": "Görev panoya taşınamadı.",
+  "boardMoveTaskLabel": "Panoya taşı",
+  "boardMoveTaskSuccess": "Görev panoya taşındı.",
+  "boardRemoveTaskError": "Görev panodan çıkarılamadı.",
+  "boardRemoveTaskLabel": "Panodan çıkar",
+  "boardRemoveTaskSuccess": "Görev panodan çıkarıldı."
+}

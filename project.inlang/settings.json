@@ -11,7 +11,8 @@
       "./languages/root/{locale}.json",
       "./languages/auth/{locale}.json",
       "./languages/projects/{locale}.json",
-      "./languages/task/{locale}.json"
+      "./languages/task/{locale}.json",
+      "./languages/board/{locale}.json"
     ]
   }
 }

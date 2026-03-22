@@ -5,6 +5,16 @@ import { cn } from "@/lib/utils";
 import { getBoardTaskId } from "./board-dnd-helpers";
 import { BoardTaskCard } from "./board-task-card";
 
+export function getSortableBoardTaskCursorClass(props: { disabled: boolean; isDragging: boolean }) {
+  const { disabled, isDragging } = props;
+
+  if (disabled) {
+    return "cursor-default";
+  }
+
+  return isDragging ? "cursor-grabbing" : "cursor-grab active:cursor-grabbing";
+}
+
 export function SortableBoardTaskCard(props: { disabled: boolean; task: BoardTaskListItem }) {
   const { disabled, task } = props;
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -20,8 +30,8 @@ export function SortableBoardTaskCard(props: { disabled: boolean; task: BoardTas
         transition,
       }}
       className={cn(
-        "select-none",
-        disabled ? "cursor-default" : "cursor-grab active:cursor-grabbing touch-manipulation",
+        "select-none touch-manipulation",
+        getSortableBoardTaskCursorClass({ disabled, isDragging }),
       )}
       {...attributes}
       {...listeners}

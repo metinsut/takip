@@ -14,6 +14,7 @@ import {
   moveBoardTask,
 } from "@/functions/project-board";
 import { getTaskQueryKey, getTasksQueryKey } from "@/functions/task";
+import { m } from "@/paraglide/messages";
 import {
   buildBoardColumns,
   getBoardDropTarget,
@@ -112,7 +113,7 @@ export function useProjectBoardDnd(boardTasks: BoardTaskListItem[]) {
       ]);
     } catch (error) {
       setTasks(previousTasks);
-      toast.error(error instanceof Error ? error.message : "Board güncellenemedi.");
+      toast.error(error instanceof Error ? error.message : m.boardUpdateError());
     } finally {
       setIsSyncing(false);
     }

@@ -43,7 +43,7 @@ export function BoardTaskCard(props: { isDragging?: boolean; task: BoardTaskList
   const { isDragging = false, task } = props;
   const dueDateLabel = task.dueDate
     ? dayjs(task.dueDate).format(dateFormat.DATE_FORMAT)
-    : "Tarihsiz";
+    : m.boardNoDueDate();
 
   return (
     <Card
@@ -83,7 +83,7 @@ export function BoardTaskCard(props: { isDragging?: boolean; task: BoardTaskList
           nativeButton={false}
           render={
             <Link to="/app/task/$taskId" params={{ taskId: String(task.id) }}>
-              Detay
+              {m.boardTaskDetail()}
             </Link>
           }
         />

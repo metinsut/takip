@@ -45,7 +45,7 @@ export function NavPrimary() {
           render={
             <Link to="/app/board" activeProps={{ className: "bg-background text-primary" }}>
               <KanbanIcon />
-              Board
+              {m.board()}
             </Link>
           }
         />

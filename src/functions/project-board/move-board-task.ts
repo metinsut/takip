@@ -5,6 +5,7 @@ import { board, moveBoardTaskSchema, type TaskStatus, task, taskActivityType } f
 import { getAuthenticatedUserId } from "@/functions/auth/get-authenticated-userId";
 import { buildTaskUpdateChanges } from "@/functions/task-activity/build-task-activity-payload";
 import { recordTaskActivity } from "@/functions/task-activity/record-task-activity";
+import { m } from "@/paraglide/messages";
 import { getActiveBoardMembershipByTaskId } from "./board-access";
 import { getNextDoneAt, reorderBoardTaskIds } from "./board-helpers";
 
@@ -82,7 +83,7 @@ export const moveBoardTask = createServerFn({ method: "POST" })
       });
 
       if (!boardState?.membership) {
-        throw new Error("Board task not found");
+        throw new Error(m.boardTaskNotFound());
       }
 
       const sourceStatus = boardState.task.status;

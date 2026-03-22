@@ -1,3 +1,5 @@
+import { m } from "@/paraglide/messages";
+
 export type TaskBoardActionCopy = {
   action: "add" | "remove";
   errorMessage: string;
@@ -5,20 +7,29 @@ export type TaskBoardActionCopy = {
   successMessage: string;
 };
 
-export function getTaskBoardActionCopy(isOnBoard: boolean): TaskBoardActionCopy {
+type TaskBoardActionCopyOptions = {
+  locale?: "ar" | "de" | "en" | "tr";
+};
+
+export function getTaskBoardActionCopy(
+  isOnBoard: boolean,
+  options?: TaskBoardActionCopyOptions,
+): TaskBoardActionCopy {
+  const messageOptions = options?.locale ? { locale: options.locale } : undefined;
+
   if (isOnBoard) {
     return {
       action: "remove",
-      errorMessage: "Görev board'dan çıkarılamadı.",
-      label: "Board'dan çıkar",
-      successMessage: "Görev board'dan çıkarıldı.",
+      errorMessage: m.boardRemoveTaskError({}, messageOptions),
+      label: m.boardRemoveTaskLabel({}, messageOptions),
+      successMessage: m.boardRemoveTaskSuccess({}, messageOptions),
     };
   }
 
   return {
     action: "add",
-    errorMessage: "Görev board'a taşınamadı.",
-    label: "Board'a taşı",
-    successMessage: "Görev board'a taşındı.",
+    errorMessage: m.boardMoveTaskError({}, messageOptions),
+    label: m.boardMoveTaskLabel({}, messageOptions),
+    successMessage: m.boardMoveTaskSuccess({}, messageOptions),
   };
 }

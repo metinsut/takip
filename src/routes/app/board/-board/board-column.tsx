@@ -17,30 +17,32 @@ import { m } from "@/paraglide/messages";
 import { type BoardColumnStatus, getBoardColumnId, getBoardTaskId } from "./board-dnd-helpers";
 import { SortableBoardTaskCard } from "./sortable-board-task-card";
 
-const boardColumnCopy: Record<
+function getBoardColumnCopy(): Record<
   BoardColumnStatus,
   {
     description: string;
     empty: string;
     label: string;
   }
-> = {
-  [taskStatus.todo]: {
-    description: "Board'a alınmış ama henüz başlanmamış işler.",
-    empty: "Henüz yapılacak kolonunda görev yok.",
-    label: m.todo(),
-  },
-  [taskStatus.in_progress]: {
-    description: "Şu anda üzerinde çalışılan aktif işler.",
-    empty: "Devam eden görev bulunmuyor.",
-    label: m.in_progress(),
-  },
-  [taskStatus.done]: {
-    description: "Son 72 saatte tamamlanan ve board'da kalan işler.",
-    empty: "Yakın zamanda tamamlanan görev yok.",
-    label: m.done(),
-  },
-};
+> {
+  return {
+    [taskStatus.todo]: {
+      description: m.boardTodoDescription(),
+      empty: m.boardTodoEmpty(),
+      label: m.todo(),
+    },
+    [taskStatus.in_progress]: {
+      description: m.boardInProgressDescription(),
+      empty: m.boardInProgressEmpty(),
+      label: m.in_progress(),
+    },
+    [taskStatus.done]: {
+      description: m.boardDoneDescription(),
+      empty: m.boardDoneEmpty(),
+      label: m.done(),
+    },
+  };
+}
 
 export function BoardTaskColumn(props: {
   disabled: boolean;
@@ -48,7 +50,7 @@ export function BoardTaskColumn(props: {
   status: BoardColumnStatus;
 }) {
   const { disabled, status, tasks } = props;
-  const copy = boardColumnCopy[status];
+  const copy = getBoardColumnCopy()[status];
   const { isOver, setNodeRef } = useDroppable({
     id: getBoardColumnId(status),
     disabled,

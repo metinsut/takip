@@ -1,0 +1,23 @@
+{
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "board": "Board",
+  "boardDescription": "Manage board tasks in the active project by status. Drag cards within or across columns to update them instantly.",
+  "boardActiveTaskCount": "Active tasks: {count}",
+  "boardOpenBacklog": "Open backlog",
+  "boardTodoDescription": "Tasks added to the board but not started yet.",
+  "boardTodoEmpty": "No tasks in To Do yet.",
+  "boardInProgressDescription": "Tasks that are currently being worked on.",
+  "boardInProgressEmpty": "No tasks in progress.",
+  "boardDoneDescription": "Tasks completed in the last 72 hours and kept on the board.",
+  "boardDoneEmpty": "No recently completed tasks.",
+  "boardNoDueDate": "No due date",
+  "boardTaskDetail": "Detail",
+  "boardTaskNotFound": "Board task not found.",
+  "boardUpdateError": "Board could not be updated.",
+  "boardMoveTaskError": "Task could not be moved to the board.",
+  "boardMoveTaskLabel": "Move to board",
+  "boardMoveTaskSuccess": "Task moved to the board.",
+  "boardRemoveTaskError": "Task could not be removed from the board.",
+  "boardRemoveTaskLabel": "Remove from board",
+  "boardRemoveTaskSuccess": "Task removed from the board."
+}
