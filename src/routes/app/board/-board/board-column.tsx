@@ -55,7 +55,7 @@ export function BoardColumn(props: {
   });
 
   return (
-    <div ref={setNodeRef} className="flex min-h-[28rem] flex-col">
+    <div ref={setNodeRef} className="flex min-h-112 flex-col">
       <Card className={cn("flex min-h-full flex-1", isOver && "ring-2 ring-primary/15")}>
         <CardHeader className="border-b">
           <CardTitle className="flex items-center justify-between gap-3">
