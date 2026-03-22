@@ -5,6 +5,6 @@ export const Route = createFileRoute("/app/task/")({
   component: TasksIndex,
 });
 
-export function TasksIndex() {
+function TasksIndex() {
   return <TasksList />;
 }

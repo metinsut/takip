@@ -15,6 +15,7 @@ import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as landingIndexRouteImport } from './routes/(landing)/index'
 import { Route as AppTaskRouteRouteImport } from './routes/app/task/route'
 import { Route as AppProjectsRouteRouteImport } from './routes/app/projects/route'
+import { Route as AppBoardRouteRouteImport } from './routes/app/board/route'
 import { Route as AppTaskIndexRouteImport } from './routes/app/task/index'
 import { Route as AppSettingsIndexRouteImport } from './routes/app/settings/index'
 import { Route as AppProjectsIndexRouteImport } from './routes/app/projects/index'
@@ -57,6 +58,11 @@ const AppProjectsRouteRoute = AppProjectsRouteRouteImport.update({
   path: '/projects',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppBoardRouteRoute = AppBoardRouteRouteImport.update({
+  id: '/board',
+  path: '/board',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppTaskIndexRoute = AppTaskIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -78,9 +84,9 @@ const AppExamplesIndexRoute = AppExamplesIndexRouteImport.update({
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppBoardIndexRoute = AppBoardIndexRouteImport.update({
-  id: '/board/',
-  path: '/board/',
-  getParentRoute: () => AppRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppBoardRouteRoute,
 } as any)
 const AppappIndexRoute = AppappIndexRouteImport.update({
   id: '/(app)/',
@@ -127,6 +133,7 @@ const AppProjectsProjectIdIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
+  '/app/board': typeof AppBoardRouteRouteWithChildren
   '/app/projects': typeof AppProjectsRouteRouteWithChildren
   '/app/task': typeof AppTaskRouteRouteWithChildren
   '/': typeof landingIndexRoute
@@ -163,6 +170,7 @@ export interface FileRoutesById {
   '/(auth)': typeof authRouteRouteWithChildren
   '/(landing)': typeof landingRouteRouteWithChildren
   '/app': typeof AppRouteRouteWithChildren
+  '/app/board': typeof AppBoardRouteRouteWithChildren
   '/app/projects': typeof AppProjectsRouteRouteWithChildren
   '/app/task': typeof AppTaskRouteRouteWithChildren
   '/(landing)/': typeof landingIndexRoute
@@ -184,6 +192,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/app'
+    | '/app/board'
     | '/app/projects'
     | '/app/task'
     | '/'
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/(auth)'
     | '/(landing)'
     | '/app'
+    | '/app/board'
     | '/app/projects'
     | '/app/task'
     | '/(landing)/'
@@ -288,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProjectsRouteRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/board': {
+      id: '/app/board'
+      path: '/board'
+      fullPath: '/app/board'
+      preLoaderRoute: typeof AppBoardRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/task/': {
       id: '/app/task/'
       path: '/'
@@ -318,10 +335,10 @@ declare module '@tanstack/react-router' {
     }
     '/app/board/': {
       id: '/app/board/'
-      path: '/board'
+      path: '/'
       fullPath: '/app/board/'
       preLoaderRoute: typeof AppBoardIndexRouteImport
-      parentRoute: typeof AppRouteRoute
+      parentRoute: typeof AppBoardRouteRoute
     }
     '/app/(app)/': {
       id: '/app/(app)/'
@@ -408,6 +425,18 @@ const landingRouteRouteWithChildren = landingRouteRoute._addFileChildren(
   landingRouteRouteChildren,
 )
 
+interface AppBoardRouteRouteChildren {
+  AppBoardIndexRoute: typeof AppBoardIndexRoute
+}
+
+const AppBoardRouteRouteChildren: AppBoardRouteRouteChildren = {
+  AppBoardIndexRoute: AppBoardIndexRoute,
+}
+
+const AppBoardRouteRouteWithChildren = AppBoardRouteRoute._addFileChildren(
+  AppBoardRouteRouteChildren,
+)
+
 interface AppProjectsProjectIdRouteRouteChildren {
   AppProjectsProjectIdIndexRoute: typeof AppProjectsProjectIdIndexRoute
 }
@@ -461,19 +490,19 @@ const AppTaskRouteRouteWithChildren = AppTaskRouteRoute._addFileChildren(
 )
 
 interface AppRouteRouteChildren {
+  AppBoardRouteRoute: typeof AppBoardRouteRouteWithChildren
   AppProjectsRouteRoute: typeof AppProjectsRouteRouteWithChildren
   AppTaskRouteRoute: typeof AppTaskRouteRouteWithChildren
   AppappIndexRoute: typeof AppappIndexRoute
-  AppBoardIndexRoute: typeof AppBoardIndexRoute
   AppExamplesIndexRoute: typeof AppExamplesIndexRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppBoardRouteRoute: AppBoardRouteRouteWithChildren,
   AppProjectsRouteRoute: AppProjectsRouteRouteWithChildren,
   AppTaskRouteRoute: AppTaskRouteRouteWithChildren,
   AppappIndexRoute: AppappIndexRoute,
-  AppBoardIndexRoute: AppBoardIndexRoute,
   AppExamplesIndexRoute: AppExamplesIndexRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }

@@ -7,12 +7,10 @@ import { GoogleSignin } from "./-components/google-signin";
 import { LoginForm } from "./-components/login-form";
 
 export const Route = createFileRoute("/(auth)/login/")({
-  component: Login,
+  component: LoginRoot,
 });
 
-type LoginProps = Record<string, never>;
-
-export function Login(_props: LoginProps) {
+function LoginRoot() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background">
       <LandingBackground />

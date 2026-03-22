@@ -3,7 +3,7 @@ import { useGetProjects } from "@/functions/project";
 import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/app/projects")({
-  component: RouteComponent,
+  component: ProjectsRoot,
   loader: async ({ context }) => {
     await context.queryClient.fetchQuery(useGetProjects());
     return {
@@ -13,6 +13,6 @@ export const Route = createFileRoute("/app/projects")({
   errorComponent: (props) => <ErrorComponent {...props} />,
 });
 
-function RouteComponent() {
+function ProjectsRoot() {
   return <Outlet />;
 }

@@ -3,7 +3,7 @@ import { useGetProject } from "@/functions/project";
 import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/app/projects/$projectId")({
-  component: RouteComponent,
+  component: ProjectRoot,
   loader: async ({ context, params }) => {
     const { projectId } = params;
     if (projectId === "add") {
@@ -21,6 +21,6 @@ export const Route = createFileRoute("/app/projects/$projectId")({
   errorComponent: (props) => <ErrorComponent {...props} />,
 });
 
-function RouteComponent() {
+function ProjectRoot() {
   return <Outlet />;
 }

@@ -13,12 +13,10 @@ import { LandingBackground } from "@/routes/(landing)/-components";
 import { RegisterForm } from "./-components/RegisterForm";
 
 export const Route = createFileRoute("/(auth)/register/")({
-  component: Register,
+  component: RegisterRoot,
 });
 
-type RegisterProps = Record<string, never>;
-
-export function Register(_props: RegisterProps) {
+function RegisterRoot() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background">
       <LandingBackground />

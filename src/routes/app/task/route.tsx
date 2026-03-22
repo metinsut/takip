@@ -4,7 +4,7 @@ import { useGetBoardTasks } from "@/functions/project-board";
 import { useGetTasks } from "@/functions/task";
 
 export const Route = createFileRoute("/app/task")({
-  component: RouteComponent,
+  component: TaskRoot,
   loader: async ({ context }) => {
     const activeProjectId = await getProjectIdFromCookie();
 
@@ -23,6 +23,6 @@ export const Route = createFileRoute("/app/task")({
   errorComponent: (props) => <ErrorComponent {...props} />,
 });
 
-function RouteComponent() {
+function TaskRoot() {
   return <Outlet />;
 }
