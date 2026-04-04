@@ -19,7 +19,8 @@
     "pull": "bunx drizzle-kit pull",
     "check": "bunx drizzle-kit check",
     "up": "bunx drizzle-kit up",
-    "studio": "bunx drizzle-kit studio"
+    "studio": "bunx drizzle-kit studio",
+    "test": "bun test"
   },
   "dependencies": {
     "@base-ui/react": "latest",
